@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+
+  node:
+    container_name: node
+    build:
+      context: .
+    ports:
+      - 8080:80
