@@ -1,22 +1,20 @@
 #################### Image build ############################
-FROM node:lts-alpine as build
+FROM node:lts-alpine
 
 # make the 'app' folder the current working directory
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
-COPY /project/package*.json ./
+COPY ./app/package*.json ./
 
 # install project dependencies
 RUN npm install
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY ./project/ .
+# copy app into the container app directory
+COPY ./app ./
 
-# build app for production with minification
-RUN npm run build
+# expose port 8080
+EXPOSE 8080
 
-#################### Image finale ############################
-FROM httpd:2.4.41-alpine 
-
-COPY --from=build /app/dist/ /usr/local/apache2/htdocs/
+# run app
+CMD ["node", "index.js"]
