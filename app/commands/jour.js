@@ -1,6 +1,6 @@
 module.exports = {
-	name: "nuit",
-    description: "Rend muet l'ensemble des joueurs (annule l'effet de !jour)",
+	name: "jour",
+    description: "Redonne la parole à l'ensemble des joueurs (annule l'effet de !nuit)",
 	execute(message, args) {
         var gmRole = message.guild.roles.cache.find(role => role.name === "Maître du jeu");
         var mutedRole = message.guild.roles.cache.find(role => role.name === "Muted");
@@ -8,8 +8,8 @@ module.exports = {
         
         vocalChannel.members.forEach( member => {
             if (! member.roles.cache.has(gmRole)) {
-                member.voice.setMute(true);
-                member.roles.add(mutedRole);
+                member.voice.setMute(false);
+                member.roles.remove(mutedRole);
             }
         });
 	}
