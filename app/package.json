@@ -1,0 +1,28 @@
+{
+  "name": "bot-lg",
+  "version": "1.0.0",
+  "description": "Discord bot to play Werewolf on discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilian-pouliquen/bot-lg.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "werewolf"
+  ],
+  "author": "Lilian POULIQUEN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lilian-pouliquen/bot-lg/issues"
+  },
+  "homepage": "https://github.com/lilian-pouliquen/bot-lg#readme",
+  "dependencies": {
+    "discord.js": "^12.4.0",
+    "fs": "0.0.1-security"
+  }
+}
