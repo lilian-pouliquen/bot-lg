@@ -1,6 +1,6 @@
 module.exports = {
-    name: "nuit",
-    description: "Rend muet l'ensemble des joueurs (requiert le rôle MAÎTRE DU JEU)",
+    name: "jour",
+    description: "Redonne la parole à l'ensemble des joueurs (requiert le rôle MAÎTRE DU JEU)",
     execute(message, args) {
         if (isGameMaster(message)) {
             var gmRole = message.guild.roles.cache.find(role => role.name === "Maître du jeu");
@@ -9,8 +9,8 @@ module.exports = {
 
             vocalChannel.members.forEach(member => {
                 if (!member.roles.cache.has(gmRole.id)) {
-                    member.voice.setMute(true);
-                    member.roles.add(mutedRole);
+                    member.voice.setMute(false);
+                    member.roles.remove(mutedRole);
                 }
             });
         } else {
