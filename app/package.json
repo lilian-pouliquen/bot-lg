@@ -23,6 +23,7 @@
   "homepage": "https://github.com/lilian-pouliquen/bot-lg#readme",
   "dependencies": {
     "discord.js": "^12.4.1",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "ms": "^2.1.2"
   }
 }
