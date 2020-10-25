@@ -25,7 +25,7 @@ client.on("message", message => {
     const command = args.shift().toLowerCase();
 
     if (!client.commands.has(command)) return;
-
+    message.delete();
     try {
         switch (command) {
             case "commandes":
