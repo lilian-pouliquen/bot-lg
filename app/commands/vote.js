@@ -3,31 +3,22 @@ module.exports = {
     description: "Affiche le formulaire de vote spécifié",
     requiredRole: "Maître du jeu",
     execute(message, args) {
-        if (isGameMaster(message)) {
-            let voteCase;
-            if (typeof args[0] !== "undefined") {
-                voteCase = args[0];
-            }
-            switch (voteCase) {
-                case "sor":
-                    votesSorciere(message, args[1], args[2]);
-                    break;
-                case "pyr":
-                    votePyromane(message);
-                    break;
-                default:
-                    vote(message);
-                    break;
-            }
-        } else {
-            message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.")
+        let voteCase;
+        if (typeof args[0] !== "undefined") {
+            voteCase = args[0];
+        }
+        switch (voteCase) {
+            case "sor":
+                votesSorciere(message, args[1], args[2]);
+                break;
+            case "pyr":
+                votePyromane(message);
+                break;
+            default:
+                vote(message);
+                break;
         }
     }
-}
-
-function isGameMaster(message) {
-    var adminRole = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu");
-    return message.member.roles.cache.has(adminRole.id);
 }
 
 function vote(message) {

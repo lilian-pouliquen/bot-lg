@@ -3,22 +3,13 @@ module.exports = {
     description: "Assigne le rôle spécifié à la personne spécifiée",
     requiredRole: "Maître du jeu",
     execute(message, args) {
-        if (isGameMaster(message)) {
-            let guildRoles = getMapRoles(message.channel.guild.roles.cache);
-            let roleToAssign = guildRoles.get(args[0]);
-            let idPlayer = args[1].replace("<@!", "").replace(">", "");
-            let playerToAssign = message.channel.guild.members.cache.find(player => player.id === idPlayer);
+        let guildRoles = getMapRoles(message.channel.guild.roles.cache);
+        let roleToAssign = guildRoles.get(args[0]);
+        let idPlayer = args[1].replace("<@!", "").replace(">", "");
+        let playerToAssign = message.channel.guild.members.cache.find(player => player.id === idPlayer);
 
-            playerToAssign.roles.add(roleToAssign);
-        } else {
-            message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.");
-        }
+        playerToAssign.roles.add(roleToAssign);
     }
-}
-
-function isGameMaster(message) {
-    var adminRole = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu");
-    return message.member.roles.cache.has(adminRole.id);
 }
 
 function getMapRoles(guildRoles) {

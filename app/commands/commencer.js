@@ -3,49 +3,40 @@ module.exports = {
     description: "Assigne les rôles spécifiés aux joueurs",
     requiredRole: "Maître du jeu",
     execute(message, args) {
-        if (isGameMaster(message)) {
-            let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;
-            let players = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
-            let assignedPlayers = [];
+        let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;
+        let players = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
+        let assignedPlayers = [];
 
-            players.forEach(player => {
-                if (player.roles.cache.has(idRoleGM)) {
-                    assignedPlayers.push(player);
+        players.forEach(player => {
+            if (player.roles.cache.has(idRoleGM)) {
+                assignedPlayers.push(player);
+            }
+        });
+
+        let nbPlayers = players.size - assignedPlayers.length;
+        if (checkCoherenceArgs(nbPlayers, args)) {
+            let guildRoles = message.channel.guild.roles.cache;
+            let roles = getMapRoles(guildRoles);
+
+            args.forEach(assignation => {
+                let number = assignation.substr(0, 1);
+                let strRoleToAssign = assignation.substr(1);
+                let roleToAssign = roles.get(strRoleToAssign);
+
+                let index = 0;
+                while (index < number) {
+                    let playerToAssign = players.random(1)[0];
+                    if (assignedPlayers.indexOf(playerToAssign) === -1) {
+                        playerToAssign.roles.add(roleToAssign);
+                        assignedPlayers.push(playerToAssign);
+                        index++;
+                    }
                 }
             });
-
-            let nbPlayers = players.size - assignedPlayers.length;
-            if (checkCoherenceArgs(nbPlayers, args)) {
-                let guildRoles = message.channel.guild.roles.cache;
-                let roles = getMapRoles(guildRoles);
-
-                args.forEach(assignation => {
-                    let number = assignation.substr(0, 1);
-                    let strRoleToAssign = assignation.substr(1);
-                    let roleToAssign = roles.get(strRoleToAssign);
-
-                    let index = 0;
-                    while (index < number) {
-                        let playerToAssign = players.random(1)[0];
-                        if (assignedPlayers.indexOf(playerToAssign) === -1) {
-                            playerToAssign.roles.add(roleToAssign);
-                            assignedPlayers.push(playerToAssign);
-                            index++;
-                        }
-                    }
-                });
-            } else {
-                message.reply("il y a plus de rôles à attribuer que de joueurs.")
-            }
         } else {
-            message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.");
+            message.reply("il y a plus de rôles à attribuer que de joueurs.")
         }
     }
-}
-
-function isGameMaster(message) {
-    var adminRole = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu");
-    return message.member.roles.cache.has(adminRole.id);
 }
 
 function checkCoherenceArgs(nbPlayers, args) {
