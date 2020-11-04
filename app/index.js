@@ -31,7 +31,14 @@ client.on("message", message => {
             case "commandes":
                 message.reply("voici les commandes disponibles :");
                 client.commands.forEach(command => {
-                    message.channel.send(`${command.name} : ${command.description}`);
+                    if (command.requiredRole === "None") {
+                        message.channel.send(`${command.name} : ${command.description}`);
+                    } else {
+                        let idRequiredRole = message.channel.guild.roles.cache.find(role => role.name === command.requiredRole).id;
+                        if (message.member.roles.cache.has(idRequiredRole)) {
+                            message.channel.send(`${command.name} : ${command.description} --- _Requiert le rôle ${command.requiredRole}_`);
+                        }
+                    }
                 })
                 break;
 
@@ -45,7 +52,16 @@ client.on("message", message => {
                 break;
 
             default:
-                client.commands.get(command).execute(message, args);
+                let objCommand = client.commands.get(command);
+                if (objCommand.requiredRole === "None") {
+                    objCommand.execute(message, args);
+                } else {
+                    if (hasRequiredRole(message, objCommand.requiredRole)) {
+                        objCommand.execute(message, args);
+                    } else {
+                        message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.");
+                    }
+                }
                 break;
         }
     } catch (error) {
@@ -56,7 +72,7 @@ client.on("message", message => {
 
 client.login(token);
 
-function isAdmin(message) {
-    var adminRole = message.channel.guild.roles.cache.find(role => role.name === "Admin");
-    return message.member.roles.cache.has(adminRole.id);
+function hasRequiredRole(message, roleName) {
+    var idRequiredRole = message.channel.guild.roles.cache.find(role => role.name === roleName).id;
+    return message.member.roles.cache.has(idRequiredRole);
 }

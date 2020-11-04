@@ -1,6 +1,7 @@
 module.exports = {
     name: "roles",
     description: "Affiche les rôles encore en jeu",
+    requiredRole: "None",
     execute(message, args) {
         let excludedRoles = [
             message.channel.guild.roles.cache.find(role => role.name === "Admin").id,
