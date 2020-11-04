@@ -12,7 +12,7 @@ module.exports = {
             } else {
                 channelGM.send("Voici les rôles des joueurs présents :");
                 members.forEach(member => {
-                    channelGM.send(`Rôles de ${member.nickname}`);
+                    channelGM.send(`Rôles de ${member.displayName}`);
                     member.roles.cache.forEach(role => {
                         if (role.name !== "@everyone") {
                             channelGM.send(`> - ${role.name}`);
