@@ -43,9 +43,10 @@ client.on("message", message => {
                 break;
 
             case "deconnexion":
-                if (isAdmin(message)) {
+                if (hasRequiredRole(message, client.commands.get(command).requiredRole)) {
+                    client.user.setPresence({ status: 'offline' })
                     message.channel.send("Je me déconnecte, à bientôt !")
-                        .then(message => { client.destroy() });
+                        .then(() => { client.destroy() });
                 } else {
                     message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.");
                 }
