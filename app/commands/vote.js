@@ -1,32 +1,24 @@
 module.exports = {
     name: "vote",
-    description: "Affiche le formulaire de vote spécifié (requiert le rôle MAÎTRE DU JEU)",
+    description: "Affiche le formulaire de vote spécifié",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
-        if (isGameMaster(message)) {
-            let voteCase;
-            if (typeof args[0] !== "undefined") {
-                voteCase = args[0];
-            }
-            switch (voteCase) {
-                case "sor":
-                    votesSorciere(message, args[1]);
-                    break;
-                case "pyr":
-                    votesPyromane(message);
-                    break;
-                default:
-                    vote(message);
-                    break;
-            }
-        } else {
-            message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.")
+        let voteCase;
+        if (typeof args[0] !== "undefined") {
+            voteCase = args[0];
+        }
+        switch (voteCase) {
+            case "sor":
+                votesSorciere(message, args[1], args[2]);
+                break;
+            case "pyr":
+                votePyromane(message);
+                break;
+            default:
+                vote(message);
+                break;
         }
     }
-}
-
-function isGameMaster(message) {
-    var adminRole = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu");
-    return message.member.roles.cache.has(adminRole.id);
 }
 
 function vote(message) {
@@ -54,14 +46,28 @@ function vote(message) {
     message.channel.send(strVote);
 }
 
-function votesSorciere(message, deadPerson) {
-    if (typeof deadPerson !== "undefined") {
-        message.channel.send(`/poll "Veux tu sauver ${deadPerson} ? "`)
+function votesSorciere(message, voteCase, deadPerson,) {
+    let channelSor = message.channel.guild.channels.cache.find(channel => channel.name === "sorcière");
+    switch (voteCase) {
+        case "vie":
+            if (typeof deadPerson !== "undefined") {
+                channelSor.send(`/poll "Veux-tu sauver ${deadPerson} ? "`)
+            }
+            break;
+        case "mort":
+            channelSor.send('/poll "Veux-tu tuer quelqu\'un ?"')
+            break;
+
+        case "all":
+            if (typeof deadPerson !== "undefined") {
+                channelSor.send(`/poll "Veux-tu sauver ${deadPerson} ? "`)
+            }
+            channelSor.send('/poll "Veux-tu tuer quelqu\'un ?"')
+            break;
     }
-    message.channel.send('/poll "Veux tu tuer quelqu\'un ?"')
 }
 
-function votesPyromane(message) {
-    vote(message);
-    message.channel.send('/poll "Veux-tu brûler les personnes imbibées ?"');
+function votePyromane(message) {
+    let channelPyr = message.channel.guild.channels.cache.find(channel => channel.name === "pyromane");
+    channelPyr.send('/poll "Veux-tu imbiber une personne ou brûler celles qui le sont déjà ?" "Imbiber" "Brûler"');
 }
