@@ -1,6 +1,7 @@
 module.exports = {
     name: "jour",
-    description: "Redonne la parole à l'ensemble des joueurs (requiert le rôle MAÎTRE DU JEU)",
+    description: "Redonne la parole à l'ensemble des joueurs",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             var gmRole = message.guild.roles.cache.find(role => role.name === "Maître du jeu");

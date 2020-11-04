@@ -1,6 +1,7 @@
 module.exports = {
     name: "clear",
-    description: "Efface tous les messages non épinglés dans le cannal courant (requiert le rôle ADMIN)",
+    description: "Efface tous les messages non épinglés dans le cannal courant",
+    requiredRole: "Admin",
     execute(message, args) {
         if (isAdmin(message)) {
             message.channel.messages.fetch({ limit: 100 })

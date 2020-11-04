@@ -1,6 +1,7 @@
 module.exports = {
     name: "assigner",
-    description: "Assigne le rôle spécifié à la personne spécifiée (requiert le rôle MAITRE DU JEU)",
+    description: "Assigne le rôle spécifié à la personne spécifiée",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             let guildRoles = getMapRoles(message.channel.guild.roles.cache);

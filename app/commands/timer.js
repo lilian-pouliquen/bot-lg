@@ -2,7 +2,8 @@ const ms = require("ms");
 
 module.exports = {
     name: "timer",
-    description: "Lance un timer pour n s/m/h (requiert le rôle MAÎTRE DU JEU)",
+    description: "Lance un timer pour n s/m/h",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             let timer = "3m";

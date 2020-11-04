@@ -1,8 +1,8 @@
 module.exports = {
     name: "joueurs",
-    description: "Affiche les rôles de tous les joueurs dans le canal 'maitre-du-jeu' (requiert le rôle MAITRE DU JEU)",
+    description: "Affiche les rôles de tous les joueurs dans le canal 'maitre-du-jeu'",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
-
         if (isGameMaster(message)) {
             let channelGM = message.channel.guild.channels.cache.find(channel => channel.name === "maitre-du-jeu");
             let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;

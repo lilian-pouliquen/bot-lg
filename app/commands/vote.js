@@ -1,6 +1,7 @@
 module.exports = {
     name: "vote",
-    description: "Affiche le formulaire de vote spécifié (requiert le rôle MAÎTRE DU JEU)",
+    description: "Affiche le formulaire de vote spécifié",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             let voteCase;

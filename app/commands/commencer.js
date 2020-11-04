@@ -1,6 +1,7 @@
 module.exports = {
     name: "commencer",
-    description: "Assigne les rôles spécifiés aux joueurs (requiert le rôle MAÎTRE DU JEU)",
+    description: "Assigne les rôles spécifiés aux joueurs",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;

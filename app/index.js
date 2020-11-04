@@ -31,7 +31,16 @@ client.on("message", message => {
             case "commandes":
                 message.reply("voici les commandes disponibles :");
                 client.commands.forEach(command => {
-                    message.channel.send(`${command.name} : ${command.description}`);
+                    if(command.requiredRole === "None") {
+                        message.member.roles.cache.has()
+                        message.channel.send(`${command.name} : ${command.description}`);
+                    } else {
+                        let idRequiredRole = message.channel.guild.roles.cache.find(role => role.name === command.requiredRole).id;
+                        if (message.member.roles.cache.has(idRequiredRole)) {
+                            message.member.roles.cache.has()
+                            message.channel.send(`${command.name} : ${command.description} --- _Requiert le rôle ${command.requiredRole}_`);
+                        }
+                    }
                 })
                 break;
 

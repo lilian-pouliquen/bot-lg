@@ -1,6 +1,7 @@
 module.exports = {
     name: "reset",
-    description: "Enlève les rôles de tous les joueurs (requiert le rôle MAITRE DU JEU)",
+    description: "Enlève les rôles de tous les joueurs",
+    requiredRole: "Maître du jeu",
     execute(message, args) {
         if (isGameMaster(message)) {
             let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
