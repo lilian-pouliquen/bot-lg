@@ -8,7 +8,7 @@ module.exports = {
             let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
 
             if (members.size === 0) {
-                channelGM.send("Il n'y à personne dans le salon vocal");
+                channelGM.send("Il n'y a personne dans le salon vocal");
             } else {
                 channelGM.send("Voici les rôles des joueurs présents :");
                 members.forEach(member => {
