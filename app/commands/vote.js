@@ -9,10 +9,10 @@ module.exports = {
             }
             switch (voteCase) {
                 case "sor":
-                    votesSorciere(message, args[1]);
+                    votesSorciere(message, args[1], args[2]);
                     break;
                 case "pyr":
-                    votesPyromane(message);
+                    votePyromane(message);
                     break;
                 default:
                     vote(message);
@@ -54,14 +54,28 @@ function vote(message) {
     message.channel.send(strVote);
 }
 
-function votesSorciere(message, deadPerson) {
-    if (typeof deadPerson !== "undefined") {
-        message.channel.send(`/poll "Veux tu sauver ${deadPerson} ? "`)
+function votesSorciere(message, voteCase, deadPerson,) {
+    let channelSor = message.channel.guild.channels.cache.find(channel => channel.name === "sorcière");
+    switch (voteCase) {
+        case "vie":
+            if (typeof deadPerson !== "undefined") {
+                channelSor.send(`/poll "Veux-tu sauver ${deadPerson} ? "`)
+            }
+            break;
+        case "mort":
+            channelSor.send('/poll "Veux-tu tuer quelqu\'un ?"')
+            break;
+
+        case "all":
+            if (typeof deadPerson !== "undefined") {
+                channelSor.send(`/poll "Veux-tu sauver ${deadPerson} ? "`)
+            }
+            channelSor.send('/poll "Veux-tu tuer quelqu\'un ?"')
+            break;
     }
-    message.channel.send('/poll "Veux tu tuer quelqu\'un ?"')
 }
 
-function votesPyromane(message) {
-    vote(message);
-    message.channel.send('/poll "Veux-tu brûler les personnes imbibées ?"');
+function votePyromane(message) {
+    let channelPyr = message.channel.guild.channels.cache.find(channel => channel.name === "pyromane");
+    channelPyr.send('/poll "Veux-tu imbiber une personne ou brûler celles qui le sont déjà ?" "Imbiber" "Brûler"');
 }
