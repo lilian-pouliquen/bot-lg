@@ -1,5 +1,5 @@
 module.exports = {
-    name: "assigner",
+    name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs (requiert le rôle MAÎTRE DU JEU)",
     execute(message, args) {
         if (isGameMaster(message)) {
