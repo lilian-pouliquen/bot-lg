@@ -3,10 +3,18 @@ module.exports = {
     description: "Assigne les rôles spécifiés aux joueurs (requiert le rôle MAÎTRE DU JEU)",
     execute(message, args) {
         if (isGameMaster(message)) {
+            let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;
             let players = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
+            let assignedPlayers = [];
 
-            if (checkCoherenceArgs(players, args)) {
-                let assignedPlayers = [message.member];
+            players.forEach(player => {
+                if (player.roles.cache.has(idRoleGM)) {
+                    assignedPlayers.push(player);
+                }
+            });
+
+            let nbPlayers = players.size - assignedPlayers.length;
+            if (checkCoherenceArgs(nbPlayers, args)) {
                 let guildRoles = message.channel.guild.roles.cache;
                 let roles = getMapRoles(guildRoles);
 
@@ -39,14 +47,14 @@ function isGameMaster(message) {
     return message.member.roles.cache.has(adminRole.id);
 }
 
-function checkCoherenceArgs(players, args) {
-    let checkNbArgs = players.size - 1 === args.length;
+function checkCoherenceArgs(nbPlayers, args) {
+    let checkNbArgs = nbPlayers === args.length;
     let nbRoles = 0;
     args.forEach(arg => {
         nbRoles += Number(arg.substr(0, 1));
     });
-    let checkNbRoles = players.size - 1 === nbRoles;
-    return checkNbArgs && checkNbRoles;
+    let checkNbRoles = nbPlayers === nbRoles;
+    return checkNbArgs || checkNbRoles;
 }
 
 function getMapRoles(guildRoles) {
