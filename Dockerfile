@@ -8,13 +8,10 @@ WORKDIR /app
 COPY ./app/package*.json ./
 
 # install project dependencies
-RUN npm install
+RUN npm install --production
 
 # copy app into the container app directory
 COPY ./app ./
-
-# expose port 8080
-EXPOSE 8080
 
 # run app
 CMD ["node", "index.js"]
