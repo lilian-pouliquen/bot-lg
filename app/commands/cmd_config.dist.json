@@ -1,6 +1,7 @@
 {
     "idRoleAdmin": "",
     "idRoleGameMaster": "",
+    "idRoleVillager": "",
     "idRoleCupid": "",
     "idRoleLovers": "",
     "idRoleGuard": "",
@@ -20,7 +21,6 @@
     "idRoleAngel": "",
     "idRoleShaman": "",
     "idRoleHunter": "",
-    "idRoleVillager": "",
     "idRoleDead": "",
     "idRoleMuted": "",
 
