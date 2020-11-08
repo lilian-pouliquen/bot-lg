@@ -1,3 +1,4 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "vote",
     description: "Affiche le formulaire de vote spécifié",
@@ -23,12 +24,12 @@ module.exports = {
 
 function vote(message) {
     let idExcludedRoles = [
-        message.channel.guild.roles.cache.find(role => role.name === "Admin").id,
-        message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id,
-        message.channel.guild.roles.cache.find(role => role.name === "Mort").id
+        cmdConfig.idRoleAdmin,
+        cmdConfig.idRoleGameMaster,
+        cmdConfig.idRoleDead
     ];
 
-    let vocalChannel = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal");
+    let vocalChannel = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain);
     let strVote = '/poll "Qui voter ?" ';
     vocalChannel.members.forEach(member => {
         let hasExcludedRole = false;
@@ -47,7 +48,7 @@ function vote(message) {
 }
 
 function votesSorciere(message, voteCase, deadPerson,) {
-    let channelSor = message.channel.guild.channels.cache.find(channel => channel.name === "sorcière");
+    let channelSor = message.channel.guild.channels.resolve(cmdConfig.idTextChannelWitch);
     switch (voteCase) {
         case "vie":
             if (typeof deadPerson !== "undefined") {
@@ -68,6 +69,6 @@ function votesSorciere(message, voteCase, deadPerson,) {
 }
 
 function votePyromane(message) {
-    let channelPyr = message.channel.guild.channels.cache.find(channel => channel.name === "pyromane");
+    let channelPyr = message.channel.guild.channels.resolve(cmdConfig.idTextChannelPyromaniac);
     channelPyr.send('/poll "Veux-tu imbiber une personne ou brûler celles qui le sont déjà ?" "Imbiber" "Brûler"');
 }
