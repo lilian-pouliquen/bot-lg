@@ -13,8 +13,8 @@
     - [3.2.1. Alternative for make users](#321-alternative-for-make-users)
 - [4. Project structure](#4-project-structure)
 - [5. Discord server requirements](#5-discord-server-requirements)
-  - [5.1. Channels](#51-channels)
-  - [5.2. Roles](#52-roles)
+  - [5.1. Roles](#51-roles)
+  - [5.2. Channels](#52-channels)
 - [6. Bot commands](#6-bot-commands)
 - [7. Authors](#7-authors)
 
@@ -88,65 +88,57 @@ You can see all other make rules using `make` or `make help`.
 
 ``` no-language
 bot-lg
-+-- app                         : contains the bot-lg app
-|   +-- commands                : contains bot-lg commands
-|   +-- config.dist.json        : configuration file template for the bot-lg app
-|   +-- index.js                : main file to run bot-lg
-|   +-- package-lock.json       : node dependencies to be installed
-|   +-- package.json            : node dependencies to be installed
++-- app                             : contains the bot-lg app
+|   +-- commands                    : contains bot-lg commands
+|   |   +-- *.js                    : all commands
+|   |   +-- cmd_config.dist.json    : configuration file template for the bot-lg commands. Contains the required role and channel ids
+|   |
+|   +-- config.dist.json            : configuration file template for the bot-lg app
+|   +-- index.js                    : main file to run bot-lg
+|   +-- package-lock.json           : node dependencies to be installed
+|   +-- package.json                : node dependencies to be installed
 |
-+-- .dockerignore               : elements to ignore by docker
-+-- .gitignore                  : elements to ignore by git
-+-- Dockerfile                  : "node_prod" container image
-+-- Makefile                    : all rule to available by using make command
-+-- README.md                   : project documentation
++-- .dockerignore                   : elements to ignore by docker
++-- .gitignore                      : elements to ignore by git
++-- Dockerfile                      : "node_prod" container image
++-- Makefile                        : all rule to available by using make command
++-- README.md                       : project documentation
 ```
 
 ## 5. Discord server requirements
 
-In this section you can find the elements that you need to have in your Discord server.
+In this section you can find the required elements for you Discord server. In order to use bot-lg, you need to copy-paste `/app/commands/cmd_config.dist.json` as `/app/commands/cmd_config.json` and fill this file with the following required element ids.
 
-### 5.1. Channels
+### 5.1. Roles
 
-Here is the list of the required channels:
+Here is the list of the required role:
 
-| Channels        | Description                                                              |
-| --------------- | ------------------------------------------------------------------------ |
-| "Salon vocal"   | Vocal channel use by the bot-lg to determine the Game Master and players |
-| "maitre-du-jeu" | Text channel used by the Game Master (role "Maître du jeu")              |
-| "sorcière"      | Text channel used by the !vote command                                   |
-| "pyromane"      | Text channel used by the !vote command                                   |
-
-### 5.2. Roles
-
-Here is the list of the required roles:
-
-| Roles               | Types               | Descriptions                                                                                                                               |
-| ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| "Admin"             | Moderator           | Administrator of the Discord server                                                                                                        |
-| "Maître du jeu"     | Moderator           | Game Master.                                                                                                                               |
-| "Villageois"        | Villager            | Has no ability.                                                                                                                            |
-| "Cupidon"           | Villager            | During the first night, chooses 2 lovers: if one die, the other follow the first in the death.                                             |
-| "Amoureux"          | Additional          | Chosen by "Cupidon". If the 2 lovers are villagers, they win with the village. Else, they win in solo.                                     |
-| "Gardien"           | Villager            | Once per night, protects someone from the werewolves attack, but cannot protect the same person twice in a row.                            |
-| "Loups-garous"      | Werewolf            | Once per night, votes to kill a villager .                                                                                                 |
-| "Loup Blanc"        | Solo Werewolf       | Acts with the werewolf, but can kill one every other day.                                                                                  |
-| "Père des loups"    | Werewolf            | Once per game, after the werewolves vote, choose to infect the villager choosen by his mates, making him become a werewolf.                |
-| "Infecté"           | Werewolf            | Chosen by "Père des loups". Become a werewolf, but keeps his original role. If inspected by "Voyante", the role shown is the original one. |
-| "Sorcière"          | Villager            | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.  |
-| "Voyante"           | Villager            | Once per night, can see someone role.                                                                                                      |
-| "Assassin"          | Solo                | Once per night, can kill someone.                                                                                                          |
-| "Pyromane"          | Solo                | Once per night, chooses to oil someone or ignite those who were previously oiled                                                           |
-| "Aspergé d'essence" | Additional          | Chosen by "Pyromane". Dies when "Pyromane" choose to burn his victims.                                                                     |
-| "Joueur de flûte"   | Solo                | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                      |
-| "Envouté"           | Additional          | Chosen by "Joueur de flûte". Cannot attempt to kill  "Joueur de flûte", and have to defend him.                                            |
-| "Ankou"             | Villager            | Alive, acts as a villager. Dead, can talk to the other dead players and vote until the second day after the player's death.                |
-| "Ancien"            | Villager            | Can survive to 1 werewolves attack. If the player dies during the daily vote, all villagers lose their abilities.                          |
-| "Ange"              | Solo, then Villager | Have to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                |
-| "Chaman"            | Villager            | At night, can listen the dead players.                                                                                                     |
-| "Chasseur"          | Villager            | When eliminated, the player can kill someone else.                                                                                         |
-| "Mort"              | Dead Player         | When a player is eliminated, his role becomes "Mort". Can talk to "Chaman" at night,                                                       |
-| "Muted"             | Additional          | Role given by the !nuit command to mute players.                                                                                           |
+| Role ids             | Name            | Types                | Descriptions                                                                                                                                   |
+| -------------------- | --------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| idRoleAdmin          | Admin           | Moderator            | Administrator of the Discord server                                                                                                            |
+| idRoleGameMaster     | Game Master     | Moderator            | Game Master.                                                                                                                                   |
+| idRoleVillager       | Villager        | Villager             | Has no ability.                                                                                                                                |
+| idRoleCupid          | Cupid           | Villager             | During the first night, chooses 2 lovers.                                                                                                      |
+| idRoleLovers         | Lovers          | Additional           | Chosen by Cupid. If the 2 lovers are villagers, they win with the village. Else, they win in solo. If one of the lovers fall, so is the other. |
+| idRoleGuard          | Guard           | Villager             | Once per night, protects someone from the werewolf attack, but cannot protect the same person twice in a row.                                  |
+| idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager .                                                                                                     |
+| idRoleWhiteWerewolf  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
+| idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, choose to infect the villager choosen by his mates, making him become a werewolf.                    |
+| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Become a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.           |
+| idRoleWitch          | Witch           | Villager             | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.      |
+| idRoleSeer           | Seer            | Villager             | Once per night, can see someone's role.                                                                                                        |
+| idRoleAssassin       | Assassin        | Solo                 | Once per night, can kill someone.                                                                                                              |
+| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or ignite those who were previously oiled                                                               |
+| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac choose to burn his victims.                                                                         |
+| idRoleFlutist        | Flutist         | Solo                 | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                          |
+| idRoleEnchanted      | Enchanted       | Additional           | Chosen by Flutist. Cannot attempt to kill Flutist, and have to defend him.                                                                     |
+| idRoleReaper         | Reaper          | Villager             | Alive, acts as a villager. Dead, can talk to the other dead players and vote during the two daily vote following the player's death.           |
+| idRoleAncient        | Ancient         | Villager             | Can survive to 1 werewolf attack. If the player dies during the daily vote, all villager-type players lose their abilities.                    |
+| idRoleAngel          | Angel           | Solo, then Villager  | Have to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                    |
+| idRoleShaman         | Shaman          | Villager             | At night, can listen the dead players.                                                                                                         |
+| idRoleHunter         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
+| idRoleDead           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
+| idRoleMuted          | Muted           | Additional           | Role given by the !nuit command to mute players.                                                                                               |
 
 Types explaination:
 
@@ -156,25 +148,36 @@ Types explaination:
 - Dead Player: Players who have been eliminated.
 - Additional: This role is added to the player roles. The player can use the abilities provided by his first role, and all his Additional roles.
 
+### 5.2. Channels
+
+Here is the list of the required channels:
+
+| Channels ids            | Name        | Description                                                              |
+| ----------------------- | ----------- | ------------------------------------------------------------------------ |
+| idVocalChannelMain      | vocal       | Vocal channel use by the bot-lg to determine the Game Master and players |
+| idTextChannelGameMaster | game-master | Text channel used by the Game Master (idRoleGameMaster)                  |
+| idTextChannelWitch      | witch       | Text channel used by the !vote command in the "sor" case                 |
+| idTextChannelPyromaniac | pyromaniac  | Text channel used by the !vote command in the "pyr" case                 |
+
 ## 6. Bot commands
 
 Here is the list of the bot-lg commands:
 
-| Commands    | Roles required to use commands | Descriptions                                               |
-| ----------- | ------------------------------ | ---------------------------------------------------------- |
-| commandes   | None                           | Prints available commands                                  |
-| roles       | None                           | Prints still living game roles                             |
-| joueurs     | "Maître du jeu"                | Prints roles by player in the "maitre-du-jeu" text channel |
-| assigner    | "Maître du jeu"                | Assigns the given role to the given player                 |
-| commencer   | "Maître du jeu"                | Assigns specified roles randomly to all the players        |
-| reset       | "Maître du jeu"                | Remove all game roles from the players                     |
-| nuit        | "Maître du jeu"                | Mutes all players                                          |
-| jour        | "Maître du jeu"                | Unmutes all players                                        |
-| vote        | "Maître du jeu"                | Prints the specified vote form with /poll                  |
-| timer       | "Maître du jeu"                | Runs a timer for n s/m/h (default 3m)                      |
-| clear       | "Admin"                        | Clears the current text channel                            |
-| deconnexion | "Admin"                        | Disconnects bot-lg from the Discord server                 |
+| Commands    | Roles required to use commands | Descriptions                                             |
+| ----------- | ------------------------------ | -------------------------------------------------------- |
+| commandes   | None                           | Prints available commands                                |
+| roles       | None                           | Prints still alive game roles                            |
+| joueurs     | Game Master                    | Prints roles by player in the "game-master" text channel |
+| assigner    | Game Master                    | Assigns the given role to the given player               |
+| commencer   | Game Master                    | Assigns specified roles randomly to all the players      |
+| reset       | Game Master                    | Remove all game roles from the players                   |
+| nuit        | Game Master                    | Mutes all players                                        |
+| jour        | Game Master                    | Unmutes all players                                      |
+| vote        | Game Master                    | Prints the specified vote form with /poll                |
+| timer       | Game Master                    | Runs a timer for n s/m/h (default 3m)                    |
+| clear       | Admin                          | Clears the current text channel                          |
+| deconnexion | Admin                          | Disconnects bot-lg from the Discord server               |
 
 ## 7. Authors
 
-- Lilian POULIQUEN: Bot creation and development
+- Lilian POULIQUEN: Bot creation and development, documentation

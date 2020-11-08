@@ -1,7 +1,8 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "clear",
     description: "Efface tous les messages non épinglés dans le cannal courant",
-    requiredRole: "Admin",
+    idRequiredRole: cmdConfig.idRoleAdmin,
     execute(message, args) {
         message.channel.messages.fetch({ limit: 100 })
             .then(fetched => {

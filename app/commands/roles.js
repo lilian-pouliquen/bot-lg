@@ -1,19 +1,21 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "roles",
     description: "Affiche les rôles encore en jeu",
-    requiredRole: "None",
+    idRequiredRole: "None",
     execute(message, args) {
         let excludedRoles = [
-            message.channel.guild.roles.cache.find(role => role.name === "Admin").id,
-            message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id,
-            message.channel.guild.roles.cache.find(role => role.name === "Infecté").id,
-            message.channel.guild.roles.cache.find(role => role.name === "Envouté").id,
-            message.channel.guild.roles.cache.find(role => role.name === "Mort").id,
+            cmdConfig.idRoleAdmin,
+            cmdConfig.idRoleGameMaster,
+            cmdConfig.idRoleInfected,
+            cmdConfig.idRoleOiled,
+            cmdConfig.idRoleEnchanted,
+            cmdConfig.idRoleDead,
             message.channel.guild.roles.cache.find(role => role.name === "@everyone").id
         ];
 
         let remainingRoles = new Map();
-        let voiceChannel = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal");
+        let voiceChannel = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain);
 
         var constructList = new Promise((resolve, reject) => {
             voiceChannel.members.forEach(member => {
