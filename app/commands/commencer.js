@@ -1,20 +1,20 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs",
     requiredRole: "Maître du jeu",
     execute(message, args) {
-        let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;
-        let players = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
+        let players = message.channel.guild.channels.cache.resolve(cmdConfig.idVocalChannelMain).members;
         let lstPlayersToAssign = players;
 
         players.forEach(player => {
-            if (player.roles.cache.has(idRoleGM)) {
+            if (player.roles.cache.has(cmdConfig.idRoleGameMaster)) {
                 lstPlayersToAssign.delete(player.id);
             }
         });
 
         if (checkCoherenceArgs(lstPlayersToAssign.size, args)) {
-            let guildRoles = message.channel.guild.roles.cache;
+            let guildRoles = message.channel.guild.roles;
             let roles = getMapRoles(guildRoles);
 
             args.forEach(assignation => {
@@ -46,21 +46,21 @@ function checkCoherenceArgs(nbPlayers, args) {
 
 function getMapRoles(guildRoles) {
     let roles = new Map();
-    roles.set("vil", guildRoles.find(role => role.name === "Villageois"));
-    roles.set("cup", guildRoles.find(role => role.name === "Cupidon"));
-    roles.set("gar", guildRoles.find(role => role.name === "Gardien"));
-    roles.set("lg", guildRoles.find(role => role.name === "Loups-garous"));
-    roles.set("lgb", guildRoles.find(role => role.name === "Loup Blanc"));
-    roles.set("plg", guildRoles.find(role => role.name === "Père des loups"));
-    roles.set("sor", guildRoles.find(role => role.name === "Sorcière"));
-    roles.set("voy", guildRoles.find(role => role.name === "Voyante"));
-    roles.set("ass", guildRoles.find(role => role.name === "Assassin"));
-    roles.set("pyr", guildRoles.find(role => role.name === "Pyromane"));
-    roles.set("jdf", guildRoles.find(role => role.name === "Joueur de flûte"));
-    roles.set("ank", guildRoles.find(role => role.name === "Ankou"));
-    roles.set("anc", guildRoles.find(role => role.name === "Ancien"));
-    roles.set("ang", guildRoles.find(role => role.name === "Ange"));
-    roles.set("cham", guildRoles.find(role => role.name === "Chaman"));
-    roles.set("chass", guildRoles.find(role => role.name === "Chasseur"));
+    roles.set("vil", guildRoles.resolve(cmdConfig.idRoleVillager));
+    roles.set("cup", guildRoles.resolve(cmdConfig.idRoleCupid));
+    roles.set("gar", guildRoles.resolve(cmdConfig.idRoleGuard));
+    roles.set("lg", guildRoles.resolve(cmdConfig.idRoleWerewolf));
+    roles.set("lgb", guildRoles.resolve(cmdConfig.idRoleWhiteWerewolf));
+    roles.set("plg", guildRoles.resolve(cmdConfig.idRoleInfectWerewolf));
+    roles.set("sor", guildRoles.resolve(cmdConfig.idRoleWitch));
+    roles.set("voy", guildRoles.resolve(cmdConfig.idRoleSeer));
+    roles.set("ass", guildRoles.resolve(cmdConfig.idRoleAssassin));
+    roles.set("pyr", guildRoles.resolve(cmdConfig.idRolePyromaniac));
+    roles.set("jdf", guildRoles.resolve(cmdConfig.idRoleFlutist));
+    roles.set("ank", guildRoles.resolve(cmdConfig.idRoleReaper));
+    roles.set("anc", guildRoles.resolve(cmdConfig.idRoleAncient));
+    roles.set("ang", guildRoles.resolve(cmdConfig.idRoleAngel));
+    roles.set("cham", guildRoles.resolve(cmdConfig.idRoleShaman));
+    roles.set("chass", guildRoles.resolve(cmdConfig.idRoleHunter));
     return roles;
 }
