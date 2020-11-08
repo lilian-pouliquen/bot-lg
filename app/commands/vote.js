@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "vote",
     description: "Affiche le formulaire de vote spécifié",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let voteCase;
         if (typeof args[0] !== "undefined") {

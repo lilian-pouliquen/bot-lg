@@ -2,6 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 const { prefix, token } = require('./config.json');
+const { idRequiredRole } = require('./commands/assigner');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -31,19 +32,19 @@ client.on("message", message => {
             case "commandes":
                 message.reply("voici les commandes disponibles :");
                 client.commands.forEach(command => {
-                    if (command.requiredRole === "None") {
+                    if (command.idRequiredRole === "None") {
                         message.channel.send(`${command.name} : ${command.description}`);
                     } else {
-                        let idRequiredRole = message.channel.guild.roles.cache.find(role => role.name === command.requiredRole).id;
-                        if (message.member.roles.cache.has(idRequiredRole)) {
-                            message.channel.send(`${command.name} : ${command.description} --- _Requiert le rôle ${command.requiredRole}_`);
+                        if (hasRequiredRole(message, command.idRequiredRole)) {
+                            let requiredRoleName = message.channel.guild.roles.resolve(command.idRequiredRole).name;
+                            message.channel.send(`${command.name} : ${command.description} --- _Requiert le rôle ${requiredRoleName}_`);
                         }
                     }
                 })
                 break;
 
             case "deconnexion":
-                if (hasRequiredRole(message, client.commands.get(command).requiredRole)) {
+                if (hasRequiredRole(message, client.commands.get(command).idRequiredRole)) {
                     client.user.setPresence({ status: 'offline' })
                     message.channel.send("Je me déconnecte, à bientôt !")
                         .then(() => { client.destroy() });
@@ -54,10 +55,10 @@ client.on("message", message => {
 
             default:
                 let objCommand = client.commands.get(command);
-                if (objCommand.requiredRole === "None") {
+                if (objCommand.idRequiredRole === "None") {
                     objCommand.execute(message, args);
                 } else {
-                    if (hasRequiredRole(message, objCommand.requiredRole)) {
+                    if (hasRequiredRole(message, objCommand.idRequiredRole)) {
                         objCommand.execute(message, args);
                     } else {
                         message.reply("vous n'avez pas les droits nécessaires pour utiliser cette commande.");
@@ -73,7 +74,6 @@ client.on("message", message => {
 
 client.login(token);
 
-function hasRequiredRole(message, roleName) {
-    var idRequiredRole = message.channel.guild.roles.cache.find(role => role.name === roleName).id;
+function hasRequiredRole(message, idRequiredRole) {
     return message.member.roles.cache.has(idRequiredRole);
 }

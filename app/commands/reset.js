@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "reset",
     description: "Enlève les rôles de tous les joueurs",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
 
         let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;

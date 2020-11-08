@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let players = message.channel.guild.channels.cache.resolve(cmdConfig.idVocalChannelMain).members;
         let lstPlayersToAssign = players;

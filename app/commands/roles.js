@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "roles",
     description: "Affiche les rôles encore en jeu",
-    requiredRole: "None",
+    idRequiredRole: "None",
     execute(message, args) {
         let excludedRoles = [
             cmdConfig.idRoleAdmin,

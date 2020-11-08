@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "joueurs",
     description: "Affiche les rôles de tous les joueurs dans le canal 'maitre-du-jeu'",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let channelGM = message.channel.guild.channels.resolve(cmdConfig.idTextChannelGameMaster);
         let members = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members;

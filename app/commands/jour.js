@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "jour",
     description: "Redonne la parole à l'ensemble des joueurs",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let vocalChannel = message.guild.channels.resolve(cmdConfig.idVocalChannelMain);
 

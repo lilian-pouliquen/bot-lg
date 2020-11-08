@@ -2,7 +2,7 @@ const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "assigner",
     description: "Assigne le rôle spécifié à la personne spécifiée",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let guildRolesToAssign = getMapRoles(message.channel.guild.roles);
         let roleToAssign = guildRolesToAssign.get(args[0]);
