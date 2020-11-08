@@ -20,11 +20,14 @@ module.exports = {
                 member.roles.cache.forEach(role => {
                     if (excludedRoles.indexOf(role.id) === -1) {
                         if (remainingRoles.has(role.id)) {
-                            remainingRoles[role.id]["number"] += 1;
+                            let updatedRole = remainingRoles.get(role.id);
+                            let occurences = updatedRole.get("occurences");
+                            updatedRole.set("occurences", occurences + 1);
+                            remainingRoles.set(role.id, updatedRole)
                         } else {
                             let roleInfo = new Map();
                             roleInfo.set("name", role.name);
-                            roleInfo.set("number", 1)
+                            roleInfo.set("occurences", 1)
                             remainingRoles.set(role.id, roleInfo);
                         }
                     }
@@ -37,7 +40,7 @@ module.exports = {
             .then(() => {
                 message.reply("voici les rôles encore en jeu :");
                 remainingRoles.forEach(role => {
-                    message.channel.send(`${role.get("name")} : ${role.get("number")}`);
+                    message.channel.send(`${role.get("name")} : ${role.get("occurences")}`);
                 });
             })
             .catch(console.error);

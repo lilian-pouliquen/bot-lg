@@ -22,7 +22,7 @@ module.exports = {
 }
 
 function vote(message) {
-    let excludedRoles = [
+    let idExcludedRoles = [
         message.channel.guild.roles.cache.find(role => role.name === "Admin").id,
         message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id,
         message.channel.guild.roles.cache.find(role => role.name === "Mort").id
@@ -32,8 +32,8 @@ function vote(message) {
     let strVote = '/poll "Qui voter ?" ';
     vocalChannel.members.forEach(member => {
         let hasExcludedRole = false;
-        excludedRoles.forEach(excludedRole => {
-            if (member.roles.cache.has(excludedRole)) {
+        idExcludedRoles.forEach(idExcludedRole => {
+            if (member.roles.cache.has(idExcludedRole)) {
                 hasExcludedRole = true;
             }
         })

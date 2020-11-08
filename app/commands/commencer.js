@@ -5,16 +5,15 @@ module.exports = {
     execute(message, args) {
         let idRoleGM = message.channel.guild.roles.cache.find(role => role.name === "Maître du jeu").id;
         let players = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
-        let assignedPlayers = [];
+        let lstPlayersToAssign = players;
 
         players.forEach(player => {
             if (player.roles.cache.has(idRoleGM)) {
-                assignedPlayers.push(player);
+                lstPlayersToAssign.delete(player.id);
             }
         });
 
-        let nbPlayers = players.size - assignedPlayers.length;
-        if (checkCoherenceArgs(nbPlayers, args)) {
+        if (checkCoherenceArgs(lstPlayersToAssign.size, args)) {
             let guildRoles = message.channel.guild.roles.cache;
             let roles = getMapRoles(guildRoles);
 
@@ -23,14 +22,10 @@ module.exports = {
                 let strRoleToAssign = assignation.substr(1);
                 let roleToAssign = roles.get(strRoleToAssign);
 
-                let index = 0;
-                while (index < number) {
-                    let playerToAssign = players.random(1)[0];
-                    if (assignedPlayers.indexOf(playerToAssign) === -1) {
-                        playerToAssign.roles.add(roleToAssign);
-                        assignedPlayers.push(playerToAssign);
-                        index++;
-                    }
+                for (index = 0; index < number; index++) {
+                    let playerToAssign = lstPlayersToAssign.random(1)[0];
+                    playerToAssign.roles.add(roleToAssign);
+                    lstPlayersToAssign.delete(playerToAssign.id)
                 }
             });
         } else {
