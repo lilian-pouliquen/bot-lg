@@ -1,10 +1,11 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "joueurs",
     description: "Affiche les rôles de tous les joueurs dans le canal 'maitre-du-jeu'",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-        let channelGM = message.channel.guild.channels.cache.find(channel => channel.name === "maitre-du-jeu");
-        let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
+        let channelGM = message.channel.guild.channels.resolve(cmdConfig.idTextChannelGameMaster);
+        let members = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members;
 
         if (members.size === 0) {
             channelGM.send("Il n'y a personne dans le salon vocal");

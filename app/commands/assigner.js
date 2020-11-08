@@ -1,23 +1,22 @@
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "assigner",
     description: "Assigne le rôle spécifié à la personne spécifiée",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-        let guildRoles = getMapRoles(message.channel.guild.roles.cache);
-        let roleToAssign = guildRoles.get(args[0]);
-        let idPlayer = args[1].replace("<@!", "").replace(">", "");
-        let playerToAssign = message.channel.guild.members.cache.find(player => player.id === idPlayer);
-
+        let guildRolesToAssign = getMapRoles(message.channel.guild.roles);
+        let roleToAssign = guildRolesToAssign.get(args[0]);
+        let playerToAssign = message.mentions.members.first();
         playerToAssign.roles.add(roleToAssign);
     }
 }
 
 function getMapRoles(guildRoles) {
     let roles = new Map();
-    roles.set("amo", guildRoles.find(role => role.name === "Amoureux"));
-    roles.set("inf", guildRoles.find(role => role.name === "Infecté"));
-    roles.set("asp", guildRoles.find(role => role.name === "Aspergé d'essence"));
-    roles.set("env", guildRoles.find(role => role.name === "Envouté"));
-    roles.set("mort", guildRoles.find(role => role.name === "Mort"));
+    roles.set("amo", guildRoles.resolve(cmdConfig.idRoleLovers));
+    roles.set("inf", guildRoles.resolve(cmdConfig.idRoleInfected));
+    roles.set("asp", guildRoles.resolve(cmdConfig.idRoleOiled));
+    roles.set("env", guildRoles.resolve(cmdConfig.idRoleEnchanted));
+    roles.set("mort", guildRoles.resolve(cmdConfig.idRoleDead));
     return roles;
 }

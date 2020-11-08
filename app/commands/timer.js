@@ -1,9 +1,9 @@
 const ms = require("ms");
-
+const cmdConfig = require("./cmd_config.json");
 module.exports = {
     name: "timer",
     description: "Lance un timer pour n s/m/h",
-    requiredRole: "Maître du jeu",
+    idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
         let timer = "3m";
         if (typeof args[0] !== "undefined") {
