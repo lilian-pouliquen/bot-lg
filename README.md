@@ -20,9 +20,9 @@
 
 ## 1. What is bot-lg
 
-bot-lg is a Discord bot giving access to helpfull commands, making Game Master's life easier during a Werewolf game on Discord.  
-  
-***DISCLAIMER:*** All commands, channels and roles used by the bot-lg are in French.
+bot-lg is a Discord bot giving access to helpful commands, making Game Master's life easier during a Werewolf game on Discord.  
+
+***DISCLAIMER:*** Some commands and the messages sent by bot-lg are in French. I will work later on a translation support.
 
 ## 2. Prerequisite
 
@@ -72,8 +72,8 @@ Intall the `make` command
 2. Create `config.json` using the `config.dist.json`
 3. Open a ***bash*** command line at the project root
 4. Issue the following commands:
-   1. `sudo docker image build --no-cache --tag node:prod --file Dockerfile` (only for the first start)
-   2. `sudo docker run --detach --rm --name node_prod --env NODE_ENV=production --volume $(PWD)/app/:/app/`
+   1. `sudo docker image build --no-cache --tag bot-lg:node-prod --file Dockerfile` (only for the first start)
+   2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/`
 
 #### 3.2.1. Alternative for make users
 
@@ -90,7 +90,7 @@ You can see all other make rules using `make` or `make help`.
 bot-lg
 +-- app                             : contains the bot-lg app
 |   +-- commands                    : contains bot-lg commands
-|   |   +-- *.js                    : all commands
+|   |   +-- *.js                    : all bot-lg commands
 |   |   +-- cmd_config.dist.json    : configuration file template for the bot-lg commands. Contains the required role and channel ids
 |   |
 |   +-- config.dist.json            : configuration file template for the bot-lg app
@@ -100,8 +100,8 @@ bot-lg
 |
 +-- .dockerignore                   : elements to ignore by docker
 +-- .gitignore                      : elements to ignore by git
-+-- Dockerfile                      : "node_prod" container image
-+-- Makefile                        : all rule to available by using make command
++-- Dockerfile                      : "bot-lg" container image
++-- Makefile                        : all make rules available to manage "bot-lg" container
 +-- README.md                       : project documentation
 ```
 
