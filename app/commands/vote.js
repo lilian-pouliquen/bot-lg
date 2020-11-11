@@ -65,6 +65,14 @@ function votesSorciere(message, voteCase, deadPerson,) {
             }
             channelSor.send('/poll "Veux-tu tuer quelqu\'un ?"')
             break;
+        case "vide":
+            if (typeof deadPerson === "undefined") {
+                channelSor.send("Tu as oublié de spécifier la personne visée par les loups !");
+            } else {
+                channelSor.send(`Cette personne est visée par les loups : ${deadPerson}.`);
+                channelSor.send("Malheureusement tu n'as plus de potion de vie pour la sauver...");
+            }
+            break;
     }
 }
 
