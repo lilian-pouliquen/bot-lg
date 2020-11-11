@@ -181,3 +181,4 @@ Here is the list of the bot-lg commands:
 ## 7. Authors
 
 - Lilian POULIQUEN: Bot creation and development, documentation
+- Léandre KÉRUZEC: Command ideas, Documentation review
