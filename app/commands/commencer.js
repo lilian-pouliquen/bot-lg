@@ -4,16 +4,11 @@ module.exports = {
     description: "Assigne les rôles spécifiés aux joueurs",
     idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-        let players = message.channel.guild.channels.cache.resolve(cmdConfig.idVocalChannelMain).members;
+        let nbGameMasters = message.channel.guild.roles.resolve(cmdConfig.idRoleGameMaster).members.size
+        let players = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !member.roles.cache.has(cmdConfig.idRoleGameMaster));
         let lstPlayersToAssign = players;
 
-        players.forEach(player => {
-            if (player.roles.cache.has(cmdConfig.idRoleGameMaster)) {
-                lstPlayersToAssign.delete(player.id);
-            }
-        });
-
-        if (checkCoherenceArgs(lstPlayersToAssign.size, args)) {
+        if (checkCoherenceArgs(players.size - nbGameMasters, args)) {
             let guildRoles = message.channel.guild.roles;
             let roles = getMapRoles(guildRoles);
 
@@ -35,13 +30,11 @@ module.exports = {
 }
 
 function checkCoherenceArgs(nbPlayers, args) {
-    let checkNbArgs = nbPlayers === args.length;
     let nbRoles = 0;
     args.forEach(arg => {
         nbRoles += Number(arg.substr(0, 1));
     });
-    let checkNbRoles = nbPlayers === nbRoles;
-    return checkNbArgs || checkNbRoles;
+    return nbPlayers === nbRoles;
 }
 
 function getMapRoles(guildRoles) {
