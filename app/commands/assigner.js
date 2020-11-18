@@ -6,21 +6,23 @@ module.exports = {
     execute(message, args) {
         let guildRolesToAssign = getMapRoles(message.channel.guild.roles);
         let roleToAssign = guildRolesToAssign.get(args[0]);
-        let playerToAssign = message.mentions.members.first();
+        let lstPlayersToAssign = message.mentions.members;
         let excludedRoleIds = [
             cmdConfig.idRoleAdmin,
             cmdConfig.idRoleGameMaster,
             message.channel.guild.roles.cache.find(role => role.name === "@everyone").id
         ];
 
-        if (roleToAssign.id === cmdConfig.idRoleDead && !playerToAssign.roles.cache.has(cmdConfig.idRoleReaper)) {
-            playerToAssign.roles.cache.forEach(role => {
-                if (excludedRoleIds.indexOf(role.id) === -1) {
-                    playerToAssign.roles.remove(role);
-                }
-            });
-        }
-        playerToAssign.roles.add(roleToAssign)
+        lstPlayersToAssign.forEach(player => {
+            if (roleToAssign.id === cmdConfig.idRoleDead && !player.roles.cache.has(cmdConfig.idRoleReaper)) {
+                player.roles.cache.forEach(role => {
+                    if (excludedRoleIds.indexOf(role.id) === -1) {
+                        player.roles.remove(role);
+                    }
+                });
+            }
+            player.roles.add(roleToAssign)
+        })
     }
 }
 
