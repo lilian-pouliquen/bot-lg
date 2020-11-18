@@ -123,18 +123,18 @@ Here is the list of the required role:
 | idRoleGuard          | Guard           | Villager             | Once per night, protects someone from the werewolf attack, but cannot protect the same person twice in a row.                                  |
 | idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager .                                                                                                     |
 | idRoleWhiteWerewolf  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
-| idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, choose to infect the villager choosen by his mates, making him become a werewolf.                    |
-| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Become a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.           |
+| idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, chooses to infect the villager chosen by his mates, making him become a werewolf.                    |
+| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.           |
 | idRoleWitch          | Witch           | Villager             | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.      |
 | idRoleSeer           | Seer            | Villager             | Once per night, can see someone's role.                                                                                                        |
 | idRoleAssassin       | Assassin        | Solo                 | Once per night, can kill someone.                                                                                                              |
-| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or ignite those who were previously oiled                                                               |
-| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac choose to burn his victims.                                                                         |
+| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or to ignite those who were previously oiled                                                               |
+| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac chooses to burn his victims.                                                                         |
 | idRoleFlutist        | Flutist         | Solo                 | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                          |
 | idRoleEnchanted      | Enchanted       | Additional           | Chosen by Flutist. Cannot attempt to kill Flutist, and have to defend him.                                                                     |
 | idRoleReaper         | Reaper          | Villager             | Alive, acts as a villager. Dead, can talk to the other dead players and vote during the two daily vote following the player's death.           |
 | idRoleAncient        | Ancient         | Villager             | Can survive to 1 werewolf attack. If the player dies during the daily vote, all villager-type players lose their abilities.                    |
-| idRoleAngel          | Angel           | Solo, then Villager  | Have to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                    |
+| idRoleAngel          | Angel           | Solo, then Villager  | Has to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                    |
 | idRoleShaman         | Shaman          | Villager             | At night, can listen the dead players.                                                                                                         |
 | idRoleHunter         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
 | idRoleDead           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
@@ -142,9 +142,10 @@ Here is the list of the required role:
 
 Types explaination:
 
-- Moderator: Server and game manager. A player can be "Admin", but not "Maître du jeu"
+- Moderator: Server and game manager. A player can be Admin, but not Game Master
 - Villager: Wins when all threats (werewolves and solos) are eliminated.
-- Werewolf: Wins when all villagers are eliminated.
+- Werewolf: Wins when all villagers are eliminated and solos.
+- Solo: Wins when all other players are eliminated.
 - Dead Player: Players who have been eliminated.
 - Additional: This role is added to the player roles. The player can use the abilities provided by his first role, and all his Additional roles.
 
@@ -168,7 +169,7 @@ Here is the list of the bot-lg commands:
 | commandes   | None                           | Prints available commands                                |
 | roles       | None                           | Prints still alive game roles                            |
 | joueurs     | Game Master                    | Prints roles by player in the "game-master" text channel |
-| assigner    | Game Master                    | Assigns the given role to the given player               |
+| assigner    | Game Master                    | Assigns the given role to the given players              |
 | commencer   | Game Master                    | Assigns specified roles randomly to all the players      |
 | reset       | Game Master                    | Remove all game roles from the players                   |
 | nuit        | Game Master                    | Mutes all players                                        |
