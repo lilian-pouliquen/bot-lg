@@ -5,7 +5,7 @@ module.exports = {
     idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
 
-        let members = message.channel.guild.channels.cache.find(channel => channel.name === "Salon vocal").members;
+        let members = message.channel.guild.channels.resolve(channel => channel.id === cmdConfig.idVocalChannelMain).members;
         let excludedRoles = [
             cmdConfig.idRoleAdmin,
             cmdConfig.idRoleGameMaster,
