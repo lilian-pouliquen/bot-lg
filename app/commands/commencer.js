@@ -8,7 +8,7 @@ module.exports = {
         let players = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !member.roles.cache.has(cmdConfig.idRoleGameMaster));
         let lstPlayersToAssign = players;
 
-        if (checkCoherenceArgs(players.size - nbGameMasters, args)) {
+        // if (checkCoherenceArgs(players.size - nbGameMasters, args)) {
             let guildRoles = message.channel.guild.roles;
             let roles = getMapRoles(guildRoles);
 
@@ -23,9 +23,9 @@ module.exports = {
                     lstPlayersToAssign.delete(playerToAssign.id)
                 }
             });
-        } else {
-            message.reply("il y a plus de rôles à attribuer que de joueurs.")
-        }
+        // } else {
+        //     message.reply("il y a plus de rôles à attribuer que de joueurs.")
+        // }
     }
 }
 

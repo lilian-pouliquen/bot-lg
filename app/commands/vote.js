@@ -4,10 +4,7 @@ module.exports = {
     description: "Affiche le formulaire de vote spécifié",
     idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-        let voteCase;
-        if (typeof args[0] !== "undefined") {
-            voteCase = args[0];
-        }
+        let voteCase = args[0];
         switch (voteCase) {
             case "sor":
                 votesSorciere(message, args[1], args[2]);
@@ -23,25 +20,13 @@ module.exports = {
 }
 
 function vote(message) {
-    let idExcludedRoles = [
-        cmdConfig.idRoleAdmin,
-        cmdConfig.idRoleGameMaster,
-        cmdConfig.idRoleDead
-    ];
+    let deadPlayers = message.guild.roles.resolve(cmdConfig.idRoleDead).members;
+    let gameMasters = message.guild.roles.resolve(cmdConfig.idRoleGameMaster).members;
+    let players = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !deadPlayers.has(member.id) && !gameMasters.has(member.id));
 
-    let vocalChannel = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain);
     let strVote = '/poll "Qui voter ?" ';
-    vocalChannel.members.forEach(member => {
-        let hasExcludedRole = false;
-        idExcludedRoles.forEach(idExcludedRole => {
-            if (member.roles.cache.has(idExcludedRole)) {
-                hasExcludedRole = true;
-            }
-        })
-
-        if (!hasExcludedRole) {
-            strVote += `"${member.displayName}" `
-        }
+    players.forEach(player => {
+        strVote += `"${player.displayName}" `
     });
 
     message.channel.send(strVote);
