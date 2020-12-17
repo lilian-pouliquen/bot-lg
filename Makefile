@@ -14,12 +14,15 @@ DLFLAGS		=	--follow
 all : help
 
 help:
-	@echo ""
+	@echo "[RULES HELP]"
 	@echo "    help           :    Shows available commands for this Makefile"
 	@echo ""
-	@echo "    prepare        :    Builds docker image and then run the 'bot-lg' container with it"
+	@echo "[CONTAINER MANAGEMENT]"
+	@echo "    prepare        :    Builds docker image and install node dependencies"
 	@echo ""
 	@echo "    build          :    Builds docker image for Node.js production environment"
+	@echo ""
+	@echo "    install        :    Installs the Node.js dependencies required by the project"
 	@echo ""
 	@echo "    start          ;    Runs the 'bot-lg' with the node:prod image"
 	@echo ""
@@ -27,16 +30,20 @@ help:
 	@echo ""
 	@echo "    restart        :    Restarts the 'bot-lg' container"
 	@echo ""
+	@echo "[CONTAINER ADMINISTRATION]"
 	@echo "    logs           :    Reads continuously the logs from the 'bot-lg' container"
 	@echo ""
 
-prepare: build start
+prepare: build install
 
 build: Dockerfile
 	$(DC) $(DIBC) $(DIBFLAGS) $? .
 
+install:
+	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod npm install --production
+
 start:
-	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod
+	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod node index.js
 
 stop:
 	$(DC) $(DSTOP) bot-lg

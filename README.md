@@ -73,13 +73,14 @@ Intall the `make` command
 3. Open a ***bash*** command line at the project root
 4. Issue the following commands:
    1. `sudo docker image build --no-cache --tag bot-lg:node-prod --file Dockerfile` (only for the first start)
-   2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/`
+   2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ npm install --production`
+   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ node index.js`
 
 #### 3.2.1. Alternative for make users
 
 Instead of using docker commands, you can issue the following ones at the project root:
 
-1. `make prepare` (only on the first start)
+1. `make prepare` (only on the first time)
 2. `make start`
 
 You can see all other make rules using `make` or `make help`.
@@ -103,6 +104,7 @@ bot-lg
 +-- Dockerfile                      : "bot-lg" container image
 +-- Makefile                        : all make rules available to manage "bot-lg" container
 +-- README.md                       : project documentation
++-- logo.zip                        : bot-lg logo by Kévin BOURBASQUET
 ```
 
 ## 5. Discord server requirements
@@ -183,3 +185,4 @@ Here is the list of the bot-lg commands:
 
 - Lilian POULIQUEN: Bot creation and development, documentation
 - Léandre KERUZEC: Command ideas, Documentation review
+- Kévin BOURBASQUET: bot-lg logo designer and creator
