@@ -7,7 +7,7 @@ DLC		=	logs
 
 # FLAGS
 DIBFLAGS	=	--no-cache --tag bot-lg:node-prod --file
-DRUNFLAGS	=	--detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/
+DRUNFLAGS	=	--detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/"
 DLFLAGS		=	--follow
 
 # RULES
@@ -37,13 +37,13 @@ help:
 prepare: build install
 
 build: Dockerfile
-	$(DC) $(DIBC) $(DIBFLAGS) $? .
+	$(DC) $(DIBC) $(DIBFLAGS) $? ./
 
 install:
 	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod npm install --production
 
 start:
-	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod node index.js
+	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod sh -c "npm install -g nodemon; /usr/local/bin/nodemon index.js"
 
 stop:
 	$(DC) $(DSTOP) bot-lg

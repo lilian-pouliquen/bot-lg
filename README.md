@@ -64,7 +64,8 @@ Intall the `make` command
 3. Open a command line inside of the "app" directory
 4. Issue the following commands:
    1. `npm install --production`
-   2. `node index.js`
+   2. `npm install -g nodemon`
+   3. `nodemon index.js`
 
 ### 3.2. Docker application run
 
@@ -74,7 +75,7 @@ Intall the `make` command
 4. Issue the following commands:
    1. `sudo docker image build --no-cache --tag bot-lg:node-prod --file Dockerfile` (only for the first start)
    2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ npm install --production`
-   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ node index.js`
+   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/" bot-lg:node-prod sh -c "npm install -g nodemon; /usr/local/bin/nodemon index.js"`
 
 #### 3.2.1. Alternative for make users
 
@@ -87,7 +88,7 @@ You can see all other make rules using `make` or `make help`.
 
 ## 4. Project structure
 
-``` no-language
+``` text
 bot-lg
 +-- app                             : contains the bot-lg app
 |   +-- commands                    : contains bot-lg commands
@@ -126,17 +127,17 @@ Here is the list of the required role:
 | idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager .                                                                                                     |
 | idRoleWhiteWerewolf  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
 | idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, chooses to infect the villager chosen by his mates, making him become a werewolf.                    |
-| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.           |
+| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.          |
 | idRoleWitch          | Witch           | Villager             | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.      |
 | idRoleSeer           | Seer            | Villager             | Once per night, can see someone's role.                                                                                                        |
 | idRoleAssassin       | Assassin        | Solo                 | Once per night, can kill someone.                                                                                                              |
-| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or to ignite those who were previously oiled                                                               |
-| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac chooses to burn his victims.                                                                         |
+| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or to ignite those who were previously oiled                                                            |
+| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac chooses to burn his victims.                                                                        |
 | idRoleFlutist        | Flutist         | Solo                 | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                          |
 | idRoleEnchanted      | Enchanted       | Additional           | Chosen by Flutist. Cannot attempt to kill Flutist, and have to defend him.                                                                     |
 | idRoleReaper         | Reaper          | Villager             | Alive, acts as a villager. Dead, can talk to the other dead players and vote during the two daily vote following the player's death.           |
 | idRoleAncient        | Ancient         | Villager             | Can survive to 1 werewolf attack. If the player dies during the daily vote, all villager-type players lose their abilities.                    |
-| idRoleAngel          | Angel           | Solo, then Villager  | Has to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                    |
+| idRoleAngel          | Angel           | Solo, then Villager  | Has to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                     |
 | idRoleShaman         | Shaman          | Villager             | At night, can listen the dead players.                                                                                                         |
 | idRoleHunter         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
 | idRoleDead           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
@@ -176,7 +177,8 @@ Here is the list of the bot-lg commands:
 | reset       | Game Master                    | Remove all game roles from the players                   |
 | nuit        | Game Master                    | Mutes all players                                        |
 | jour        | Game Master                    | Unmutes all players                                      |
-| vote        | Game Master                    | Prints the specified vote form with /poll                |
+| poll        | Game Master                    | Prints a vote form with given question and choices       |
+| vote        | Game Master                    | Prints the specified vote form with !poll                |
 | timer       | Game Master                    | Runs a timer for n s/m/h (default 3m)                    |
 | clear       | Admin                          | Clears the current text channel                          |
 | deconnexion | Admin                          | Disconnects bot-lg from the Discord server               |
