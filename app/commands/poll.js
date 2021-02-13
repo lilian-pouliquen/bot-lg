@@ -25,7 +25,6 @@ module.exports = {
                 .then(tblMsgToReact => {
                     let index = 0;
                     tblMsgToReact.forEach(msgToReact => {
-                        console.log(msgToReact.nbChoices);
                         for (let i = 0; i < msgToReact.nbChoices; i++) {
                             msgToReact.msg.react(tblLetters[index]);
                             index++;
