@@ -6,8 +6,9 @@ DSTOP	=	stop
 DLC		=	logs
 
 # FLAGS
-DIBFLAGS	=	--no-cache --tag bot-lg:node-prod --file
-DRUNFLAGS	=	--detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/"
+DIBFLAGS	=	--no-cache --file
+DIBTAG		=	--tag
+DRUNFLAGS	=	--detach --rm --name bot-lg --volume "$(PWD)/app/:/app/"
 DLFLAGS		=	--follow
 
 # RULES
@@ -20,11 +21,11 @@ help:
 	@echo "[CONTAINER MANAGEMENT]"
 	@echo "    prepare        :    Builds docker image and install node dependencies"
 	@echo ""
-	@echo "    build          :    Builds docker image for Node.js production environment"
+	@echo "    build          :    Builds docker image for Node.js environment"
 	@echo ""
 	@echo "    install        :    Installs the Node.js dependencies required by the project"
 	@echo ""
-	@echo "    start          ;    Runs the 'bot-lg' with the bot-lg:node-prod image"
+	@echo "    start          ;    Runs the 'bot-lg' with the node:bot-lg image"
 	@echo ""
 	@echo "    stop           :    Stops the 'bot-lg' container and removes it"
 	@echo ""
@@ -36,14 +37,15 @@ help:
 
 prepare: build install
 
-build: Dockerfile
-	$(DC) $(DIBC) $(DIBFLAGS) $? ./
+build: bot-lg.Dockerfile
+	$(DC) $(DIBC) $(DIBFLAGS) bot-lg.Dockerfile $(DIBTAG) node:bot-lg ./
+	$(DC) $(DIBC) $(DIBFLAGS) php-api.Dockerfile $(DIBTAG) alpine:php-api ./
 
 install:
-	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod npm install --production
+	$(DC) $(DRUN) $(DRUNFLAGS) node:bot-lg npm install
 
 start:
-	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod nodemon index.js
+	$(DC) $(DRUN) $(DRUNFLAGS) node:bot-lg
 
 stop:
 	$(DC) $(DSTOP) bot-lg

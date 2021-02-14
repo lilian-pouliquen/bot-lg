@@ -44,7 +44,7 @@ bot-lg is a Discord bot giving access to helpful commands, making Game Master's 
 
 ### 2.1. For local application run
 
-- [Install Node.js v12.19.0](https://nodejs.org/en/download/releases/)
+- [Install Node.js](https://nodejs.org/en/download/releases/)
 
 ### 2.2. For Docker application run
 
@@ -63,7 +63,7 @@ Intall the `make` command
 2. Create `config.json` using the `config.dist.json`
 3. Open a command line inside of the "app" directory
 4. Issue the following commands:
-   1. `npm install --production`
+   1. `npm install`
    2. `npm install -g nodemon`
    3. `nodemon index.js`
 
@@ -73,9 +73,10 @@ Intall the `make` command
 2. Create `config.json` using the `config.dist.json`
 3. Open a ***bash*** command line at the project root
 4. Issue the following commands:
-   1. `sudo docker image build --no-cache --tag bot-lg:node-prod --file Dockerfile` (only for the first start)
-   2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ npm install --production`
-   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/" bot-lg:node-prod nodemon index.js`
+   1. `sudo docker image build --no-cache --tag node:bot-lg --file bot-lg.Dockerfile` (only for the first start)
+   2. `sudo docker image build --no-cache --tag alpine:php-api --file php-api.Dockerfile` (only for the first start)
+   3. `sudo docker run --detach --rm --name bot-lg --volume $(PWD)/app/:/app/ npm install`
+   4. `sudo docker run --detach --rm --name bot-lg --volume "$(PWD)/app/:/app/" bot-lg:node-prod`
 
 #### 3.2.1. Alternative for make users
 
@@ -100,9 +101,12 @@ bot-lg
 |   +-- package-lock.json           : node dependencies to be installed
 |   +-- package.json                : node dependencies to be installed
 |
++-- php-api                         : contains the files needed by the PHP API
+|
 +-- .dockerignore                   : elements to ignore by docker
 +-- .gitignore                      : elements to ignore by git
-+-- Dockerfile                      : "bot-lg" container image
++-- bot-lg.Dockerfile               : "bot-lg" container image
++-- php-api.Dockerfile              : "php-api" container image
 +-- Makefile                        : all make rules available to manage "bot-lg" container
 +-- README.md                       : project documentation
 +-- logo.zip                        : bot-lg logo by Kévin BOURBASQUET
