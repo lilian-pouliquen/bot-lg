@@ -7,10 +7,16 @@ module.exports = {
         let vocalChannel = message.guild.channels.resolve(cmdConfig.idVocalChannelMain);
 
         vocalChannel.members.forEach(member => {
-            if (!member.roles.cache.has(cmdConfig.idRoleGameMaster)) {
-                member.voice.setMute(false);
-                member.roles.remove(cmdConfig.idRoleMuted);
-            }
-        });
+            member.fetch()
+                .then(member => {
+                    if (!member.roles.cache.has(cmdConfig.idRoleGameMaster)) {
+                        member.voice.setMute(false);
+                        member.roles.remove(cmdConfig.idRoleMuted);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        })
     }
 };
