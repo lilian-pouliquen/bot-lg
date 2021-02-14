@@ -75,7 +75,7 @@ Intall the `make` command
 4. Issue the following commands:
    1. `sudo docker image build --no-cache --tag bot-lg:node-prod --file Dockerfile` (only for the first start)
    2. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume $(PWD)/app/:/app/ npm install --production`
-   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/" bot-lg:node-prod sh -c "npm install -g nodemon; /usr/local/bin/nodemon index.js"`
+   3. `sudo docker run --detach --rm --name bot-lg --env NODE_ENV=production --volume "$(PWD)/app/:/app/" bot-lg:node-prod nodemon index.js`
 
 #### 3.2.1. Alternative for make users
 

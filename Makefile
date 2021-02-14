@@ -24,7 +24,7 @@ help:
 	@echo ""
 	@echo "    install        :    Installs the Node.js dependencies required by the project"
 	@echo ""
-	@echo "    start          ;    Runs the 'bot-lg' with the node:prod image"
+	@echo "    start          ;    Runs the 'bot-lg' with the bot-lg:node-prod image"
 	@echo ""
 	@echo "    stop           :    Stops the 'bot-lg' container and removes it"
 	@echo ""
@@ -43,7 +43,7 @@ install:
 	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod npm install --production
 
 start:
-	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod sh -c "npm install -g nodemon; /usr/local/bin/nodemon index.js"
+	$(DC) $(DRUN) $(DRUNFLAGS) bot-lg:node-prod nodemon index.js
 
 stop:
 	$(DC) $(DSTOP) bot-lg
