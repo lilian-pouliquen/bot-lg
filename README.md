@@ -4,19 +4,19 @@
 
 - [1. What is bot-lg](#1-what-is-bot-lg)
 - [2. Prerequisite](#2-prerequisite)
-  - [2.1. For local application run](#21-for-local-application-run)
+  - [2.1. For your Discord server](#21-for-your-discord-server)
   - [2.2. For Docker application run](#22-for-docker-application-run)
     - [2.2.1. Optionnal](#221-optionnal)
 - [3. Install and start bot-lg](#3-install-and-start-bot-lg)
-  - [3.1. Local application run](#31-local-application-run)
-  - [3.2. Docker application run](#32-docker-application-run)
-    - [3.2.1. Alternative for make users](#321-alternative-for-make-users)
+  - [3.1. Docker application run](#31-docker-application-run)
+    - [3.1.1. Alternative for make users](#311-alternative-for-make-users)
 - [4. Project structure](#4-project-structure)
 - [5. Discord server requirements](#5-discord-server-requirements)
   - [5.1. Roles](#51-roles)
   - [5.2. Channels](#52-channels)
 - [6. Bot commands](#6-bot-commands)
 - [7. Authors](#7-authors)
+- [8. Contributors](#8-contributors)
 
 ## 1. What is bot-lg
 
@@ -25,6 +25,8 @@ bot-lg is a Discord bot giving access to helpful commands, making Game Master's 
 ***DISCLAIMER:*** Some commands and the messages sent by bot-lg are in French. I will work later on a translation support.
 
 ## 2. Prerequisite
+
+### 2.1. For your Discord server
 
 1. [Create a Discord application](https://discord.com/developers/applications)
 2. In the OAuth2 tab:
@@ -40,11 +42,6 @@ bot-lg is a Discord bot giving access to helpful commands, making Game Master's 
       - Deafen Members
       - Move Members
 3. Add your new bot to your Discord server using the generated link
-4. Add the [Simple Poll bot](https://discord.com/developers/applications) to your Discord server
-
-### 2.1. For local application run
-
-- [Install Node.js](https://nodejs.org/en/download/releases/)
 
 ### 2.2. For Docker application run
 
@@ -53,32 +50,22 @@ bot-lg is a Discord bot giving access to helpful commands, making Game Master's 
 #### 2.2.1. Optionnal
 
 If you are a make user, a Makefile is available!  
-Intall the `make` command
+Intall the `make` command.
 
 ## 3. Install and start bot-lg
 
-### 3.1. Local application run
-
-1. Clone or download bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
-2. Create `config.json` using the `config.dist.json`
-3. Open a command line inside of the "app" directory
-4. Issue the following commands:
-   1. `npm install`
-   2. `npm install -g nodemon`
-   3. `nodemon index.js`
-
-### 3.2. Docker application run
+### 3.1. Docker application run
 
 1. Clone or download bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
 2. Create `config.json` using the `config.dist.json`
 3. Open a ***bash*** command line at the project root
 4. Issue the following commands:
    1. `sudo docker image build --no-cache --tag node:bot-lg --file bot-lg.Dockerfile` (only for the first start)
-   2. `sudo docker image build --no-cache --tag alpine:php-api --file php-api.Dockerfile` (only for the first start)
-   3. `sudo docker run --detach --rm --name bot-lg --volume $(PWD)/app/:/app/ npm install`
-   4. `sudo docker run --detach --rm --name bot-lg --volume "$(PWD)/app/:/app/" bot-lg:node-prod`
+   2. `sudo docker image build --no-cache --tag php:php-api --file php-api.Dockerfile` (only for the first start)
+   3. `sudo docker run --detach --rm --name bot-lg --volume "$PWD/app/:/app/" node:bot-lg npm install`
+   4. `sudo docker-compose up --detach`
 
-#### 3.2.1. Alternative for make users
+#### 3.1.1. Alternative for make users
 
 Instead of using docker commands, you can issue the following ones at the project root:
 
@@ -103,10 +90,13 @@ bot-lg
 |
 +-- php-api                         : contains the files needed by the PHP API
 |
++-- .dist.env                       : docker-compose environment variables file template
 +-- .dockerignore                   : elements to ignore by docker
 +-- .gitignore                      : elements to ignore by git
++-- docker-compose.yml              : docker-compose file
 +-- bot-lg.Dockerfile               : "bot-lg" container image
 +-- php-api.Dockerfile              : "php-api" container image
++-- initdb.sql                      : file used to init the PostgreSQL database
 +-- Makefile                        : all make rules available to manage "bot-lg" container
 +-- README.md                       : project documentation
 +-- logo.zip                        : bot-lg logo by Kévin BOURBASQUET
@@ -190,5 +180,8 @@ Here is the list of the bot-lg commands:
 ## 7. Authors
 
 - Lilian POULIQUEN: Bot creation and development, documentation
+
+## 8. Contributors
+
 - Léandre KERUZEC: Command ideas, Documentation review
 - Kévin BOURBASQUET: bot-lg logo designer and creator
