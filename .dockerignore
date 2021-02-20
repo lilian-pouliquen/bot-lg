@@ -1,3 +1,4 @@
+.dist.env
 cmd_config.dist.json
 config.dist.json
 node_modules/
