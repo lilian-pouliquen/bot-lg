@@ -1,18 +1,22 @@
 # Pulling alpine image
-FROM alpine:latest
+FROM php:apache
 
-# Installing required packages
-RUN apk add --quiet bash apache2 php7 php7-pdo php7-pgsql php7-pdo_pgsql
+# Installing required packages 
+RUN apt-get update -qq > /dev/null
+RUN apt-get install --no-install-recommends -qq libpq-dev > /dev/null
+
+# Installing php extensions
+RUN docker-php-ext-install pdo_pgsql pgsql > /dev/null
 
 # Adding apache2 configurations
-RUN echo "ServerTokens Prod" >> /etc/apache2/conf.d/prod.conf
-RUN echo "ServerSignature Off" >> /etc/apache2/conf.d/prod.conf
+RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf
+RUN echo "ServerSignature Off" >> /etc/apache2/apache2.conf
 
 # Copying required files
-COPY ./php-api/ /var/www/localhost/htdocs/
+COPY ./php-api/ /var/www/html/
 
 # Exposing port 80
 EXPOSE 80
 
 # Starting apache service
-CMD ["exec", "/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]
+CMD ["apache2-foreground", "-f", "/etc/apache2/apache2.conf"]
