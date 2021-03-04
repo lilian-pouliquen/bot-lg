@@ -42,27 +42,38 @@ class PdoGLC
 		return PdoGLC::$monPdoGLC;
 	}
 
-	public static function addPlayer(string $idPlayer) {
+	public static function initdb(array $lstRolesByPlayer) {
+		$ret = true;
+		foreach($lstRolesByPlayer as $player) {
+			$ret = $ret && PdoGLC::addPlayer($player->idPlayer);
+			foreach($player->lstIdRoles as $idRole) {
+				$ret = $ret && PdoGLC::assignRole($player->idPlayer, $idRole);
+			}
+		}
+		return $ret;
+	}
+
+	public static function addPlayer(Object $player) {
 		$sql = "INSERT INTO players VALUES(:idPlayer);";
 		$rep = PdoGLC::$monPdo->prepare($sql);
-		$rep->bindParam(':idPlayer', $idPlayer);
+		$rep->bindParam(':idPlayer', $player->idPlayer);
 		$ret = $rep->execute();
 		return $ret;
 	}
 
-	public static function addRole(string $idRole) {
+	public static function addRole(Object $role) {
 		$sql = "INSERT INTO roles VALUES(:idRole);";
 		$rep = PdoGLC::$monPdo->prepare($sql);
-		$rep->bindParam(':idRole', $idRole);
+		$rep->bindParam(':idRole', $role->idRole);
 		$ret = $rep->execute();
 		return $ret;
 	}
 
-	public static function assignRole(string $idPlayer, string $idRole) {
+	public static function assignRole(Object $assignement) {
 		$sql = "INSERT INTO assigned_roles(idPlayer, idRole) VALUES(:idPlayer, :idRole);";
 		$rep = PdoGLC::$monPdo->prepare($sql);
-		$rep->bindParam(':idPlayer', $idPlayer);
-		$rep->bindParam(':idRole', $idRole);
+		$rep->bindParam(':idPlayer', $assignement->idPlayer);
+		$rep->bindParam(':idRole', $assignement->idRole);
 		$ret = $rep->execute();
 		return $ret;
 	}
@@ -89,10 +100,6 @@ class PdoGLC
 		$sql = "DELETE FROM assigned_roles;";
 		$rep = PdoGLC::$monPdo->prepare($sql);
 		$ret = $rep->execute();
-
-		$sql = "DELETE FROM roles;";
-		$rep = PdoGLC::$monPdo->prepare($sql);
-		$ret = $rep->execute() && $ret;
 
 		$sql = "DELETE FROM players;";
 		$rep = PdoGLC::$monPdo->prepare($sql);

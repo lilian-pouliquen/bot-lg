@@ -8,24 +8,30 @@ include("./pdo.php");
 $pdo = PdoGLC::getPdoGLC();
 
 switch ($service) {
+    case "initdb": {
+        $lstRolesByPlayer = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->initdb($lstRolesByPlayer);
+        echo json_encode($ret);
+        break;
+    }
+    
     case "addPlayer": {
-        $idPlayer = $_GET['idPlayer'];
-        $ret = $pdo->addPlayer($idPlayer);
+        $player = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->addPlayer($player);
         echo json_encode($ret);
         break;
     }
     
     case "addRole": {
-        $idRole = $_GET['idRole'];
-        $ret = $pdo->addRole($idRole);
+        $role = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->addRole($role);
         echo json_encode($ret);
         break;
     }
     
     case "assignRole": {
-        $idPlayer = $_GET['idPlayer'];
-        $idRole = $_GET['idRole'];
-        $ret = $pdo->assignRole($idPlayer, $idRole);
+        $assignement = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->assignRole($assignement);
         echo json_encode($ret);
         break;
     }
