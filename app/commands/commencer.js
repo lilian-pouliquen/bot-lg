@@ -1,6 +1,5 @@
 const cmdConfig = require("./cmd_config.json");
 const http = require('http');
-const querystring = require('querystring');
 module.exports = {
     name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs",
