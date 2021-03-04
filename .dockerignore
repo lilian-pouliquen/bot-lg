@@ -1,4 +1,5 @@
 .dist.env
 cmd_config.dist.json
 config.dist.json
+init-postgres/initdb.dist.sql
 node_modules/
