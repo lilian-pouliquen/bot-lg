@@ -36,6 +36,13 @@ switch ($service) {
         break;
     }
 
+    case "assignRoles": {
+        $lstAssignements = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->assignRoles($lstAssignements);
+        echo json_encode($ret);
+        break;
+    }
+
     case "getPlayersWithRole": {
         $idRole = $_GET['idRole'];
         $players = $pdo->getPlayersWithRole($idRole);

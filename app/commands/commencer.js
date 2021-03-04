@@ -1,40 +1,72 @@
 const cmdConfig = require("./cmd_config.json");
+const http = require('http');
+const querystring = require('querystring');
 module.exports = {
     name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs",
     idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-        let nbGameMasters = message.channel.guild.roles.resolve(cmdConfig.idRoleGameMaster).members.size
-        let players = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !member.roles.cache.has(cmdConfig.idRoleGameMaster));
-        let lstPlayersToAssign = players;
+        let lstPlayers = message.guild.channels.resolve(cmdConfig.idVocalChannelMain).members;
 
-        // if (checkCoherenceArgs(players.size - nbGameMasters, args)) {
-            let guildRoles = message.channel.guild.roles;
-            let roles = getMapRoles(guildRoles);
+        let buildLstRoleByPlayer = new Promise((resolve, reject) => {
+            let lstRolesByPlayer = [];
+            lstPlayers.forEach(player => {
+                let lstIdRoles = [];
+                player.roles.cache.forEach(role => {
+                    lstIdRoles.push(role.id);
+                    if (player.roles.cache.size === lstIdRoles.length) {
+                        lstRolesByPlayer.push({ idPlayer: player.id, lstIdRoles: lstIdRoles });
+                    }
+                    if (lstPlayers.size === lstRolesByPlayer.length) {
+                        resolve(lstRolesByPlayer);
+                    }
+                });
+            });
+        });
 
-            args.forEach(assignation => {
-                let number = assignation.substr(0, 1);
-                let strRoleToAssign = assignation.substr(1);
+        let buildAssignements = new Promise((resolve, reject) => {
+            let actualPlayers = message.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !member.roles.cache.has(cmdConfig.idRoleGameMaster));
+            let lstPlayersToAssign = actualPlayers;
+            let roles = getMapRoles(message.guild.roles);
+            let lstAssignements = [];
+
+            args.forEach(argument => {
+                let number = argument.substr(0, 1);
+                let strRoleToAssign = argument.substr(1);
                 let roleToAssign = roles.get(strRoleToAssign);
 
                 for (index = 0; index < number; index++) {
                     let playerToAssign = lstPlayersToAssign.random(1)[0];
                     playerToAssign.roles.add(roleToAssign);
-                    lstPlayersToAssign.delete(playerToAssign.id)
+
+                    let assignement = { idPlayer: playerToAssign.id, idRole: roleToAssign.id };
+                    lstAssignements.push(assignement);
+
+                    lstPlayersToAssign.delete(playerToAssign.id);
+
+                    if (0 === lstPlayersToAssign.size) {
+                        resolve(lstAssignements);
+                    }
                 }
             });
-        // } else {
-        //     message.reply("il y a plus de rôles à attribuer que de joueurs.")
-        // }
-    }
-}
+        });
 
-function checkCoherenceArgs(nbPlayers, args) {
-    let nbRoles = 0;
-    args.forEach(arg => {
-        nbRoles += Number(arg.substr(0, 1));
-    });
-    return nbPlayers === nbRoles;
+        buildLstRoleByPlayer.then(lstRolesByPlayer => {
+            apiPost("initdb", lstRolesByPlayer).then(response => {
+                if (response) {
+                    buildAssignements.then(lstAssignements => {
+                        apiPost("assignRoles", lstAssignements).then(response => {
+                            if (!response) {
+                                message.reply("une erreur s'est produite lors de l'assignation des rôles :sweat_smile:");
+                            }
+                        });
+                    });
+                } else {
+                    message.reply("une erreur s'est produite lors de l'initialisation de la base de données :sweat_smile:");
+                }
+            });
+        })
+    }
 }
 
 function getMapRoles(guildRoles) {
@@ -56,4 +88,38 @@ function getMapRoles(guildRoles) {
     roles.set("cham", guildRoles.resolve(cmdConfig.idRoleShaman));
     roles.set("chass", guildRoles.resolve(cmdConfig.idRoleHunter));
     return roles;
+}
+
+function apiPost(service, object) {
+    return new Promise((resolve, reject) => {
+        const data = JSON.stringify(object);
+        const options = {
+            protocol: 'http:',
+            hostname: 'php-api',
+            port: 80,
+            path: `/services.php?service=${service}`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        const req = http.request(options, (res) => {
+            let data = '';
+
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                resolve(JSON.parse(data));
+            });
+
+        }).on("error", (err) => {
+            console.log("Error: ", err.message);
+        });
+
+        req.write(data);
+        req.end();
+    });
 }

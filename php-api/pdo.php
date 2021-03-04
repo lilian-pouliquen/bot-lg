@@ -44,10 +44,14 @@ class PdoGLC
 
 	public static function initdb(array $lstRolesByPlayer) {
 		$ret = true;
-		foreach($lstRolesByPlayer as $player) {
-			$ret = $ret && PdoGLC::addPlayer($player->idPlayer);
+		foreach ($lstRolesByPlayer as $player) {
+			$ret = $ret && PdoGLC::addPlayer($player);
 			foreach($player->lstIdRoles as $idRole) {
-				$ret = $ret && PdoGLC::assignRole($player->idPlayer, $idRole);
+				$assignement = (object) [
+					"idPlayer" => $player->idPlayer,
+					"idRole" => $idRole
+				];
+				$ret = $ret && PdoGLC::assignRole($assignement);
 			}
 		}
 		return $ret;
@@ -75,6 +79,14 @@ class PdoGLC
 		$rep->bindParam(':idPlayer', $assignement->idPlayer);
 		$rep->bindParam(':idRole', $assignement->idRole);
 		$ret = $rep->execute();
+		return $ret;
+	}
+
+	public static function assignRoles(array $lstAssignements) {
+		$ret = true;
+		foreach ($lstAssignements as $assignement) {
+			$ret = $ret && PdoGLC::assignRole($assignement);
+		}
 		return $ret;
 	}
 
