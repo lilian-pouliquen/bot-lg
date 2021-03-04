@@ -23,6 +23,7 @@
     "idRoleHunter": "",
     "idRoleDead": "",
     "idRoleMuted": "",
+    "idRoleEveryone": "",
 
     "idTextChannelGameMaster": "",
     "idTextChannelWitch": "",

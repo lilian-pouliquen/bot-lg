@@ -1,3 +1,5 @@
+.env
+php-api/config.php
 config.json
 cmd_config.json
 node_modules/
