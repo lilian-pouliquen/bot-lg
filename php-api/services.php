@@ -43,10 +43,16 @@ switch ($service) {
         break;
     }
 
-    case "getPlayersWithRole": {
-        $idRole = $_GET['idRole'];
-        $players = $pdo->getPlayersWithRole($idRole);
-        echo json_encode($players);
+    case "getPlayers": {
+        $lstIdPlayers = $pdo->getPlayers();
+        echo json_encode($lstIdPlayers);
+        break;
+    }
+
+    case "getRolesByPlayer": {
+        $idPlayer = $_GET['idPlayer'];
+        $lstIdRoles = $pdo->getRolesByPlayer($idPlayer);
+        echo json_encode($lstIdRoles);
         break;
     }
 

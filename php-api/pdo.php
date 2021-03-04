@@ -89,14 +89,22 @@ class PdoGLC
 		}
 		return $ret;
 	}
-
-	public static function getPlayersWithRole(string $idRole) {
-		$sql = "SELECT idPlayer FROM assigned_roles WHERE idRole = :idRole;";
+	
+	public static function getPlayers() {
+		$sql = "SELECT * FROM players;";
 		$rep = PdoGLC::$monPdo->prepare($sql);
-		$rep->bindParam(':idRole', $idRole);
 		$rep->execute();
-		$players = $rep->fetchAll(PDO::FETCH_ASSOC);
-		return $players;
+		$lstPlayers = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstPlayers;
+	}
+	
+	public static function getRolesByPlayer(string $idPlayer) {
+		$sql = "SELECT idRole FROM assigned_roles WHERE idPlayer = :idPlayer;";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		$rep->bindParam(':idPlayer', $idPlayer);
+		$rep->execute();
+		$lstRoles = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstRoles;
 	}
 
 	public static function getAssignements(array $lstExcludedRoles) {

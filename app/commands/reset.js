@@ -16,7 +16,7 @@ module.exports = {
         getAssignments(excludedRoles).then(lstAssignements => {
             removeRoles(members, lstAssignements).then(() => {
                 cleardb().then(response => {
-                    if(!response) {
+                    if (!response) {
                         message.reply("une erreur s'est produite lors de la suppression en base de données.")
                     }
                 });
@@ -28,7 +28,7 @@ module.exports = {
 function removeRoles(members, lstAssignements) {
     return new Promise((resolve, reject) => {
         lstAssignements.forEach(assignement => {
-            members.get(assignement.idplayer).roles.remove(assignement.idrole);
+            members.get(assignement.idplayer).roles.remove(assignement.idrole).catch(error => { console.error(error) });
             if (lstAssignements.length - 1 === lstAssignements.indexOf(assignement)) {
                 resolve();
             }
