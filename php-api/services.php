@@ -36,10 +36,47 @@ switch ($service) {
         break;
     }
 
-    case "getPlayersWithRole": {
-        $idRole = $_GET['idRole'];
-        $players = $pdo->getPlayersWithRole($idRole);
-        echo json_encode($players);
+    case "assignRoles": {
+        $lstAssignements = json_decode(file_get_contents('php://input'));
+        $ret = $pdo->assignRoles($lstAssignements);
+        echo json_encode($ret);
+        break;
+    }
+
+    case "getPlayers": {
+        $lstIdPlayers = $pdo->getPlayers();
+        echo json_encode($lstIdPlayers);
+        break;
+    }
+
+    case "getRolesByPlayer": {
+        $idPlayer = $_GET['idPlayer'];
+        $lstIdRoles = $pdo->getRolesByPlayer($idPlayer);
+        echo json_encode($lstIdRoles);
+        break;
+    }
+
+    case "getAssignements": {
+        $lstExcludedRoles = $_GET;
+        array_shift($lstExcludedRoles);
+        $lstAssignements = $pdo->getAssignements($lstExcludedRoles);
+        echo json_encode($lstAssignements);
+        break;
+    }
+
+    case "getAlivePlayers": {
+        $lstExcludedRoles = $_GET;
+        array_shift($lstExcludedRoles);
+        $lstAssignements = $pdo->getAlivePlayers($lstExcludedRoles);
+        echo json_encode($lstAssignements);
+        break;
+    }
+
+    case "getCountByAssignedRoles": {
+        $lstExcludedRoles = $_GET;
+        array_shift($lstExcludedRoles);
+        $lstCountAssignements = $pdo->getCountByAssignedRoles($lstExcludedRoles);
+        echo json_encode($lstCountAssignements);
         break;
     }
 

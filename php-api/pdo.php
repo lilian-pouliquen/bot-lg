@@ -44,10 +44,14 @@ class PdoGLC
 
 	public static function initdb(array $lstRolesByPlayer) {
 		$ret = true;
-		foreach($lstRolesByPlayer as $player) {
-			$ret = $ret && PdoGLC::addPlayer($player->idPlayer);
+		foreach ($lstRolesByPlayer as $player) {
+			$ret = $ret && PdoGLC::addPlayer($player);
 			foreach($player->lstIdRoles as $idRole) {
-				$ret = $ret && PdoGLC::assignRole($player->idPlayer, $idRole);
+				$assignement = (object) [
+					"idPlayer" => $player->idPlayer,
+					"idRole" => $idRole
+				];
+				$ret = $ret && PdoGLC::assignRole($assignement);
 			}
 		}
 		return $ret;
@@ -78,13 +82,74 @@ class PdoGLC
 		return $ret;
 	}
 
-	public static function getPlayersWithRole(string $idRole) {
-		$sql = "SELECT idPlayer FROM assigned_roles WHERE idRole = :idRole;";
+	public static function assignRoles(array $lstAssignements) {
+		$ret = true;
+		foreach ($lstAssignements as $assignement) {
+			$ret = $ret && PdoGLC::assignRole($assignement);
+		}
+		return $ret;
+	}
+	
+	public static function getPlayers() {
+		$sql = "SELECT * FROM players;";
 		$rep = PdoGLC::$monPdo->prepare($sql);
-		$rep->bindParam(':idRole', $idRole);
 		$rep->execute();
-		$players = $rep->fetchAll(PDO::FETCH_ASSOC);
-		return $players;
+		$lstPlayers = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstPlayers;
+	}
+	
+	public static function getRolesByPlayer(string $idPlayer) {
+		$sql = "SELECT idRole FROM assigned_roles WHERE idPlayer = :idPlayer;";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		$rep->bindParam(':idPlayer', $idPlayer);
+		$rep->execute();
+		$lstRoles = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstRoles;
+	}
+
+	public static function getAssignements(array $lstExcludedRoles) {
+		$sql = "SELECT * FROM assigned_roles WHERE idRole NOT IN (";
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$sql .= count($lstExcludedRoles) -1 === $i ? ":idRole{$i}" : ":idRole{$i}, ";
+		}
+		$sql .= ");";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$rep->bindParam(":idRole{$i}", $lstExcludedRoles[$i]);
+		}
+		$rep->execute();
+		$lstAssignements = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstAssignements;
+	}
+
+	public static function getAlivePlayers(array $lstExcludedRoles) {
+		$sql = "SELECT DISTINCT idPlayer FROM assigned_roles WHERE idRole NOT IN (";
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$sql .= count($lstExcludedRoles) -1 === $i ? ":idRole{$i}" : ":idRole{$i}, ";
+		}
+		$sql .= ");";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$rep->bindParam(":idRole{$i}", $lstExcludedRoles[$i]);
+		}
+		$rep->execute();
+		$lstAssignements = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstAssignements;
+	}
+
+	public static function getCountByAssignedRoles(array $lstExcludedRoles) {
+		$sql = "SELECT idRole, COUNT(*) AS nbAssigned FROM assigned_roles WHERE idRole NOT IN (";
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$sql .= count($lstExcludedRoles) -1 === $i ? ":idRole{$i}" : ":idRole{$i}, ";
+		}
+		$sql .= ") GROUP BY idRole;";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$rep->bindParam(":idRole{$i}", $lstExcludedRoles[$i]);
+		}
+		$rep->execute();
+		$lstAssignements = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstAssignements;
 	}
 
 	public static function deleteAssignement(string $idPlayer, string $idRole) {
