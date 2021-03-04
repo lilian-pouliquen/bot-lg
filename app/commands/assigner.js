@@ -151,7 +151,7 @@ function assignRole(assignement) {
             });
 
         }).on("error", (error) => {
-            reject(error);;
+            reject(error);
         });
 
         req.write(data);
