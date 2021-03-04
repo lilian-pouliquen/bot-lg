@@ -37,13 +37,14 @@ module.exports = {
 
                 for (index = 0; index < number; index++) {
                     let playerToAssign = lstPlayersToAssign.random(1)[0];
-                    playerToAssign.roles.add(roleToAssign);
+                    playerToAssign.roles.add(roleToAssign)
+                        .then(playerAssigned => {
+                            let assignement = { idPlayer: playerAssigned.id, idRole: roleToAssign.id };
+                            lstAssignements.push(assignement);
 
-                    let assignement = { idPlayer: playerToAssign.id, idRole: roleToAssign.id };
-                    lstAssignements.push(assignement);
-
-                    lstPlayersToAssign.delete(playerToAssign.id);
-
+                            lstPlayersToAssign.delete(playerToAssign.id);
+                        })
+                        .catch(error => console.error(error));
                     if (0 === lstPlayersToAssign.size) {
                         resolve(lstAssignements);
                     }
