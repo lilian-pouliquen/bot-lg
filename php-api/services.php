@@ -64,6 +64,14 @@ switch ($service) {
         break;
     }
 
+    case "getAlivePlayers": {
+        $lstExcludedRoles = $_GET;
+        array_shift($lstExcludedRoles);
+        $lstAssignements = $pdo->getAlivePlayers($lstExcludedRoles);
+        echo json_encode($lstAssignements);
+        break;
+    }
+
     case "getCountByAssignedRoles": {
         $lstExcludedRoles = $_GET;
         array_shift($lstExcludedRoles);

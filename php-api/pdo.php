@@ -122,6 +122,21 @@ class PdoGLC
 		return $lstAssignements;
 	}
 
+	public static function getAlivePlayers(array $lstExcludedRoles) {
+		$sql = "SELECT DISTINCT idPlayer FROM assigned_roles WHERE idRole NOT IN (";
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$sql .= count($lstExcludedRoles) -1 === $i ? ":idRole{$i}" : ":idRole{$i}, ";
+		}
+		$sql .= ");";
+		$rep = PdoGLC::$monPdo->prepare($sql);
+		for ($i = 0; $i < count($lstExcludedRoles); $i++) {
+			$rep->bindParam(":idRole{$i}", $lstExcludedRoles[$i]);
+		}
+		$rep->execute();
+		$lstAssignements = $rep->fetchAll(PDO::FETCH_ASSOC);
+		return $lstAssignements;
+	}
+
 	public static function getCountByAssignedRoles(array $lstExcludedRoles) {
 		$sql = "SELECT idRole, COUNT(*) AS nbAssigned FROM assigned_roles WHERE idRole NOT IN (";
 		for ($i = 0; $i < count($lstExcludedRoles); $i++) {

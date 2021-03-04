@@ -1,4 +1,6 @@
 const cmdConfig = require("./cmd_config.json");
+const http = require("http");
+const querystring = require("querystring");
 module.exports = {
     name: "vote",
     description: "Affiche le formulaire de vote spécifié",
@@ -20,20 +22,27 @@ module.exports = {
 }
 
 function vote(message) {
-    let deadPlayers = message.guild.roles.resolve(cmdConfig.idRoleDead).members;
-    let gameMasters = message.guild.roles.resolve(cmdConfig.idRoleGameMaster).members;
-    let players = message.channel.guild.channels.resolve(cmdConfig.idVocalChannelMain).members.filter(member => !deadPlayers.has(member.id) && !gameMasters.has(member.id));
+    let lstExcludedRoles = [
+        cmdConfig.idRoleAdmin,
+        cmdConfig.idRoleGameMaster,
+        cmdConfig.idRoleDead,
+        cmdConfig.idRoleEveryone
+    ];
 
-    let strVote = '!poll Qui\_voter\_? ';
-    players.forEach(player => {
-        strVote += `${player.displayName.replace(/ +/g, "\_")} `
+    getAlivePlayers(lstExcludedRoles).then(lstAssignements => {
+        let msg = "!poll Qui\_voter\_? ";
+        lstAssignements.forEach(assignement => {
+            msg += `${message.guild.members.resolve(assignement.idplayer).displayName.replace(/ +/g, "\_")} `
+
+            if (lstAssignements.length - 1 === lstAssignements.indexOf(assignement)) {
+                message.channel.send(msg);
+            }
+        })
     });
-
-    message.channel.send(strVote);
 }
 
 function votesSorciere(message, voteCase, deadPerson,) {
-    let channelSor = message.channel.guild.channels.resolve(cmdConfig.idTextChannelWitch);
+    let channelSor = message.guild.channels.resolve(cmdConfig.idTextChannelWitch);
     switch (voteCase) {
         case "vie":
             if (typeof deadPerson === "undefined") {
@@ -70,6 +79,26 @@ function votesSorciere(message, voteCase, deadPerson,) {
 }
 
 function votePyromane(message) {
-    let channelPyr = message.channel.guild.channels.resolve(cmdConfig.idTextChannelPyromaniac);
+    let channelPyr = message.guild.channels.resolve(cmdConfig.idTextChannelPyromaniac);
     channelPyr.send("!poll Veux-tu\_imbiber\_une\_personne\_ou\_brûler\_celles\_qui\_le\_sont\_déjà\_? Imbiber Brûler");
+}
+
+function getAlivePlayers(lstExcludedRoles) {
+    return new Promise((resolve, reject) => {
+        let url = `http://php-api/services.php?service=getAlivePlayers&${querystring.stringify(lstExcludedRoles)}`;
+        http.get(url, (res) => {
+            let data = '';
+
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                resolve(JSON.parse(data));
+            });
+
+        }).on("error", (err) => {
+            console.log("Error: ", err.message);
+        });
+    });
 }
