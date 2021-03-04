@@ -50,6 +50,14 @@ switch ($service) {
         break;
     }
 
+    case "getAssignements": {
+        $lstExcludedRoles = $_GET;
+        array_shift($lstExcludedRoles);
+        $lstAssignements = $pdo->getAssignements($lstExcludedRoles);
+        echo json_encode($lstAssignements);
+        break;
+    }
+
     case "deleteAssignement": {
         $idPlayer = $_GET['idPlayer'];
         $idRole = $_GET['idRole'];

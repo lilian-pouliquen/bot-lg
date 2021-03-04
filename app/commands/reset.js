@@ -1,23 +1,86 @@
 const cmdConfig = require("./cmd_config.json");
+const http = require("http");
+const querystring = require("querystring");
 module.exports = {
     name: "reset",
     description: "Enlève les rôles de tous les joueurs",
     idRequiredRole: cmdConfig.idRoleGameMaster,
     execute(message, args) {
-
-        let members = message.channel.guild.channels.resolve(channel => channel.id === cmdConfig.idVocalChannelMain).members;
+        let members = message.guild.channels.resolve(cmdConfig.idVocalChannelMain).members;
         let excludedRoles = [
             cmdConfig.idRoleAdmin,
             cmdConfig.idRoleGameMaster,
-            message.channel.guild.roles.cache.find(role => role.name === "@everyone").id
+            cmdConfig.idRolesEveryone
         ];
 
-        members.forEach(member => {
-            member.roles.cache.forEach(role => {
-                if (excludedRoles.indexOf(role.id) === -1) {
-                    member.roles.remove(role);
-                }
+        getAssignments(excludedRoles).then(lstAssignements => {
+            removeRoles(members, lstAssignements).then(() => {
+                cleardb().then(response => {
+                    if(!response) {
+                        message.reply("une erreur s'est produite lors de la suppression en base de données.")
+                    }
+                });
             });
-        });
+        })
     }
 };
+
+function removeRoles(members, lstAssignements) {
+    return new Promise((resolve, reject) => {
+        lstAssignements.forEach(assignement => {
+            members.get(assignement.idplayer).roles.remove(assignement.idrole);
+            if (lstAssignements.length - 1 === lstAssignements.indexOf(assignement)) {
+                resolve();
+            }
+        });
+    });
+}
+
+function getAssignments(excludedRoles) {
+    return new Promise((resolve, reject) => {
+        let url = `http://php-api/services.php?service=getAssignements&${querystring.stringify(excludedRoles)}`;
+        http.get(url, (res) => {
+            let data = '';
+
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                resolve(JSON.parse(data));
+            });
+
+        }).on("error", (err) => {
+            console.log("Error: ", err.message);
+        });
+    });
+}
+
+function cleardb() {
+    return new Promise((resolve, reject) => {
+        const options = {
+            protocol: 'http:',
+            hostname: 'php-api',
+            port: 80,
+            path: `/services.php?service=clearGame`,
+            method: 'DELETE'
+        };
+
+        const req = http.request(options, (res) => {
+            let data = '';
+
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                resolve(JSON.parse(data));
+            });
+
+        }).on("error", (err) => {
+            console.log("Error: ", err.message);
+        });
+
+        req.end();
+    })
+}
