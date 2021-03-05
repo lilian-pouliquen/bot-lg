@@ -13,16 +13,36 @@ module.exports = {
             cmdConfig.idRolesEveryone
         ];
 
-        getAssignments(excludedRoles).then(lstAssignements => {
-            removeRoles(members, lstAssignements)
-                .then(() => {
-                    cleardb().then(response => {
-                        if (!response) {
-                            message.reply("une erreur s'est produite lors de la suppression en base de données.")
+        getAssignments(excludedRoles)
+            .then(lstAssignements => {
+                removeRoles(members, lstAssignements)
+                    .then(() => {
+                        cleardb()
+                            .then(response => {
+                                if (!response) {
+                                    message.reply("une erreur s'est produite lors de la suppression en base de données.")
+                                }
+                            })
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande reset - Suppression des données de la base de données."
+                                }
+                            });
+                    })
+                    .catch(error => {
+                        throw {
+                            error: error,
+                            message: "Commande reset - Supprimer un rôle d'un joueur."
                         }
                     });
-                }).catch(error => { throw error });
-        })
+            })
+            .catch(error => {
+                throw {
+                    error: error,
+                    message: "Commande rest - Récupérer les assignations en base de données."
+                }
+            })
     }
 };
 
@@ -51,8 +71,8 @@ function getAssignments(excludedRoles) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
     });
 }
@@ -78,8 +98,8 @@ function cleardb() {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
 
         req.end();
