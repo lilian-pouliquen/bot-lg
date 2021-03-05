@@ -9,12 +9,29 @@ module.exports = {
                 const notPinned = fetched.filter(msg => !msg.pinned);
                 if (typeof args[0] !== "undefined" && args[0] === "old") {
                     notPinned.forEach(msg => {
-                        msg.delete();
-                    })
+                        msg.delete()
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande clear - Supprimer les messages les plus anciens."
+                                }
+                            });
+                    });
                 } else {
-                    message.channel.bulkDelete(notPinned, true);
+                    message.channel.bulkDelete(notPinned, true)
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande clear - Supprimer les messages les plus récents."
+                            }
+                        });
                 }
             })
-            .catch(console.error());
+            .catch(error => {
+                throw {
+                    error: error,
+                    message: "Commande clear - Récupérer les messages du canal."
+                }
+            });
     }
 };

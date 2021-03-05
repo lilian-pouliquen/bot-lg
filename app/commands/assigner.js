@@ -15,24 +15,53 @@ module.exports = {
         ];
 
         lstPlayersToAssign.forEach(player => {
-            getRolesByPlayer(player.id).then(lstRoles => {
-                if ((roleToAssign.id === cmdConfig.idRoleDead) && (-1 === lstRoles.indexOf(cmdConfig.idRoleReaper))) {
-                    lstRoles.forEach(role => {
-                        if (-1 === excludedRoleIds.indexOf(role.idrole)) {
-                            player.roles.remove(role.idrole)
-                                .then(() => {
-                                    deleteAssignement({ idPlayer: player.id, idRole: role.idrole });
-                                })
-                                .catch(error => { throw error });
-                        }
-                    });
-                }
-                player.roles.add(roleToAssign)
-                    .then(() => {
-                        assignRole({ idPlayer: player.id, idRole: roleToAssign.id });
-                    })
-                    .catch(error => { throw error });
-            });
+            getRolesByPlayer(player.id)
+                .then(lstRoles => {
+                    if ((roleToAssign.id === cmdConfig.idRoleDead) && (-1 === lstRoles.indexOf(cmdConfig.idRoleReaper))) {
+                        lstRoles.forEach(role => {
+                            if (-1 === excludedRoleIds.indexOf(role.idrole)) {
+                                player.roles.remove(role.idrole)
+                                    .then(() => {
+                                        deleteAssignement({ idPlayer: player.id, idRole: role.idrole })
+                                            .catch(error => {
+                                                throw {
+                                                    error: error,
+                                                    message: "Commande assigner - Supprimer une assignation en base de données."
+                                                }
+                                            });
+                                    })
+                                    .catch(error => {
+                                        throw {
+                                            error: error,
+                                            message: "Commande assigner - Supprimer un rôle."
+                                        }
+                                    });
+                            }
+                        });
+                    }
+                    player.roles.add(roleToAssign)
+                        .then(() => {
+                            assignRole({ idPlayer: player.id, idRole: roleToAssign.id })
+                                .catch(error => {
+                                    throw {
+                                        error: error,
+                                        message: "Commande assigner - Insérer une assignation en base de données."
+                                    }
+                                });
+                        })
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande assigner - Assigner un rôle."
+                            }
+                        });
+                })
+                .catch(error => {
+                    throw {
+                        error: error,
+                        message: "Commande assigner - Récupérer les rôles d'un joueur."
+                    }
+                });
         });
     }
 }
@@ -61,8 +90,8 @@ function getRolesByPlayer(idPlayer) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
     });
 }
@@ -88,8 +117,8 @@ function deleteAssignement(assignement) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
 
         req.end();
@@ -121,8 +150,8 @@ function assignRole(assignement) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
 
         req.write(data);

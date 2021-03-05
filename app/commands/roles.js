@@ -19,19 +19,26 @@ module.exports = {
             cmdConfig.idRoleEveryone
         ];
 
-        getCountByAssignedRoles(lstExcludedRoles).then(lstCountAssignements => {
-            if (0 === lstCountAssignements.length) {
-                message.reply("il n'y a plus de rôle en jeu :sweat_smile:");
-            } else {
-                let msg = "voici les roles encore en jeu :\n";
-                lstCountAssignements.forEach(countAssignement => {
-                    msg += `> - ${guildRoles.resolve(countAssignement.idrole).name} : ${countAssignement.nbassigned}`;
-                    if (lstCountAssignements.length - 1 === lstCountAssignements.indexOf(countAssignement)) {
-                        message.reply(msg);
-                    }
-                });
-            }
-        });
+        getCountByAssignedRoles(lstExcludedRoles)
+            .then(lstCountAssignements => {
+                if (0 === lstCountAssignements.length) {
+                    message.reply("il n'y a plus de rôle en jeu :sweat_smile:");
+                } else {
+                    let msg = "voici les roles encore en jeu :\n";
+                    lstCountAssignements.forEach(countAssignement => {
+                        msg += `> - ${guildRoles.resolve(countAssignement.idrole).name} : ${countAssignement.nbassigned}`;
+                        if (lstCountAssignements.length - 1 === lstCountAssignements.indexOf(countAssignement)) {
+                            message.reply(msg);
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                throw {
+                    error: error,
+                    message: "Commande roles - Récupérer le compte des rôles assignés en base de données."
+                }
+            });
     }
 }
 
@@ -49,8 +56,8 @@ function getCountByAssignedRoles(lstExcludedRoles) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error)
         });
     });
 }

@@ -10,12 +10,27 @@ module.exports = {
             member.fetch()
                 .then(member => {
                     if (!member.roles.cache.has(cmdConfig.idRoleGameMaster)) {
-                        member.voice.setMute(true);
-                        member.roles.add(cmdConfig.idRoleMuted);
+                        member.voice.setMute(true)
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande nuit - Rendre muet un joueur."
+                                }
+                            });
+                        member.roles.add(cmdConfig.idRoleMuted)
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande nuit - Ajouter un rôle à un joueur."
+                                }
+                            });
                     }
                 })
                 .catch(error => {
-                    console.error(error);
+                    throw {
+                        error: error,
+                        message: "Commande nuit - Actualiser le cache d'un joueur."
+                    }
                 });
         });
     }

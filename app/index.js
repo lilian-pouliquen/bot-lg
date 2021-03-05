@@ -63,9 +63,9 @@ client.on("message", message => {
                 }
                 break;
         }
-    } catch (error) {
-        console.error(error);
-        message.reply("un problème est survenu lors de l'exécution de la commande");
+    } catch (errorObject) {
+        console.error(errorObject.error);
+        message.reply(`un problème est survenu lors de l'exécution de la commande :\n${errorObject.message}`);
     }
 });
 
