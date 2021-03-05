@@ -10,12 +10,27 @@ module.exports = {
             member.fetch()
                 .then(member => {
                     if (!member.roles.cache.has(cmdConfig.idRoleGameMaster)) {
-                        member.voice.setMute(false);
-                        member.roles.remove(cmdConfig.idRoleMuted);
+                        member.voice.setMute(false)
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande jour - Rendre la parole à un joueur."
+                                }
+                            });
+                        member.roles.remove(cmdConfig.idRoleMuted)
+                            .catch(error => {
+                                throw {
+                                    error: error,
+                                    message: "Commande jour - Supprimer un rôle à un joueur."
+                                }
+                            });
                     }
                 })
                 .catch(error => {
-                    console.error(error);
+                    throw {
+                        error: error,
+                        message: "Commande jour - Actualiser le cache d'un joueur."
+                    }
                 });
         })
     }

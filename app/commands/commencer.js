@@ -1,6 +1,5 @@
 const cmdConfig = require("./cmd_config.json");
 const http = require('http');
-const querystring = require('querystring');
 module.exports = {
     name: "commencer",
     description: "Assigne les rôles spécifiés aux joueurs",
@@ -44,7 +43,7 @@ module.exports = {
 
                             lstPlayersToAssign.delete(playerToAssign.id);
                         })
-                        .catch(error => console.error(error));
+                        .catch(error => reject(error));
                     if (0 === lstPlayersToAssign.size) {
                         resolve(lstAssignements);
                     }
@@ -55,13 +54,27 @@ module.exports = {
         buildLstRoleByPlayer.then(lstRolesByPlayer => {
             apiPost("initdb", lstRolesByPlayer).then(response => {
                 if (response) {
-                    buildAssignements.then(lstAssignements => {
-                        apiPost("assignRoles", lstAssignements).then(response => {
-                            if (!response) {
-                                message.reply("une erreur s'est produite lors de l'assignation des rôles :sweat_smile:");
+                    buildAssignements
+                        .then(lstAssignements => {
+                            apiPost("assignRoles", lstAssignements)
+                                .then(response => {
+                                    if (!response) {
+                                        message.reply("une erreur s'est produite lors de l'assignation des rôles en base de données :sweat_smile:");
+                                    }
+                                })
+                                .catch(error => {
+                                    throw {
+                                        error: error,
+                                        message: "Commande commencer - Insérer des assignations en base de donnée."
+                                    }
+                                });
+                        })
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande commencer - Construction de la liste des assignations."
                             }
                         });
-                    });
                 } else {
                     message.reply("une erreur s'est produite lors de l'initialisation de la base de données :sweat_smile:");
                 }
@@ -116,8 +129,8 @@ function apiPost(service, object) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error);
         });
 
         req.write(data);

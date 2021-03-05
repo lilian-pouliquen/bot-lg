@@ -14,11 +14,26 @@ module.exports = {
         } else if (1 === args.length) {
             message.channel.send(args[0].replace(/_+/g, " "))
                 .then(message => {
-                    message.react("👍");
-                    message.react("👎");
+                    message.react("👍")
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande poll - Réagir à un message."
+                            }
+                        });
+                    message.react("👎")
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande poll - Réagir à un message."
+                            }
+                        });
                 })
                 .catch(error => {
-                    console.error(error);
+                    throw {
+                        error: error,
+                        message: "Commande poll - Envoyer un message pour le choix Oui/Non."
+                    }
                 });
         } else {
             getTblMsgToReact(message, args, tblLetters)
@@ -26,11 +41,23 @@ module.exports = {
                     let index = 0;
                     tblMsgToReact.forEach(msgToReact => {
                         for (let i = 0; i < msgToReact.nbChoices; i++) {
-                            msgToReact.msg.react(tblLetters[index]);
+                            msgToReact.msg.react(tblLetters[index])
+                                .catch(error => {
+                                    throw {
+                                        error: error,
+                                        message: "Commande poll - Réagir à un message."
+                                    }
+                                });
                             index++;
                         }
                     })
                 })
+                .catch(error => {
+                    throw {
+                        error: error,
+                        message: "Commande poll - Construire le tableau de messages à choix multiples."
+                    }
+                });
         }
     }
 };
@@ -66,7 +93,7 @@ function getTblMsgToReact(message, args, tblLetters) {
                     }
                 })
                 .catch(error => {
-                    console.error(error);
+                    reject(error);
                 });
         }
     });

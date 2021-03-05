@@ -29,16 +29,29 @@ function vote(message) {
         cmdConfig.idRoleEveryone
     ];
 
-    getAlivePlayers(lstExcludedRoles).then(lstAssignements => {
-        let msg = "!poll Qui\_voter\_? ";
-        lstAssignements.forEach(assignement => {
-            msg += `${message.guild.members.resolve(assignement.idplayer).displayName.replace(/ +/g, "\_")} `
+    getAlivePlayers(lstExcludedRoles)
+        .then(lstAssignements => {
+            let msg = "!poll Qui\_voter\_? ";
+            lstAssignements.forEach(assignement => {
+                msg += `${message.guild.members.resolve(assignement.idplayer).displayName.replace(/ +/g, "\_")} `
 
-            if (lstAssignements.length - 1 === lstAssignements.indexOf(assignement)) {
-                message.channel.send(msg);
-            }
+                if (lstAssignements.length - 1 === lstAssignements.indexOf(assignement)) {
+                    message.channel.send(msg)
+                        .catch(error => {
+                            throw {
+                                error: error,
+                                message: "Commande vote - Envoyer un message de vote des joueurs encore en vie."
+                            }
+                        });
+                }
+            })
         })
-    });
+        .catch(error => {
+            throw {
+                error: error,
+                message: "Commande vote - Récupérer les joueurs en vie en base de données."
+            }
+        });
 }
 
 function votesSorciere(message, voteCase, deadPerson,) {
@@ -97,8 +110,8 @@ function getAlivePlayers(lstExcludedRoles) {
                 resolve(JSON.parse(data));
             });
 
-        }).on("error", (err) => {
-            console.log("Error: ", err.message);
+        }).on("error", (error) => {
+            reject(error)
         });
     });
 }
