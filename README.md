@@ -6,17 +6,21 @@
 - [2. Prerequisite](#2-prerequisite)
   - [2.1. For your Discord server](#21-for-your-discord-server)
   - [2.2. For Docker application run](#22-for-docker-application-run)
-    - [2.2.1. Optionnal](#221-optionnal)
-- [3. Install and start bot-lg](#3-install-and-start-bot-lg)
-  - [3.1. Docker application run](#31-docker-application-run)
-    - [3.1.1. Alternative for make users](#311-alternative-for-make-users)
-- [4. Project structure](#4-project-structure)
-- [5. Discord server requirements](#5-discord-server-requirements)
-  - [5.1. Roles](#51-roles)
-  - [5.2. Channels](#52-channels)
-- [6. Bot commands](#6-bot-commands)
-- [7. Authors](#7-authors)
-- [8. Contributors](#8-contributors)
+  - [2.3. Optionnal](#23-optionnal)
+- [3. Install bot-lg](#3-install-bot-lg)
+- [4. Finalise the install](#4-finalise-the-install)
+  - [4.1. Classic initialisation](#41-classic-initialisation)
+  - [4.2. Initialisation with the make command](#42-initialisation-with-the-make-command)
+- [Start and stop bot-lg](#start-and-stop-bot-lg)
+  - [Classic commands](#classic-commands)
+  - [Make commands](#make-commands)
+- [5. Project structure](#5-project-structure)
+- [6. Discord server requirements](#6-discord-server-requirements)
+  - [6.1. Roles](#61-roles)
+  - [6.2. Channels](#62-channels)
+- [7. Bot commands](#7-bot-commands)
+- [8. Authors](#8-authors)
+- [9. Contributors](#9-contributors)
 
 ## 1. What is bot-lg
 
@@ -43,38 +47,67 @@ bot-lg is a Discord bot giving access to helpful commands, making Game Master's 
       - Move Members
 3. Add your new bot to your Discord server using the generated link
 
+Note: Please, be sure to keep your bot token to fill the app/config.json file later.
+
 ### 2.2. For Docker application run
 
 - [Install Docker](https://docs.docker.com/engine/install/)
+- [Install docker-compose](https://docs.docker.com/compose/install/)
 
-#### 2.2.1. Optionnal
+### 2.3. Optionnal
 
 If you are a make user, a Makefile is available!  
 Intall the `make` command.
 
-## 3. Install and start bot-lg
-
-### 3.1. Docker application run
+## 3. Install bot-lg
 
 1. Clone or download bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
-2. Create `config.json` using the `config.dist.json`
-3. Open a ***bash*** command line at the project root
-4. Issue the following commands:
-   1. `sudo docker image build --no-cache --tag node:bot-lg --file bot-lg.Dockerfile` (only for the first start)
-   2. `sudo docker image build --no-cache --tag php:php-api --file php-api.Dockerfile` (only for the first start)
+2. Create the required configuration files in the project using the following \*.dist.\* files:
+   - `.dist.env                             =>    .env`
+   - `app/config.dist.json                  =>    app/config.json`
+   - `app/commands/cmd_config.dist.json     =>    app/commands/cmd_config.json`
+   - `init-postgres/initdb.dist.sql         =>    init-postgres/initdb.sql`
+   - `php-api/config.dist.php               =>    php-api/config.php`
+
+At this point, bot-lg is ready to start.
+
+## 4. Finalise the install
+
+In order to initialise and start bot-lg, you need to follow these steps:
+
+### 4.1. Classic initialisation
+
+1. Open a ***bash*** command line at the project root
+2. Issue the following commands:
+   1. `sudo docker image build --no-cache --tag node:bot-lg --file bot-lg.Dockerfile`
+   2. `sudo docker image build --no-cache --tag php:php-api --file php-api.Dockerfile`
    3. `sudo docker run --detach --rm --name bot-lg --volume "$PWD/app/:/app/" node:bot-lg npm install`
    4. `sudo docker-compose up --detach`
 
-#### 3.1.1. Alternative for make users
+### 4.2. Initialisation with the make command
 
-Instead of using docker commands, you can issue the following ones at the project root:
-
-1. `make prepare` (only on the first time)
-2. `make start`
+1. Open a ***bash*** command line at the project root
+2. `make prepare start`
 
 You can see all other make rules using `make` or `make help`.
 
-## 4. Project structure
+## Start and stop bot-lg
+
+### Classic commands
+
+To start and stop bot-lg you can issue the following commands:
+
+- Start bot-lg: `sudo docker-compose up --detach`
+- Stop bot-lg: `sudo docker-compose down`
+
+### Make commands
+
+To start and stop bot-lg you can use the make rule available:
+
+- Start bot-lg: `make start`
+- Stop bot-lg: `make stop`
+
+## 5. Project structure
 
 ``` text
 bot-lg
@@ -88,6 +121,7 @@ bot-lg
 |   +-- package-lock.json           : node dependencies to be installed
 |   +-- package.json                : node dependencies to be installed
 |
++-- init-postgres                   : contains the files used to init the PostgreSQL database
 +-- php-api                         : contains the files needed by the PHP API
 |
 +-- .dist.env                       : docker-compose environment variables file template
@@ -96,17 +130,16 @@ bot-lg
 +-- docker-compose.yml              : docker-compose file
 +-- bot-lg.Dockerfile               : "bot-lg" container image
 +-- php-api.Dockerfile              : "php-api" container image
-+-- initdb.sql                      : file used to init the PostgreSQL database
 +-- Makefile                        : all make rules available to manage "bot-lg" container
 +-- README.md                       : project documentation
 +-- logo.zip                        : bot-lg logo by Kévin BOURBASQUET
 ```
 
-## 5. Discord server requirements
+## 6. Discord server requirements
 
 In this section you can find the required elements for you Discord server. In order to use bot-lg, you need to copy-paste `/app/commands/cmd_config.dist.json` as `/app/commands/cmd_config.json` and fill this file with the following required element ids.
 
-### 5.1. Roles
+### 6.1. Roles
 
 Here is the list of the required role:
 
@@ -118,7 +151,7 @@ Here is the list of the required role:
 | idRoleCupid          | Cupid           | Villager             | During the first night, chooses 2 lovers.                                                                                                      |
 | idRoleLovers         | Lovers          | Additional           | Chosen by Cupid. If the 2 lovers are villagers, they win with the village. Else, they win in solo. If one of the lovers fall, so is the other. |
 | idRoleGuard          | Guard           | Villager             | Once per night, protects someone from the werewolf attack, but cannot protect the same person twice in a row.                                  |
-| idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager .                                                                                                     |
+| idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager.                                                                                                      |
 | idRoleWhiteWerewolf  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
 | idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, chooses to infect the villager chosen by his mates, making him become a werewolf.                    |
 | idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.          |
@@ -136,6 +169,7 @@ Here is the list of the required role:
 | idRoleHunter         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
 | idRoleDead           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
 | idRoleMuted          | Muted           | Additional           | Role given by the !nuit command to mute players.                                                                                               |
+| idRoleEveryone       | @everyone       | Default              | Default Discord role allowing to mention all the server members.                                                                               |
 
 Types explaination:
 
@@ -145,8 +179,9 @@ Types explaination:
 - Solo: Wins when all other players are eliminated.
 - Dead Player: Players who have been eliminated.
 - Additional: This role is added to the player roles. The player can use the abilities provided by his first role, and all his Additional roles.
+- Default: Default Discord roles.
 
-### 5.2. Channels
+### 6.2. Channels
 
 Here is the list of the required channels:
 
@@ -157,7 +192,7 @@ Here is the list of the required channels:
 | idTextChannelWitch      | witch       | Text channel used by the !vote command in the "sor" case                 |
 | idTextChannelPyromaniac | pyromaniac  | Text channel used by the !vote command in the "pyr" case                 |
 
-## 6. Bot commands
+## 7. Bot commands
 
 Here is the list of the bot-lg commands:
 
@@ -177,11 +212,11 @@ Here is the list of the bot-lg commands:
 | clear       | Admin                          | Clears the current text channel                          |
 | deconnexion | Admin                          | Disconnects bot-lg from the Discord server               |
 
-## 7. Authors
+## 8. Authors
 
 - Lilian POULIQUEN: Bot creation and development, documentation
 
-## 8. Contributors
+## 9. Contributors
 
 - Léandre KERUZEC: Command ideas, Documentation review
 - Kévin BOURBASQUET: bot-lg logo designer and creator
