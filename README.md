@@ -1,4 +1,9 @@
-# bot-lg <!-- omit in toc -->
+---
+Document: "bot-lg documentation"
+Author: "Lilian POULIQUEN"
+---
+
+# bot-lg documentation <!-- omit in toc -->
 
 ## Table of content <!-- omit in toc -->
 
