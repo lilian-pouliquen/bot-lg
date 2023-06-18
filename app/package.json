@@ -1,5 +1,5 @@
 {
-  "name": "bot-lg",
+  "name": "app",
   "version": "1.0.0",
   "description": "Discord bot to play Werewolf on discord",
   "main": "index.js",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/lilian-pouliquen/bot-lg#readme",
   "dependencies": {
-    "discord.js": "^12.4.1",
+    "discord.js": "^14.11.0",
     "fs": "0.0.1-security",
-    "ms": "^2.1.2"
+    "ms": "^2.1.3"
   }
 }
