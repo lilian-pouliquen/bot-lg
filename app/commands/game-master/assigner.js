@@ -1,6 +1,5 @@
-const { Collection } = require("discord.js");
 const cmdConfig = require("./cmd_config.json");
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +18,6 @@ module.exports = {
         .addUserOption(option =>
             option.setName('utilisateur2')
                 .setDescription('(facultatif) Un joueur à qui assigner le rôle')
-                .setRequired(true)
         )
         .addUserOption(option =>
             option.setName('utilisateur3')
@@ -44,6 +42,7 @@ module.exports = {
             }
         }
 
+        // Other variables
         const excludedRoleIds = [
             cmdConfig.idRoleAdmin,
             cmdConfig.idRoleGameMaster,
