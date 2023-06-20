@@ -44,3 +44,6 @@ stop:
 	docker-compose down
 
 restart: stop start
+
+deploy-commands:
+	docker-compose run --rm botlg node deploy-commands.js
