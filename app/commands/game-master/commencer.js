@@ -4,7 +4,7 @@ const { SlashCommandBuilder, Collection, InviteTargetType } = require('discord.j
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('commencer')
-        .setDescription('Assigne les rôles spécifiés aux joueurs')
+        .setDescription('Distribue les rôles spécifiés aléatoirement aux joueurs')
         .addStringOption( option =>
             option.setName('assignations')
             .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy')

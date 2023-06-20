@@ -4,10 +4,10 @@ const { SlashCommandBuilder, Collection } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('assigner')
-        .setDescription('Assigne le rôle spécifié à la personne spécifiée')
+        .setDescription('Assigne le rôle spécifié à la ou les personnes spécifiées')
         .addRoleOption(option =>
             option.setName('role')
-                .setDescription('Le code du role à assigner')
+                .setDescription('Le code du rôle à assigner')
                 .setRequired(true)
         )
         .addUserOption(option =>
@@ -17,11 +17,11 @@ module.exports = {
         )
         .addUserOption(option =>
             option.setName('utilisateur2')
-                .setDescription('(facultatif) Un joueur à qui assigner le rôle')
+                .setDescription('(facultatif) Un autre joueur à qui assigner le rôle')
         )
         .addUserOption(option =>
             option.setName('utilisateur3')
-                .setDescription('(facultatif) Un joueur à qui assigner le rôle')
+                .setDescription('(facultatif) Un autre joueur à qui assigner le rôle')
         ),
     async execute(interaction) {
         // App is thinking
@@ -46,13 +46,14 @@ module.exports = {
         const excludedRoleIds = [
             cmdConfig.idRoleAdmin,
             cmdConfig.idRoleGameMaster,
-            cmdConfig.idRoleEveryone
+            cmdConfig.idRoleEveryone,
+            cmdConfig.idRoleReaper
         ];
 
         // For each user
         for await (const [user, userRoleManager] of userRoleManagerByUser) {
             // Removing all game roles if role is "Dead"
-            if ((_role.id === cmdConfig.idRoleDead) && (null === await userRoleManager.resolve(cmdConfig.idRoleReaper))) {
+            if (_role.id === cmdConfig.idRoleDead) {
                 const rolesToKeepCollection = new Collection();
                 for (const roleId of excludedRoleIds) {
                     const roleToKeep = await userRoleManager.resolve(roleId);
