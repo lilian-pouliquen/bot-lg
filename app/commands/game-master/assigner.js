@@ -43,12 +43,8 @@ module.exports = {
         }
 
         // Other variables
-        const excludedRoleIds = [
-            cmdConfig.idRoleAdmin,
-            cmdConfig.idRoleGameMaster,
-            cmdConfig.idRoleEveryone,
-            cmdConfig.idRoleReaper
-        ];
+        const excludedRoleIds = cmdConfig.excludedRoleIds;
+        excludedRoleIds.push(cmdConfig.idRoleReaper);
 
         // For each user
         for await (const [user, userRoleManager] of userRoleManagerByUser) {

@@ -28,5 +28,7 @@
     "idTextChannelGameMaster": "",
     "idTextChannelWitch": "",
     "idTextChannelPyromaniac": "",
-    "idVocalChannelMain": ""
+    "idVocalChannelMain": "",
+
+    "excludedRoleIds": []
 }

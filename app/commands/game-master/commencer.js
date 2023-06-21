@@ -1,5 +1,5 @@
 const cmdConfig = require("./cmd_config.json");
-const { SlashCommandBuilder, Collection, InviteTargetType } = require('discord.js');
+const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
