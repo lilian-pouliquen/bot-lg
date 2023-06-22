@@ -15,7 +15,7 @@ module.exports = {
         await interaction.deferReply();
 
         // Retrieve arguments
-        const _assignationsString = await interaction.options.getString('assignations');
+        const _assignationsString = interaction.options.getString('assignations');
         const assignationsArray = _assignationsString.split(' ');
 
         // Retrieve players
