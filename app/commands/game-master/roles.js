@@ -20,9 +20,10 @@ module.exports = {
 
         // Check if the user is the Game Master
         // If true, sends the entire list to the Game Master channel
-        // If false, reply to the player with a truncated list
+        // If false, reply to the player with a truncated list of roles only
         if (roleCollection.get(cmdConfig.idRoleGameMaster).members.has(interaction.user.id)) {
             var channelToSend = channelGameMaster;
+            var displayPlayerNames = true;
         } else {
             excludedRoleIds.push(cmdConfig.idRoleLovers);
             excludedRoleIds.push(cmdConfig.idRoleInfected);
@@ -30,6 +31,7 @@ module.exports = {
             excludedRoleIds.push(cmdConfig.idRoleEnchanted);
             excludedRoleIds.push(cmdConfig.idRoleDead);
             var channelToSend = await interaction.guild.channels.fetch(interaction.channelId);
+            var displayPlayerNames = false;
         }
 
         // Filter the role list to keep only the roles that have to be shown
@@ -42,13 +44,12 @@ module.exports = {
             // For each game role, display who are its members
             for await (const [roleId, role] of roleCollectionFiltered) {
                 if (0 !== role.members.size) {
-                    let message = `Rôle ${role.name} :\`\`\`\n`;
+                    let message = `Rôle ${role.name}\n`;
                     for await (const [memberId, member] of role.members) {
-                        if (playersInVocalChannel.has(memberId)) {
-                            message += `– ${member.nickname}\n`;
+                        if (displayPlayerNames && (playersInVocalChannel.has(memberId))) {
+                            message += `> – ${member.nickname}\n`;
                         }
                     }
-                    message += '```';
                     channelToSend.send(message);
                 }
             }
