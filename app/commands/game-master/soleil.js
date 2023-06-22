@@ -30,20 +30,22 @@ module.exports = {
         // If se_leve, unmute all players
         // If se_couche, mute them all
         let message = '';
-        if (_subcommand === 'se_leve'){
-            message = 'Le soleil s\'est levé !';
-            for await (const [idPlayer, player] of playersInVocalChannel) {
-                player.roles.remove(cmdConfig.idRoleMuted);
-                player.voice.setMute(false);
-            }
-        } else if (_subcommand === 'se_couche') {
-            message = 'Le soleil s\'est couché !';
-            for await (const [idPlayer, player] of playersInVocalChannel) {
-                player.roles.add(cmdConfig.idRoleMuted);
-                player.voice.setMute(true);
-            }
+        switch (_subcommand) {
+            case 'se_leve':
+                message = 'Le soleil s\'est levé !';
+                for await (const [idPlayer, player] of playersInVocalChannel) {
+                    player.roles.remove(cmdConfig.idRoleMuted);
+                    player.voice.setMute(false);
+                }
+                break;
+            case 'se_couche':
+                message = 'Le soleil s\'est couché !';
+                for await (const [idPlayer, player] of playersInVocalChannel) {
+                    player.roles.add(cmdConfig.idRoleMuted);
+                    player.voice.setMute(true);
+                }
+                break;
         }
-
         await interaction.editReply(`${message}`);
     }
 }
