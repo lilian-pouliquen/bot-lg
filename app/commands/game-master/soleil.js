@@ -1,4 +1,4 @@
-const cmdConfig = require("./cmd_config.json");
+const cmdConfig = require('./cmd_config.json');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
