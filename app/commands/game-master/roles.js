@@ -11,7 +11,7 @@ module.exports = {
 
         // Retrieve players
         const vocalChannel = await interaction.guild.channels.fetch(cmdConfig.idVocalChannelMain);
-        const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(cmdConfig.idRoleGameMaster));
+        const playersInVocalChannel = vocalChannel.members;
 
         // Other variables
         const excludedRoleIds = cmdConfig.excludedRoleIds;
