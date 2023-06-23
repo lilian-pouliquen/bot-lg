@@ -4,7 +4,7 @@ const { SlashCommandBuilder, Collection } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('commencer')
-        .setDescription('Distribue les rôles spécifiés aléatoirement aux joueurs')
+        .setDescription('Commence la partie en distribuant les rôles spécifiés aléatoirement aux joueurs')
         .addStringOption( option =>
             option.setName('assignations')
             .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy')
@@ -22,7 +22,7 @@ module.exports = {
         const vocalChannel = await interaction.guild.channels.resolve(cmdConfig.idVocalChannelMain);
         const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(cmdConfig.idRoleGameMaster));
 
-        // Other variables
+        // Creating a collection of roles with roleCode => role
         const roleCollection = getRoleCollection(interaction.guild.roles);
 
         // Process assignations
