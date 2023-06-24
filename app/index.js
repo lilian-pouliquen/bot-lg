@@ -27,9 +27,9 @@ for (const folder of commandFolders) {
 }
 
 // Log when client is ready
-client.once(Events.ClientReady, c => {
-    console.log(`Logged in as ${c.user.tag}!`);
-    c.user.setPresence({ activity: { name: '!commandes' }, status: 'online' })
+client.once(Events.ClientReady, clientBot => {
+    console.log(`Logged in as ${clientBot.user.tag}!`);
+    clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
 });
 
 // Execute commands
