@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const { getLogDate } = require('./shared_functions');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
@@ -21,29 +22,29 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.log(`${getLogDate()} [bot-lg] WARNING: The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
 
 // Log when client is ready
 client.once(Events.ClientReady, clientBot => {
-    console.log(`Logged in as ${clientBot.user.tag}!`);
-    clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
+	console.log(`${getLogDate()} [bot-lg] INFO: Logged in as ${clientBot.user.tag}!`);
+	clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
 });
 
 // Execute commands
 client.on(Events.InteractionCreate, async interaction => {
-    if (!interaction.isChatInputCommand()) return;
+	if (!interaction.isChatInputCommand()) return;
 
-    const command = interaction.client.commands.get(interaction.commandName);
+	const command = interaction.client.commands.get(interaction.commandName);
 
-    if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
+	if (!command) {
+		console.error(`${getLogDate()} [bot-lg] ERROR: No command matching '${interaction.commandName}' was found.`);
 		return;
 	}
 
-    try {
+	try {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);

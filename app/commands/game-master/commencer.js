@@ -1,4 +1,5 @@
 const cmdConfig = require('./cmd_config.json');
+const { getLogDate } = require('../../shared_functions');
 const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
@@ -27,7 +28,7 @@ module.exports = {
 
         // Detect wrong role codes by checking assignations and tell the Game Master about them
         let messageReply = 'Les codes de rôle suivants n\'existent pas :';
-        let messageConsole = '[commencer] The following role codes do not exist:';
+        let messageConsole = `${getLogDate()} [commencer] ERROR: The following role codes do not exist:`;
         let foundWrongRoleCode = false;
         const assignationsArray = [];
 
@@ -57,10 +58,10 @@ module.exports = {
                     const user = playersInVocalChannel.random(1)[0];
                     user.roles.add(assignation.role);
                     playersInVocalChannel.delete(user.id);
-                    console.log(`[commencer] Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
+                    console.log(`${getLogDate()} [commencer] INFO: Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
                 }
             }
-            console.log('[commencer] All roles have been assigned');
+            console.log('${getLogDate()} [commencer] INFO: All roles have been assigned');
             await interaction.editReply('Tous les rôles ont été attribués');
         }
     }

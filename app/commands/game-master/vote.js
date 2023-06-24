@@ -1,4 +1,5 @@
 const cmdConfig = require('./cmd_config.json');
+const { getLogDate } = require('../../shared_functions');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -87,7 +88,7 @@ module.exports = {
         for (let i = 0 ; i < reactCount ; i++) {
             sentMessage.react(reactArray[i]);
         }
-        console.log(`[vote] Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
+        console.log(`${getLogDate()} [vote] INFO: Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
         await interaction.editReply('Vous pouvez voter !');
     }
 }

@@ -1,3 +1,4 @@
+const { getLogDate } = require('../../shared_functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -14,9 +15,9 @@ module.exports = {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
             messagesToDelete = fetched.filter(message => !message.pinned);
             interaction.channel.bulkDelete(messagesToDelete, true);
-            console.log(`[nettoyer] Deleted ${messagesToDelete.size} messages in the channel '${interaction.channel.name}'`);
+            console.log(`${getLogDate()} [nettoyer] INFO: Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);
-        console.log(`[nettoyer] Removed all unpinned messages from the channel '${interaction.channel.name}'`);
+        console.log(`${getLogDate()} [nettoyer] INFO: Removed all unpinned messages from the channel '${interaction.channel.name}'`);
     }
 }

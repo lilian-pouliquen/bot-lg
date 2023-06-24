@@ -1,4 +1,5 @@
 const ms = require('ms');
+const { getLogDate } = require('../../shared_functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -30,10 +31,10 @@ module.exports = {
         const time = ms(`${_time}${_units}`);
         setTimeout(() => {
             interaction.channel.send("Le temps est écoulé !");
-            console.log('[minuteur] The timer has finished');
+            console.log(`${getLogDate()} [minuteur] INFO: The timer has finished`);
         }, time);
 
-        console.log(`[minuteur] Started timer for ${time}`);
+        console.log(`${getLogDate()} [minuteur] INFO: Started timer for ${time}`);
         await interaction.editReply(`Le minuteur est démarré pour ${_time} ${_units}`);
     }
 }
