@@ -5,10 +5,10 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('commencer')
         .setDescription('Commence la partie en distribuant les rôles spécifiés aléatoirement aux joueurs')
-        .addStringOption( option =>
+        .addStringOption(option =>
             option.setName('assignations')
-            .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy')
-            .setRequired(true)
+                .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy)')
+                .setRequired(true)
         ),
     async execute(interaction) {
         // App is thinking
@@ -16,7 +16,7 @@ module.exports = {
 
         // Retrieve arguments
         const _assignationsString = interaction.options.getString('assignations');
-        const assignationsArray = _assignationsString.split(' ');
+        const assignations = _assignationsString.split(' ');
 
         // Retrieve players
         const vocalChannel = await interaction.guild.channels.resolve(cmdConfig.idVocalChannelMain);
@@ -25,21 +25,44 @@ module.exports = {
         // Creating a collection of roles with roleCode => role
         const roleCollection = getRoleCollection(interaction.guild.roles);
 
-        // Process assignations
-        for await (const assignation of assignationsArray) {
-            const quota = assignation.substr(0, 1);
-            const codeRole = assignation.substr(1);
-            const roleToAssign = await roleCollection.get(codeRole);
+        // Detect wrong role codes by checking assignations and tell the Game Master about them
+        let messageReply = 'Les codes de rôle suivants n\'existent pas :';
+        let messageConsole = '[commencer] The following role codes do not exist:';
+        let foundWrongRoleCode = false;
+        const assignationsArray = [];
 
-            for (let i = 0 ; i < quota ; i++) {
-                const user = playersInVocalChannel.random(1)[0];
-                user.roles.add(roleToAssign);
-                playersInVocalChannel.delete(user.id);
-                console.log(`Assigned role ${roleToAssign.name} to user ${user.user.username}`);
+        for await (const assignation of assignations) {
+            const quota = assignation.substr(0, 1);
+            const roleCode = assignation.substr(1);
+            const roleToAssign = await roleCollection.get(roleCode);
+
+            if (undefined !== roleToAssign) {
+                assignationsArray.push({ quota: quota, role: roleToAssign });
+            } else {
+                messageReply += ` \`${roleCode}\``;
+                messageConsole += ` '${roleCode}'`;
+                foundWrongRoleCode = true;
             }
         }
-        console.log('All roles have been assigned');
-        await interaction.editReply({content: 'Tous les rôles ont été attribués', ephemeral: true });
+
+        // Check if wrong role code have been found
+        // If true, tell the Game Master which codes are wrong
+        // If false, assign the roles randomly to the players
+        if (foundWrongRoleCode) {
+            console.log(messageConsole);
+            await interaction.editReply(messageReply);
+        } else {
+            for await (const assignation of assignationsArray) {
+                for (let i = 0; i < assignation.quota; i++) {
+                    const user = playersInVocalChannel.random(1)[0];
+                    user.roles.add(assignation.role);
+                    playersInVocalChannel.delete(user.id);
+                    console.log(`[commencer] Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
+                }
+            }
+            console.log('[commencer] All roles have been assigned');
+            await interaction.editReply('Tous les rôles ont été attribués');
+        }
     }
 }
 
