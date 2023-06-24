@@ -47,31 +47,33 @@ module.exports = {
         // If pyromane, the message contains a choice of wether to oil someone or light all already oiled players
         switch (_subcommand) {
             case 'village':
-                voteCase = 'du village'
-                voteDescription = 'Votez pour la personne à éliminer'
+                voteCase = 'Village';
+                voteDescription = 'Votez pour la personne à éliminer';
                 reactArray = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
                 reactCount = playersInVocalChannel.size;
                 let i = 0;
                 for await (const [idPlayer, player] of playersInVocalChannel) {
-                    voteFieldsArray.push({ name: 'Villageois', value: `${reactArray[i]} : ${player.nickname}`, inline: true });
+                    voteFieldsArray.push({ name: 'Villageois', value: `${reactArray[i]} : ${player.nickname ?? player.user.username}`, inline: true });
                     i++;
                 }
                 break;
             case 'sorciere':
-                voteCase = 'de la sorcière'
+                voteCase = 'Sorcière';
                 voteDescription = 'Choisissez la ou les potions que vous souhaitez utiliser';
                 voteFieldsArray.push({ name: 'Potion 1', value: '❤️ : Potion de vie', inline: true });
                 voteFieldsArray.push({ name: 'Potion 2', value: '💀 : Potion de mort', inline: true });
-                reactArray = ['❤️', '💀'];
-                reactCount = reactArray.length
+                voteFieldsArray.push({ name: 'Rien', value: '✖️ : Ne rien faire', inline: true });
+                reactArray = ['❤️', '💀', '✖️'];
+                reactCount = reactArray.length;
                 break;
             case 'pyromane':
-                voteCase = 'du pyromane'
+                voteCase = 'Pyromane';
                 voteDescription = 'Choisissez l\'action que vous voulez faire';
                 voteFieldsArray.push({ name: 'Action 1', value: '⛽ : Imbiber quelqu\'un d\'essence', inline: true });
                 voteFieldsArray.push({ name: 'Action 2', value: '🔥 : Mettre le feu aux personnes déjà imbibées', inline: true });
-                reactArray = ['⛽', '🔥'];
-                reactCount = reactArray.length
+                voteFieldsArray.push({ name: 'Rien', value: '✖️ : Ne rien faire', inline: true });
+                reactArray = ['⛽', '🔥', '✖️'];
+                reactCount = reactArray.length;
                 break;
         }
 
@@ -85,6 +87,7 @@ module.exports = {
         for (let i = 0 ; i < reactCount ; i++) {
             sentMessage.react(reactArray[i]);
         }
-        await interaction.editReply('Vous pouvez voter !')
+        console.log(`[vote] Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
+        await interaction.editReply('Vous pouvez voter !');
     }
 }
