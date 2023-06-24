@@ -24,7 +24,7 @@ module.exports = {
                 }
             }
             await userRoleManager.set(rolesToKeepCollection);
-            console.log(`Removed all game roles from ${user.user.username}.`);
+            console.log(`[terminer] Removed all game roles from user '${user.user.username}'`);
         }
         await interaction.editReply('Les rôles des joueurs ont été retirés');
     }

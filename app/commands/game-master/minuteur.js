@@ -28,8 +28,12 @@ module.exports = {
 
         // Starting the timer
         const time = ms(`${_time}${_units}`);
-        setTimeout(() => interaction.channel.send("Le temps est écoulé !"), time);
+        setTimeout(() => {
+            interaction.channel.send("Le temps est écoulé !");
+            console.log('[minuteur] The timer has finished');
+        }, time);
 
+        console.log(`[minuteur] Started timer for ${time}`);
         await interaction.editReply(`Le minuteur est démarré pour ${_time} ${_units}`);
     }
 }

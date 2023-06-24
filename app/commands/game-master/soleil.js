@@ -37,6 +37,7 @@ module.exports = {
                     player.roles.remove(cmdConfig.idRoleMuted);
                     player.voice.setMute(false);
                 }
+                console.log('[soleil] Unmuted all players');
                 break;
             case 'se_couche':
                 message = 'Le soleil s\'est couché !';
@@ -44,6 +45,7 @@ module.exports = {
                     player.roles.add(cmdConfig.idRoleMuted);
                     player.voice.setMute(true);
                 }
+                console.log('[soleil] Muted all players');
                 break;
         }
         await interaction.editReply(`${message}`);

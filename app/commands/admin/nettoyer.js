@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Collection } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,10 +12,11 @@ module.exports = {
         let messagesToDelete;
         do {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
-            messagesToDelete = fetched.filter(message => !message.pinned)
+            messagesToDelete = fetched.filter(message => !message.pinned);
             interaction.channel.bulkDelete(messagesToDelete, true);
+            console.log(`[nettoyer] Deleted ${messagesToDelete.size} messages in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);
-        console.log(`Removed all unpinned messages from ${interaction.channel.name}`)
+        console.log(`[nettoyer] Removed all unpinned messages from the channel '${interaction.channel.name}'`);
     }
 }

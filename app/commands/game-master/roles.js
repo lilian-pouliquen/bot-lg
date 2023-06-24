@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('roles')
-        .setDescription('Affiche les rôles et leurs membres dans le cannal "maitre-du-jeu"'),
+        .setDescription('Affiche les rôles encore en vie'),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
@@ -19,7 +19,7 @@ module.exports = {
         const roleCollection = await interaction.guild.roles.fetch();
 
         // Check if the user is the Game Master
-        // If true, sends the entire list to the Game Master channel
+        // If true, sends the list of still alive roles with their members to the Game Master channel
         // If false, reply to the player with a truncated list of roles only
         if (roleCollection.get(cmdConfig.idRoleGameMaster).members.has(interaction.user.id)) {
             var channelToSend = channelGameMaster;
@@ -39,6 +39,7 @@ module.exports = {
 
         // Check if there is at least one player
         if (0 === playersInVocalChannel.size) {
+            console.log('[roles] No player');
             await interaction.editReply('Il n\'y a aucun joueur actuellement');
         } else {
             // For each game role, display who are its members
@@ -47,11 +48,16 @@ module.exports = {
                     let message = `Rôle ${role.name}\n`;
                     for await (const [memberId, member] of role.members) {
                         if (displayPlayerNames && (playersInVocalChannel.has(memberId))) {
-                            message += `> – ${member.nickname}\n`;
+                            message += `> – ${member.nickname ?? member.user.username}\n`;
                         }
                     }
                     channelToSend.send(message);
                 }
+            }
+            if (displayPlayerNames) {
+                console.log(`[roles] Listed all alive roles and their players in the channel '${channelToSend.name}'`);
+            } else {
+                console.log(`[roles] Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
             await interaction.editReply('Affichage terminé !');
         }

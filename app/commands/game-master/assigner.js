@@ -42,28 +42,28 @@ module.exports = {
             }
         }
 
-        // Other variables
+        // Retrieving config's exluded roles and adding "Reaper" to it
         const excludedRoleIds = cmdConfig.excludedRoleIds;
         excludedRoleIds.push(cmdConfig.idRoleReaper);
 
-        // For each user
+        // Check if the role is "Dead"
+        // If true, remove all game roles
+        // Then add the wanted role
         for await (const [user, userRoleManager] of userRoleManagerByUser) {
-            // Removing all game roles if role is "Dead"
             if (_role.id === cmdConfig.idRoleDead) {
                 const rolesToKeepCollection = new Collection();
                 for (const roleId of excludedRoleIds) {
                     const roleToKeep = await userRoleManager.resolve(roleId);
                     if (null !== roleToKeep) {
-                        rolesToKeepCollection.set(roleId, roleToKeep)
+                        rolesToKeepCollection.set(roleId, roleToKeep);
                     }
                 }
                 await userRoleManager.set(rolesToKeepCollection);
-                console.log(`Removed all roles from ${user.user.username} but the ones to keep.`)
+                console.log(`[assigner] Removed all roles from ${user.user.username} but the ones to keep`);
             }
-            // Adding role to the user
             await userRoleManager.add(_role);
-            console.log(`Added role ${_role.name} to user ${user.user.username}`);
+            console.log(`[assigner] Added role '${_role.name}' to user '${user.user.username}'`);
         }
-        await interaction.editReply(`Le rôle ${_role.name} a bien été ajouté aux joueurs`);
+        await interaction.editReply('Le rôle a bien été ajouté aux joueurs');
     }
 };
