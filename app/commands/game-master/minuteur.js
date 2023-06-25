@@ -1,8 +1,10 @@
 const ms = require('ms');
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('minuteur')
         .setDescription('Initialise un minuteur avec le temps spécifié (par défaut : 3 minutes)')

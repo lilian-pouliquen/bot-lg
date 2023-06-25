@@ -1,8 +1,9 @@
-const cmdConfig = require('./cmd_config.json');
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('soleil')
         .setDescription('Rend les joueurs muets ou non, pour le jour ou la nuit')

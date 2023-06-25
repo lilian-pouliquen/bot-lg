@@ -1,8 +1,9 @@
-const cmdConfig = require('./cmd_config.json');
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate } = require('../../functions');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('vote')
         .setDescription('Affiche un formulaire de vote selon le cas précisé')

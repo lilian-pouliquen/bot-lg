@@ -1,12 +1,14 @@
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleAdmin,
     data: new SlashCommandBuilder()
         .setName('nettoyer')
         .setDescription('Efface tous les messages non épinglés du salon actuel'),
     async execute(interaction) {
-        // App is thinking
+        // Answer to the user
         await interaction.reply('Suppression des messages en cours');
 
         // Delete all unpinned messages
@@ -14,7 +16,7 @@ module.exports = {
         do {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
             messagesToDelete = fetched.filter(message => !message.pinned);
-            interaction.channel.bulkDelete(messagesToDelete, true);
+            await interaction.channel.bulkDelete(messagesToDelete, true);
             console.log(`${getLogDate()} [nettoyer] INFO: Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);

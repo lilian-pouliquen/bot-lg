@@ -1,8 +1,9 @@
-const cmdConfig = require('./cmd_config.json');
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate } = require('../../functions');
 const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('assigner')
         .setDescription('Assigne le rôle spécifié à la ou les personnes spécifiées')

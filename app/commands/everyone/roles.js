@@ -1,8 +1,9 @@
-const cmdConfig = require('./cmd_config.json');
-const { getLogDate } = require('../../shared_functions');
+const cmdConfig = require('../cmd_config.json');
+const { getLogDate, userHasRole } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    requiredRoleId: cmdConfig.idRoleEveryone,
     data: new SlashCommandBuilder()
         .setName('roles')
         .setDescription('Affiche les rôles encore en vie'),
@@ -22,7 +23,7 @@ module.exports = {
         // Check if the user is the Game Master
         // If true, sends the list of still alive roles with their members to the Game Master channel
         // If false, reply to the player with a truncated list of roles only
-        if (roleCollection.get(cmdConfig.idRoleGameMaster).members.has(interaction.user.id)) {
+        if (await userHasRole(interaction, cmdConfig.idRoleGameMaster)) {
             var channelToSend = channelGameMaster;
             var displayPlayerNames = true;
         } else {
