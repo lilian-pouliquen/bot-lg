@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate, userHasRole } = require('../../functions');
+const { userHasRole, createLog } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
 
         // Check if there is at least one player
         if (0 === playersInVocalChannel.size) {
-            console.log(`${getLogDate()} [roles] INFO: No player in the main vocal channel`);
+            createLog(interaction.guild.id, 'roles', 'info', 'No player in the main vocal channel');
             await interaction.editReply('Il n\'y a aucun joueur actuellement');
         } else {
             // For each game role, display who are its members
@@ -58,9 +58,9 @@ module.exports = {
                 }
             }
             if (displayPlayerNames) {
-                console.log(`${getLogDate()} [roles] INFO: Listed all alive roles and their players in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, 'roles', 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
             } else {
-                console.log(`${getLogDate()} [roles] INFO: Listed truncated alive roles in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, 'roles', 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
             await interaction.editReply('Affichage terminé !');
         }

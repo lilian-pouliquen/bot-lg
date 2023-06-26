@@ -1,6 +1,6 @@
 const ms = require('ms');
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -34,10 +34,10 @@ module.exports = {
         const time = ms(`${_time}${_units}`);
         setTimeout(() => {
             interaction.channel.send("Le temps est écoulé !");
-            console.log(`${getLogDate()} [minuteur] INFO: The timer has finished`);
+            createLog(interaction.guild.id, 'minuteur', 'info', 'The timer has finished');
         }, time);
 
-        console.log(`${getLogDate()} [minuteur] INFO: Started timer for ${time}`);
+        createLog(interaction.guild.id, 'minuteur', 'info', `Started timer for ${_time}${_units}`);
         await interaction.editReply(`Le minuteur est démarré pour ${_time} ${_units}`);
     }
 }

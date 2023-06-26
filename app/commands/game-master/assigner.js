@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
@@ -62,10 +62,10 @@ module.exports = {
                     }
                 }
                 await userRoleManager.set(rolesToKeepCollection);
-                console.log(`${getLogDate()} [assigner] INFO: Removed all roles from ${user.user.username} but the ones to keep`);
+                createLog(interaction.guild.id, 'assigner', 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
             }
             await userRoleManager.add(_role);
-            console.log(`${getLogDate()} [assigner] INFO: Added role '${_role.name}' to user '${user.user.username}'`);
+            createLog(interaction.guild.id, 'assigner', 'info', `Added role '${_role.name}' to user '${user.user.username}'`);
         }
         await interaction.editReply('Le rôle a bien été ajouté aux joueurs');
     }

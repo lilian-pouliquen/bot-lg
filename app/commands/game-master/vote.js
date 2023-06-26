@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
         for (let i = 0 ; i < reactCount ; i++) {
             sentMessage.react(reactArray[i]);
         }
-        console.log(`${getLogDate()} [vote] INFO: Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
+        createLog(interaction.guild.id, 'vote', 'info', `Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
         await interaction.editReply('Vous pouvez voter !');
     }
 }

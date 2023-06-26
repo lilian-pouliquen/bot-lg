@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
@@ -29,28 +29,36 @@ module.exports = {
         // Retrieve subcommand
         const _subcommand = interaction.options.getSubcommand();
 
-        // Check which subcommand has been chosen
+        // If there are players, check which subcommand has been chosen
         // If se_leve, unmute all players
         // If se_couche, mute them all
-        let message = '';
-        switch (_subcommand) {
-            case 'se_leve':
-                message = 'Le soleil s\'est levé !';
-                for await (const [idPlayer, player] of playersInVocalChannel) {
-                    player.roles.remove(cmdConfig.idRoleMuted);
-                    player.voice.setMute(false);
-                }
-                console.log(`${getLogDate()} [soleil] INFO: Unmuted all players`);
-                break;
-            case 'se_couche':
-                message = 'Le soleil s\'est couché !';
-                for await (const [idPlayer, player] of playersInVocalChannel) {
-                    player.roles.add(cmdConfig.idRoleMuted);
-                    player.voice.setMute(true);
-                }
-                console.log(`${getLogDate()} [soleil] INFO: Muted all players`);
-                break;
+        let messageReply = '';
+        let messageLog = '';
+        if (0 < playersInVocalChannel.size) {
+            switch (_subcommand) {
+                case 'se_leve':
+                    messageReply = 'Le soleil s\'est levé !';
+                    messageLog = 'Unmuted all players';
+                    for await (const [idPlayer, player] of playersInVocalChannel) {
+                        player.roles.remove(cmdConfig.idRoleMuted);
+                        player.voice.setMute(false);
+                    }
+                    createLog(interaction.guild.id, 'soleil', 'info', 'Unmuted all players');
+                    break;
+                case 'se_couche':
+                    messageReply = 'Le soleil s\'est couché !';
+                    messageLog = 'Muted all players';
+                    for await (const [idPlayer, player] of playersInVocalChannel) {
+                        player.roles.add(cmdConfig.idRoleMuted);
+                        player.voice.setMute(true);
+                    }
+                    break;
+            }
+            createLog(interaction.guild.id, 'soleil', 'info', messageLog);
+            await interaction.editReply(message);
+        } else {
+            createLog(interaction.guild.id, 'soleil', 'info', 'No player in the main vocal channel');
+            await interaction.editReply('Il n\'y a aucun joueur actuellement');
         }
-        await interaction.editReply(`${message}`);
     }
 }

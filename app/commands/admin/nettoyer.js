@@ -1,6 +1,6 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { createLog } = require('../../functions');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     requiredRoleId: cmdConfig.idRoleAdmin,
@@ -18,9 +18,9 @@ module.exports = {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
             messagesToDelete = fetched.filter(message => !message.pinned);
             await interaction.channel.bulkDelete(messagesToDelete, true);
-            console.log(`${getLogDate()} [nettoyer] INFO: Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
+            createLog(interaction.guild.id, 'nettoyer', 'info', `Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);
-        console.log(`${getLogDate()} [nettoyer] INFO: Removed all unpinned messages from the channel '${interaction.channel.name}'`);
+        createLog(interaction.guild.id, 'nettoyer', 'info', `Removed all unpinned messages from the channel '${interaction.channel.name}'`)
     }
 }

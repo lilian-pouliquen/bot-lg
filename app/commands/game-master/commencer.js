@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder, Collection, EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
                     { name: 'Exemple', value: '`/commencer 1lg 1sor 1voy 2vil`', inline: true },
                     { name: 'Codes des rôles disponibles', value: getHelpRoleCodes(), inline: false }
                 ]);
-            console.log(`${getLogDate()} INFO: Displayed help for 'commencer'`);
+            createLog(interaction.guild.id, 'commencer', 'info', 'Displayed help for \'commencer\'');
             interaction.editReply({ embeds: [embedMessage] });
         } else {
             // Build the assignation array from the string parameter
@@ -51,7 +51,7 @@ module.exports = {
 
                 // Detect wrong role codes by checking assignations and tell the Game Master about them
                 let messageReply = 'Les codes de rôle suivants n\'existent pas :';
-                let messageConsole = `${getLogDate()} [commencer] ERROR: The following role codes do not exist:`;
+                let messageLog = `The following role codes do not exist:`;
                 let foundWrongRoleCode = false;
                 const assignationsArray = [];
 
@@ -64,7 +64,7 @@ module.exports = {
                         assignationsArray.push({ quota: quota, role: roleToAssign });
                     } else {
                         messageReply += ` \`${roleCode}\``;
-                        messageConsole += ` '${roleCode}'`;
+                        messageLog += ` '${roleCode}'`;
                         foundWrongRoleCode = true;
                     }
                 }
@@ -73,7 +73,7 @@ module.exports = {
                 // If true, tell the Game Master which codes are wrong
                 // If false, assign the roles randomly to the players
                 if (foundWrongRoleCode) {
-                    console.log(messageConsole);
+                    createLog(interaction.guild.id, 'commencer', 'error', messageLog);
                     await interaction.editReply(messageReply);
                 } else {
                     for await (const assignation of assignationsArray) {
@@ -81,14 +81,14 @@ module.exports = {
                             const user = playersInVocalChannel.random(1)[0];
                             user.roles.add(assignation.role);
                             playersInVocalChannel.delete(user.id);
-                            console.log(`${getLogDate()} [commencer] INFO: Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
+                            createLog(interaction.guild.id, 'commencer', 'info', `Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
                         }
                     }
-                    console.log(`${getLogDate()} [commencer] INFO: All roles have been assigned`);
+                    createLog(interaction.guild.id, 'commencer', 'info', 'All roles have been assigned');
                     await interaction.editReply('Tous les rôles ont été attribués');
                 }
             } else {
-                console.log(`${getLogDate()} [commencer] INFO: No player in the main vocal channel`);
+                createLog(interaction.guild.id, 'commencer', 'info', 'No player in the main vocal channel');
                 interaction.editReply('Il n\'y a aucun joueur actuellement');
             }
         }

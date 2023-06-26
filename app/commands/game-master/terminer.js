@@ -1,5 +1,5 @@
 const cmdConfig = require('../cmd_config.json');
-const { getLogDate } = require('../../functions');
+const { createLog } = require('../../functions');
 const { SlashCommandBuilder, Collection } = require('discord.js');
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
                 }
             }
             await userRoleManager.set(rolesToKeepCollection);
-            console.log(`${getLogDate()} [terminer] INFO: Removed all game roles from user '${user.user.username}'`);
+            createLog(interaction.guild.id, 'terminer', 'info', `Removed all game roles from user '${user.user.username}'`);
         }
         await interaction.editReply('Les rôles des joueurs ont été retirés');
     }

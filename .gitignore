@@ -1,7 +1,1 @@
-.pnpm-store/
-node_modules/
 .env
-cmd_config.json
-config.json
-init-postgres/initdb.sql
-php-api/config.php

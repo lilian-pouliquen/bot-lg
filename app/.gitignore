@@ -1,0 +1,5 @@
+.pnpm-store/
+node_modules/
+
+config.json
+commands/cmd_config.json
