@@ -29,7 +29,6 @@ prepare: build install
 
 build: Dockerfile php-api.Dockerfile
 	docker image build --file Dockerfile --tag node:botlg ./
-	docker image build --file php-api.Dockerfile --tag php:php_api ./
 
 install:
 	docker-compose run --rm botlg pnpm install

@@ -1,6 +1,5 @@
 node_modules/
 pnpm-store/
 .dist.env
-cmd_config.dist.json
+commands/cmd_config.dist.json
 config.dist.json
-init-postgres/initdb.dist.sql
