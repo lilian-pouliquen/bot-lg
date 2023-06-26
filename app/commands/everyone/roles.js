@@ -6,7 +6,8 @@ module.exports = {
     requiredRoleId: cmdConfig.idRoleEveryone,
     data: new SlashCommandBuilder()
         .setName('roles')
-        .setDescription('Affiche les rôles encore en vie'),
+        .setDescription('Affiche les rôles encore en vie')
+        .setDefaultMemberPermissions(2147485696),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();

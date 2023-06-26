@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('assigner')
         .setDescription('Assigne le rôle spécifié à la ou les personnes spécifiées')
+        .setDefaultMemberPermissions(2415921152)
         .addRoleOption(option =>
             option.setName('role')
                 .setDescription('Le code du rôle à assigner')

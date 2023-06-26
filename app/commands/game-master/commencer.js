@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('commencer')
         .setDescription('Commence la partie en distribuant les rôles spécifiés aléatoirement aux joueurs')
+        .setDefaultMemberPermissions(2415937536)
         .addStringOption(option =>
             option.setName('assignations')
                 .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy)')

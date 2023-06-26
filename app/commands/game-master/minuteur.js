@@ -8,6 +8,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('minuteur')
         .setDescription('Initialise un minuteur avec le temps spécifié (par défaut : 3 minutes)')
+        .setDefaultMemberPermissions(2147485696)
         .addIntegerOption(option =>
             option.setName('temps')
                 .setDescription('(facultatif) Valeur numérique du temps qui va être décompté')

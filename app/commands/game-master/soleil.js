@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('soleil')
         .setDescription('Rend les joueurs muets ou non, pour le jour ou la nuit')
+        .setDefaultMemberPermissions(2420115456)
         .addSubcommand(subcommand =>
             subcommand
                 .setName('se_leve')

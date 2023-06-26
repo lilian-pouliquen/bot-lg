@@ -7,6 +7,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('vote')
         .setDescription('Affiche un formulaire de vote selon le cas précisé')
+        .setDefaultMemberPermissions(2147502144)
         .addSubcommand(subcommand =>
             subcommand
                 .setName('village')

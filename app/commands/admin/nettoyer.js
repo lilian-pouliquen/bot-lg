@@ -1,12 +1,13 @@
 const cmdConfig = require('../cmd_config.json');
 const { getLogDate } = require('../../functions');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     requiredRoleId: cmdConfig.idRoleAdmin,
     data: new SlashCommandBuilder()
         .setName('nettoyer')
-        .setDescription('Efface tous les messages non épinglés du salon actuel'),
+        .setDescription('Efface tous les messages non épinglés du salon actuel')
+        .setDefaultMemberPermissions(2147560448),
     async execute(interaction) {
         // Answer to the user
         await interaction.reply('Suppression des messages en cours');

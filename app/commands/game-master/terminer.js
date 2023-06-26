@@ -6,7 +6,8 @@ module.exports = {
     requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('terminer')
-        .setDescription('Termine la partie en retirant tous les rôles de jeu des joueurs'),
+        .setDescription('Termine la partie en retirant tous les rôles de jeu des joueurs')
+        .setDefaultMemberPermissions(2415921152),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
