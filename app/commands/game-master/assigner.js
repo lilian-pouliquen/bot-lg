@@ -8,10 +8,17 @@ module.exports = {
         .setName('assigner')
         .setDescription('Assigne le rôle spécifié à la ou les personnes spécifiées')
         .setDefaultMemberPermissions(2415921152)
-        .addRoleOption(option =>
+        .addStringOption(option =>
             option.setName('role')
-                .setDescription('Le code du rôle à assigner')
+                .setDescription('Le rôle à assigner')
                 .setRequired(true)
+                .setChoices(
+                    { name: 'Amoureux', value: cmdConfig.idRoleLovers },
+                    { name: 'Envouté', value: cmdConfig.idRoleEnchanted },
+                    { name: 'Imbibé', value: cmdConfig.idRoleOiled },
+                    { name: 'Infecté', value: cmdConfig.idRoleInfected },
+                    { name: 'Mort', value: cmdConfig.idRoleDead }
+                )
         )
         .addUserOption(option =>
             option.setName('utilisateur1')
@@ -31,7 +38,8 @@ module.exports = {
         await interaction.deferReply();
 
         // Retrieve role
-        const _role = interaction.options.getRole('role');
+        const _roleId = interaction.options.getString('role');
+        const role = await interaction.guild.roles.fetch(_roleId);
 
         // Retrieve users
         const iterable = [1, 2, 3];
@@ -53,7 +61,7 @@ module.exports = {
         // If true, remove all game roles
         // Then add the wanted role
         for await (const [user, userRoleManager] of userRoleManagerByUser) {
-            if (_role.id === cmdConfig.idRoleDead) {
+            if (role.id === cmdConfig.idRoleDead) {
                 const rolesToKeepCollection = new Collection();
                 for (const roleId of excludedRoleIds) {
                     const roleToKeep = await userRoleManager.resolve(roleId);
@@ -64,8 +72,8 @@ module.exports = {
                 await userRoleManager.set(rolesToKeepCollection);
                 createLog(interaction.guild.id, 'assigner', 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
             }
-            await userRoleManager.add(_role);
-            createLog(interaction.guild.id, 'assigner', 'info', `Added role '${_role.name}' to user '${user.user.username}'`);
+            await userRoleManager.add(role);
+            createLog(interaction.guild.id, 'assigner', 'info', `Added role '${role.name}' to user '${user.user.username}'`);
         }
         await interaction.editReply('Le rôle a bien été ajouté aux joueurs');
     }
