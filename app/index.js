@@ -49,7 +49,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		const username = interaction.member.user.username;
 		const requiredRole = await interaction.guild.roles.fetch(command.requiredRoleId)
 
-		createLog(interaction.guild.id, 'bot-lg', 'error', `User '${username}' does not have the required role '${requiredRole.name}' to use the command '${interaction.commandName}'`)
+		createLog(interaction.guild.id, interaction.commandName, 'error', `User '${username}' does not have the required role '${requiredRole.name}'`)
 		await interaction.reply({ content: `Vous n'avez pas le rôle requis pour exécuter cette commande : \`${requiredRole.name}\``, ephemeral: true });
 		return;
 	}
@@ -58,7 +58,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	try {
 		await command.execute(interaction);
 	} catch (error) {
-		createLog(interaction.guild.id, 'bot-lg', 'error', error);
+		createLog(interaction.guild.id, interaction.commandName, 'error', error);
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'Une erreur est survenue lors de l\'exécution de la commande', ephemeral: true });
 		} else {
