@@ -24,8 +24,9 @@ Author: "Lilian POULIQUEN"
   - [7.1. Roles](#71-roles)
   - [7.2. Channels](#72-channels)
 - [8. Bot commands](#8-bot-commands)
-- [9. Authors](#9-authors)
-- [10. Contributors](#10-contributors)
+- [9. Permissions](#9-permissions)
+- [10. Authors](#10-authors)
+- [11. Contributors](#11-contributors)
 
 ## 1. What is bot-lg
 
@@ -202,17 +203,21 @@ Here is the list of the bot-lg commands:
 | `roles`     | None                           | Display still alive game roles. If the user is the Game Master, the list contains the members of each role |
 | `assigner`  | Game Master                    | Assigns the given role to the given players                                                                |
 | `commencer` | Game Master                    | Assigns specified roles randomly to all the players                                                        |
-| `terminer`  | Game Master                    | Remove all game roles from the players                                                                     |
-| `soleil`    | Game Master                    | There are 2 subcommands: `se_couche` mutes all players and `se_leve` unmutes them                          |
-| `vote`      | Game Master                    | Prints the specified vote form                                                                 |
 | `minuteur`  | Game Master                    | Runs a timer for the specified time (default 3m)                                                                      |
+| `soleil`    | Game Master                    | There are 2 subcommands: `se_couche` mutes all players and `se_leve` unmutes them                          |
+| `terminer`  | Game Master                    | Remove all game roles from the players                                                                     |
+| `vote`      | Game Master                    | Prints the specified vote form                                                                 |
 | `nettoyer`  | Admin                          | Clears the current text channel                                                                            |
 
-## 9. Authors
+## 9. Permissions
+
+See [permissions.md](./permissions.md) for more information about required permissions
+
+## 10. Authors
 
 - Lilian POULIQUEN: Bot creation and development, documentation
 
-## 10. Contributors
+## 11. Contributors
 
 - Léandre KERUZEC: Command ideas, Documentation review
 - Kévin BOURBASQUET: bot-lg logo designer and creator
