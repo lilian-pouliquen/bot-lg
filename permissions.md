@@ -77,7 +77,7 @@ Permissions integer: `2251808321`
 
 ## Command permissions
 
-## nettoyer
+### nettoyer
 
 - Read Messages/View Channels
 - Send Messages
@@ -87,14 +87,22 @@ Permissions integer: `2251808321`
 
 Permissions integer: `2147560448`
 
-## roles, minuteur
+### roles
+
+- Send Messages
+- Embed Links
+- Use Slash Commands
+
+Permissions integer: `2147502080`
+
+### minuteur
 
 - Send Messages
 - Use Slash Commands
 
 Permissions integer: `2147485696`
 
-## assigner, terminer
+### assigner, terminer
 
 - Manage Roles
 - Send Messages
@@ -102,7 +110,7 @@ Permissions integer: `2147485696`
 
 Permissions integer: `2415921152`
 
-## commencer
+### commencer
 
 - Manage Roles
 - Send Messages
@@ -111,7 +119,7 @@ Permissions integer: `2415921152`
 
 Permissions integer: `2415937536`
 
-## soleil
+### soleil
 
 - Manage Roles
 - Send Messages
@@ -120,7 +128,7 @@ Permissions integer: `2415937536`
 
 Permissions integer: `2420115456`
 
-## vote
+### vote
 
 - Send Messages
 - Embed Links

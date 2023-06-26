@@ -1,13 +1,13 @@
 const cmdConfig = require('../cmd_config.json');
 const { userHasRole, createLog } = require('../../functions');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     requiredRoleId: cmdConfig.idRoleEveryone,
     data: new SlashCommandBuilder()
         .setName('roles')
         .setDescription('Affiche les rôles encore en vie')
-        .setDefaultMemberPermissions(2147485696),
+        .setDefaultMemberPermissions(2147502080),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
@@ -45,24 +45,31 @@ module.exports = {
             createLog(interaction.guild.id, 'roles', 'info', 'No player in the main vocal channel');
             await interaction.editReply('Il n\'y a aucun joueur actuellement');
         } else {
+            const roleFieldsArray = [];
             // For each game role, display who are its members
             for await (const [roleId, role] of roleCollectionFiltered) {
                 if (0 !== role.members.size) {
-                    let message = `Rôle ${role.name}\n`;
+                    let message = '.\n';
                     for await (const [memberId, member] of role.members) {
                         if (displayPlayerNames && (playersInVocalChannel.has(memberId))) {
                             message += `> – ${member.nickname ?? member.user.username}\n`;
                         }
                     }
-                    channelToSend.send(message);
+                    roleFieldsArray.push({ name: role.name, value: message, inline: true });
                 }
             }
+            embedMessage = new EmbedBuilder()
+                .setColor('#4A03C3')
+                .setTitle('roles')
+                .setDescription('Liste des rôles en jeu')
+                .addFields(roleFieldsArray);
+
             if (displayPlayerNames) {
                 createLog(interaction.guild.id, 'roles', 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
             } else {
                 createLog(interaction.guild.id, 'roles', 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
-            await interaction.editReply('Affichage terminé !');
+            await interaction.editReply({ embeds: [embedMessage] });
         }
     }
 }
