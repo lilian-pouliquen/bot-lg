@@ -48,8 +48,8 @@ module.exports = {
             const assignations = _assignationsString.split(' ');
 
             // Retrieve players
-            const vocalChannel = await interaction.guild.channels.resolve(serverConfig.vocalChannelGameId);
-            const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
+            const voiceChannel = await interaction.guild.channels.resolve(serverConfig.voiceChannelGameId);
+            const playersInVocalChannel = voiceChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
 
             // Check if there is at least one player
             // If true, proceed

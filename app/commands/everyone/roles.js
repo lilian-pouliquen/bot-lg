@@ -14,8 +14,8 @@ module.exports = {
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
         // Retrieve players
-        const vocalChannel = await interaction.guild.channels.fetch(serverConfig.vocalChannelGameId);
-        const playersInVocalChannel = vocalChannel.members.filter(user => null === user.roles.resolve(serverConfig.roleGameMasterId));
+        const voiceChannel = await interaction.guild.channels.fetch(serverConfig.voiceChannelGameId);
+        const playersInVocalChannel = voiceChannel.members.filter(user => null === user.roles.resolve(serverConfig.roleGameMasterId));
 
         // Other variables
         const excludedRoleIds = serverConfig.excludedRoleIds;

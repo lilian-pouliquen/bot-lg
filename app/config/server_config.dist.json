@@ -46,6 +46,6 @@
     "textChannelWerewolfId": "",
     "textChannelWhiteWerewolfId": "",
     "textChannelWitchId": "",
-    "vocalChannelGameId": "",
+    "voiceChannelGameId": "",
     "excludedRoleIds": []
 }

@@ -37,8 +37,8 @@ module.exports = {
         }
 
         // Retrieve players
-        const vocalChannel = await interaction.guild.channels.fetch(serverConfig.vocalChannelGameId);
-        const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
+        const voiceChannel = await interaction.guild.channels.fetch(serverConfig.voiceChannelGameId);
+        const playersInVocalChannel = voiceChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
 
         // Retrieve subcommand
         const _subcommand = interaction.options.getSubcommand();

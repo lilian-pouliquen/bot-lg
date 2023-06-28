@@ -117,7 +117,7 @@ module.exports = {
             });
 
             serverConfigsMap.set('roleMutedId', roleMuted.id);
-            serverConfigsMap.set('vocalChannelGameId', channel.id);
+            serverConfigsMap.set('voiceChannelGameId', channel.id);
             excludedRoleIds.push(roleMuted.id);
 
             // Create role Dead and its text channel and add them to server config map
