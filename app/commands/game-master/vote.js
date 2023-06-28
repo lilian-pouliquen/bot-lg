@@ -43,10 +43,13 @@ module.exports = {
         // Retrieve subcommand
         const _subcommand = interaction.options.getSubcommand();
 
-        // Retrieve current channel
-        const channelToSend = await interaction.guild.channels.fetch(interaction.channelId);
+        // Retrieve channels
+        const currentChannel = interaction.channel;
+        const witchChannel = await interaction.guild.channels.fetch(serverConfig.textChannelWitchId);
+        const pyromaniacChannel = await interaction.guild.channels.fetch(serverConfig.textChannelPyromaniacId);
 
         // Other variables
+        var channelToSend = null;
         var voteCase = '';
         var voteDescription = '';
         var voteFieldsArray = [];
@@ -59,6 +62,7 @@ module.exports = {
         // If pyromane, the message contains a choice of wether to oil someone or light all already oiled players
         switch (_subcommand) {
             case 'village':
+                channelToSend = currentChannel;
                 voteCase = 'Village';
                 voteDescription = 'Votez pour la personne à éliminer';
                 reactArray = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
@@ -70,6 +74,7 @@ module.exports = {
                 }
                 break;
             case 'sorciere':
+                channelToSend = witchChannel;
                 voteCase = 'Sorcière';
                 voteDescription = 'Choisissez la ou les potions que vous souhaitez utiliser';
                 voteFieldsArray.push({ name: 'Potion 1', value: '❤️ : Potion de vie', inline: true });
@@ -79,6 +84,7 @@ module.exports = {
                 reactCount = reactArray.length;
                 break;
             case 'pyromane':
+                channelToSend = pyromaniacChannel;
                 voteCase = 'Pyromane';
                 voteDescription = 'Choisissez l\'action que vous voulez faire';
                 voteFieldsArray.push({ name: 'Action 1', value: '⛽ : Imbiber quelqu\'un d\'essence', inline: true });
