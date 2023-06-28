@@ -16,9 +16,9 @@ module.exports = {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
             messagesToDelete = fetched.filter(message => !message.pinned);
             await interaction.channel.bulkDelete(messagesToDelete, true);
-            createLog(interaction.guild.id, 'nettoyer', 'info', `Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);
-        createLog(interaction.guild.id, 'nettoyer', 'info', `Removed all unpinned messages from the channel '${interaction.channel.name}'`)
+        createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all unpinned messages from the channel '${interaction.channel.name}'`)
     }
 }

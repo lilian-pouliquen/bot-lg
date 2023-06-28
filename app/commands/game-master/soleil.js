@@ -52,7 +52,7 @@ module.exports = {
                         player.roles.remove(serverConfig.roleMutedId);
                         player.voice.setMute(false);
                     }
-                    createLog(interaction.guild.id, 'soleil', 'info', 'Unmuted all players');
+                    createLog(interaction.guild.id, interaction.commandName, 'info', 'Unmuted all players');
                     break;
                 case 'se_couche':
                     messageReply = 'Le soleil s\'est couché !';
@@ -63,10 +63,10 @@ module.exports = {
                     }
                     break;
             }
-            createLog(interaction.guild.id, 'soleil', 'info', messageLog);
+            createLog(interaction.guild.id, interaction.commandName, 'info', messageLog);
             await interaction.editReply(message);
         } else {
-            createLog(interaction.guild.id, 'soleil', 'info', 'No player in the main vocal channel');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
             await interaction.editReply('Il n\'y a aucun joueur actuellement');
         }
     }

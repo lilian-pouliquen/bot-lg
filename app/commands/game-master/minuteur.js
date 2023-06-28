@@ -43,10 +43,10 @@ module.exports = {
         const time = ms(`${_time}${_units}`);
         setTimeout(() => {
             interaction.channel.send("Le temps est écoulé !");
-            createLog(interaction.guild.id, 'minuteur', 'info', 'The timer has finished');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'The timer has finished');
         }, time);
 
-        createLog(interaction.guild.id, 'minuteur', 'info', `Started timer for ${_time}${_units}`);
+        createLog(interaction.guild.id, interaction.commandName, 'info', `Started timer for ${_time}${_units}`);
         await interaction.editReply(`Le minuteur est démarré pour ${_time} ${_units}`);
     }
 }

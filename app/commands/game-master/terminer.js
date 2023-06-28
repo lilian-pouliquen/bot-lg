@@ -36,7 +36,7 @@ module.exports = {
                 }
             }
             await userRoleManager.set(rolesToKeepMap);
-            createLog(interaction.guild.id, 'terminer', 'info', `Removed all game roles from user '${user.user.username}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all game roles from user '${user.user.username}'`);
         }
         await interaction.editReply('Les rôles des joueurs ont été retirés');
     }

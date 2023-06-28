@@ -99,7 +99,7 @@ module.exports = {
         for (let i = 0; i < reactCount; i++) {
             sentMessage.react(reactArray[i]);
         }
-        createLog(interaction.guild.id, 'vote', 'info', `Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
+        createLog(interaction.guild.id, interaction.commandName, 'info', `Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
         await interaction.editReply('Vous pouvez voter !');
     }
 }

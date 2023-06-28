@@ -94,10 +94,10 @@ module.exports = {
                     }
                 }
                 await userRoleManager.set(rolesToKeepMap);
-                createLog(interaction.guild.id, 'assigner', 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
+                createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
             }
             await userRoleManager.add(role);
-            createLog(interaction.guild.id, 'assigner', 'info', `Added role '${role.name}' to user '${user.user.username}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Added role '${role.name}' to user '${user.user.username}'`);
         }
         await interaction.editReply('Le rôle a bien été ajouté aux joueurs');
     }

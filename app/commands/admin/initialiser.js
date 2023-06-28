@@ -21,15 +21,15 @@ module.exports = {
             isInitialised = serverConfig.isInitialised;
         } else {
             fs.writeFileSync(serverConfigPath, '{"isInitialised": false}');
-            createLog(interaction.guild.id, 'initialiser', 'info', 'Created server config file and set \'IsInitialised\' key to \'false\'');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'Created server config file and set \'IsInitialised\' key to \'false\'');
         }
 
         // Install the server if it is not installed yet
         if (true === isInitialised) {
-            createLog(interaction.guild.id, 'initialiser', 'info', 'Server is already prepared to play Werewolf');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'Server is already prepared to play Werewolf');
             await interaction.editReply('Le serveur est déjà prêt !');
         } else {
-            createLog(interaction.guild.id, 'initialiser', 'info', 'Started to prepare the server to play Werewolf');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'Started to prepare the server to play Werewolf');
 
             // Retrieve role Manager and channel manager
             const roleManager = interaction.guild.roles;
@@ -84,7 +84,7 @@ module.exports = {
             excludedRoleIds.push(roleGameMaster.id);
 
             channelVillage.permissionOverwrites.edit(roleGameMaster, { ViewChannel: true, SendMessages: true });
-            createLog(interaction.guild.id, 'initialiser', 'info', `Added permissions to role '${roleGameMaster.name}' on channel '${channelVillage.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Added permissions to role '${roleGameMaster.name}' on channel '${channelVillage.name}'`);
 
             permissions = [
                 PermissionsBitField.Flags.ViewChannel,
@@ -105,7 +105,7 @@ module.exports = {
             roleMuted.setColor('Red');
 
             channelVillage.permissionOverwrites.edit(roleMuted, { ViewChannel: true, SendMessages: false });
-            createLog(interaction.guild.id, 'initialiser', 'info', `Added permissions to role '${roleMuted.name}' on channel '${channelVillage.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Added permissions to role '${roleMuted.name}' on channel '${channelVillage.name}'`);
 
             permissions = [PermissionsBitField.Flags.Speak];
             permissionOverwrites = [{ id: roleMuted.id, deny: permissions }];
@@ -124,7 +124,7 @@ module.exports = {
             const roleDead = await createRole(interaction.guild.id, roleManager, 'Mort');
 
             channelVillage.permissionOverwrites.edit(roleDead, { ViewChannel: true, SendMessages: false });
-            createLog(interaction.guild.id, 'initialiser', 'info', `Added permissions to role '${roleDead.name}' on channel '${channelVillage.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Added permissions to role '${roleDead.name}' on channel '${channelVillage.name}'`);
 
             permissions = [
                 PermissionsBitField.Flags.ViewChannel,
@@ -169,7 +169,7 @@ module.exports = {
                 role = await createRole(interaction.guild.id, roleManager, roleName);
 
                 channelVillage.permissionOverwrites.edit(role, { ViewChannel: true, SendMessages: true });
-                createLog(interaction.guild.id, 'initialiser', 'info', `Added permissions to role '${role.name}' on channel '${channelVillage.name}'`);
+                createLog(interaction.guild.id, interaction.commandName, 'info', `Added permissions to role '${role.name}' on channel '${channelVillage.name}'`);
 
                 permissionOverwrites = [
                     { id: role.id, allow: permissions },
@@ -189,19 +189,19 @@ module.exports = {
             const channelWereWolf = channels.get(serverConfigsMap.get('textChannelWerewolfId'));
 
             await channelDead.permissionOverwrites.edit(serverConfigsMap.get('roleShamanId'), { ViewChannel: true });
-            createLog(interaction.guild.id, 'initialiser', 'info', `Set specific permissions on channel '${channelDead.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Set specific permissions on channel '${channelDead.name}'`);
 
             await channelWereWolf.permissionOverwrites.edit(serverConfigsMap.get('roleWhiteWerewolfId'), { ViewChannel: true, SendMessages: true });
             await channelWereWolf.permissionOverwrites.edit(serverConfigsMap.get('roleInfectedWerewolfId'), { ViewChannel: true, SendMessages: true });
             await channelWereWolf.permissionOverwrites.edit(serverConfigsMap.get('roleInfectedId'), { ViewChannel: true, SendMessages: true });
-            createLog(interaction.guild.id, 'initialiser', 'info', `Set specific permissions on channel '${channelWereWolf.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Set specific permissions on channel '${channelWereWolf.name}'`);
 
             // Add excluded role ids to the config
             serverConfigsMap.set('excludedRoleIds', excludedRoleIds);
 
             // Change initialisation state
             serverConfigsMap.set('isInitialised', true);
-            createLog(interaction.guild.id, 'initialiser', 'info', 'Changed \'isInitialised\' key to \'true\'')
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'Changed \'isInitialised\' key to \'true\'')
 
             // Writing role and channel ids to the server config
             const serverConfigJSON = JSON.stringify(Object.fromEntries(serverConfigsMap), null, 4);
@@ -209,7 +209,7 @@ module.exports = {
 
             // Reply to user
             await interaction.editReply('Les rôles et salons ont été créés');
-            createLog(interaction.guild.id, 'initialiser', 'info', `Successfuly prepared the server to play Werewolf`);
+            createLog(interaction.guild.id, interaction.commandName, 'info', `Successfuly prepared the server to play Werewolf`);
         }
     }
 }

@@ -43,7 +43,7 @@ module.exports = {
 
         // Check if there is at least one player
         if (0 === playersInVocalChannel.size) {
-            createLog(interaction.guild.id, 'roles', 'info', 'No player in the main vocal channel');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
             await interaction.editReply('Il n\'y a aucun joueur actuellement');
         } else {
             const roleFieldsArray = [];
@@ -68,9 +68,9 @@ module.exports = {
 
             await channelToSend.send({ embeds: [embedMessage]});
             if (displayPlayerNames) {
-                createLog(interaction.guild.id, 'roles', 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, interaction.commandName, 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
             } else {
-                createLog(interaction.guild.id, 'roles', 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, interaction.commandName, 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
             await interaction.editReply('Affichage terminé !');
         }

@@ -41,7 +41,7 @@ module.exports = {
                     { name: 'Exemple', value: '`/commencer 1lg 1sor 1voy 2vil`', inline: true },
                     { name: 'Codes des rôles disponibles', value: getHelpRoleCodes(), inline: false }
                 ]);
-            createLog(interaction.guild.id, 'commencer', 'info', 'Displayed help for \'commencer\'');
+            createLog(interaction.guild.id, interaction.commandName, 'info', 'Displayed help for \'commencer\'');
             interaction.editReply({ embeds: [embedMessage] });
         } else {
             // Build the assignation array from the string parameter
@@ -82,7 +82,7 @@ module.exports = {
                 // If true, tell the Game Master which codes are wrong
                 // If false, assign the roles randomly to the players
                 if (foundWrongRoleCode) {
-                    createLog(interaction.guild.id, 'commencer', 'error', messageLog);
+                    createLog(interaction.guild.id, interaction.commandName, 'error', messageLog);
                     await interaction.editReply(messageReply);
                 } else {
                     for await (const assignation of assignationsArray) {
@@ -90,14 +90,14 @@ module.exports = {
                             const user = playersInVocalChannel.random(1)[0];
                             user.roles.add(assignation.role);
                             playersInVocalChannel.delete(user.id);
-                            createLog(interaction.guild.id, 'commencer', 'info', `Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
+                            createLog(interaction.guild.id, interaction.commandName, 'info', `Assigned role '${assignation.role.name}' to user '${user.user.username}'`);
                         }
                     }
-                    createLog(interaction.guild.id, 'commencer', 'info', 'All roles have been assigned');
+                    createLog(interaction.guild.id, interaction.commandName, 'info', 'All roles have been assigned');
                     await interaction.editReply('Tous les rôles ont été attribués');
                 }
             } else {
-                createLog(interaction.guild.id, 'commencer', 'info', 'No player in the main vocal channel');
+                createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
                 interaction.editReply('Il n\'y a aucun joueur actuellement');
             }
         }
