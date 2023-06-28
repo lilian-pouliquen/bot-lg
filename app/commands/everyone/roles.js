@@ -15,7 +15,7 @@ module.exports = {
 
         // Retrieve players
         const vocalChannel = await interaction.guild.channels.fetch(serverConfig.vocalChannelGameId);
-        const playersInVocalChannel = vocalChannel.members;
+        const playersInVocalChannel = vocalChannel.members.filter(user => null === user.roles.resolve(serverConfig.roleGameMasterId));
 
         // Other variables
         const excludedRoleIds = serverConfig.excludedRoleIds;
@@ -59,18 +59,20 @@ module.exports = {
                     roleFieldsArray.push({ name: role.name, value: message, inline: true });
                 }
             }
+            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: 'Aucun', value: 'Il n\'y personne en jeu', inline: true }];
             embedMessage = new EmbedBuilder()
                 .setColor('#4A03C3')
                 .setTitle('roles')
                 .setDescription('Liste des rôles en jeu')
-                .addFields(roleFieldsArray);
+                .addFields(embedFields);
 
+            await channelToSend.send({ embeds: [embedMessage]});
             if (displayPlayerNames) {
                 createLog(interaction.guild.id, 'roles', 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
             } else {
                 createLog(interaction.guild.id, 'roles', 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
-            await interaction.editReply({ embeds: [embedMessage] });
+            await interaction.editReply('Affichage terminé !');
         }
     }
 }
