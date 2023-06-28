@@ -1,5 +1,5 @@
 const { createLog, userHasRole } = require('../../functions');
-const { SlashCommandBuilder, Collection, PermissionFlagsBits} = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -40,8 +40,9 @@ module.exports = {
 
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
-        if (!userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : ${requiredRole.name}`);
+        if (! await userHasRole(interaction, requiredRole.id)) {
+            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
 
@@ -66,7 +67,7 @@ module.exports = {
 
         // Retrieve users
         const iterable = [1, 2, 3];
-        const userRoleManagerByUser = new Collection();
+        const userRoleManagerByUser = new Map();
         for await (i of iterable) {
             const _user = interaction.options.getUser(`utilisateur${i}`);
             if (_user) {
@@ -85,14 +86,14 @@ module.exports = {
         // Then add the wanted role
         for await (const [user, userRoleManager] of userRoleManagerByUser) {
             if (role.id === serverConfig.roleDeadId) {
-                const rolesToKeepCollection = new Collection();
+                const rolesToKeepMap = new Map();
                 for (const roleId of excludedRoleIds) {
                     const roleToKeep = await userRoleManager.resolve(roleId);
                     if (null !== roleToKeep) {
-                        rolesToKeepCollection.set(roleId, roleToKeep);
+                        rolesToKeepMap.set(roleId, roleToKeep);
                     }
                 }
-                await userRoleManager.set(rolesToKeepCollection);
+                await userRoleManager.set(rolesToKeepMap);
                 createLog(interaction.guild.id, 'assigner', 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
             }
             await userRoleManager.add(role);

@@ -29,8 +29,9 @@ module.exports = {
 
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
-        if (!userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : ${requiredRole.name}`);
+        if (! await userHasRole(interaction, requiredRole.id)) {
+            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
 

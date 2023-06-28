@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { createLog } = require('./functions');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
 // Initialise client
@@ -14,7 +14,7 @@ const client = new Client({
 });
 
 // Load commands
-client.commands = new Collection();
+client.commands = new Map();
 const commandFoldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(commandFoldersPath).filter(folder => fs.statSync(path.join(commandFoldersPath, folder)).isDirectory());
 

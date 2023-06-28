@@ -1,5 +1,5 @@
 const { createLog, userHasRole } = require('../../functions');
-const { SlashCommandBuilder, Collection, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,8 +19,9 @@ module.exports = {
 
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
-        if (!userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : ${requiredRole.name}`);
+        if (! await userHasRole(interaction, requiredRole.id)) {
+            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
 
@@ -55,7 +56,7 @@ module.exports = {
             // If false, stop
             if (0 < playersInVocalChannel.size) {
                 // Creating a collection of roles with roleCode => role
-                const roleCollection = getRoleCollection(interaction.guild.roles);
+                const roleMap = getRoleMap(interaction.guild.roles, serverConfig);
 
                 // Detect wrong role codes by checking assignations and tell the Game Master about them
                 let messageReply = 'Les codes de rôle suivants n\'existent pas :';
@@ -66,7 +67,7 @@ module.exports = {
                 for await (const assignation of assignations) {
                     const quota = assignation.substr(0, 1);
                     const roleCode = assignation.substr(1);
-                    const roleToAssign = await roleCollection.get(roleCode);
+                    const roleToAssign = await roleMap.get(roleCode);
 
                     if (undefined !== roleToAssign) {
                         assignationsArray.push({ quota: quota, role: roleToAssign });
@@ -103,25 +104,25 @@ module.exports = {
     }
 }
 
-function getRoleCollection(guildRoles) {
-    const roles = new Collection();
-    roles.set("anc", guildRoles.resolve(serverConfig.roleElderId));
-    roles.set("ang", guildRoles.resolve(serverConfig.roleAngelId));
-    roles.set("ank", guildRoles.resolve(serverConfig.roleReaperId));
-    roles.set("ass", guildRoles.resolve(serverConfig.roleAssassinId));
-    roles.set("cham", guildRoles.resolve(serverConfig.roleShamanId));
-    roles.set("chas", guildRoles.resolve(serverConfig.roleHunterId));
-    roles.set("cup", guildRoles.resolve(serverConfig.roleCupidId));
-    roles.set("gar", guildRoles.resolve(serverConfig.roleGuardId));
-    roles.set("jdf", guildRoles.resolve(serverConfig.roleFlutistId));
-    roles.set("lg", guildRoles.resolve(serverConfig.roleWerewolfId));
-    roles.set("lgb", guildRoles.resolve(serverConfig.roleWhiteWerewolfId));
-    roles.set("plg", guildRoles.resolve(serverConfig.roleInfectedWerewolfId));
-    roles.set("pyr", guildRoles.resolve(serverConfig.rolePyromaniacId));
-    roles.set("sor", guildRoles.resolve(serverConfig.roleWitchId));
-    roles.set("vil", guildRoles.resolve(serverConfig.roleVillagerId));
-    roles.set("voy", guildRoles.resolve(serverConfig.roleSeerId));
-    return roles;
+function getRoleMap(_guildRoles, _serverConfig) {
+    return new Map([
+        ["anc", _guildRoles.resolve(_serverConfig.roleElderId)],
+        ["ang", _guildRoles.resolve(_serverConfig.roleAngelId)],
+        ["ank", _guildRoles.resolve(_serverConfig.roleReaperId)],
+        ["ass", _guildRoles.resolve(_serverConfig.roleAssassinId)],
+        ["cham", _guildRoles.resolve(_serverConfig.roleShamanId)],
+        ["chas", _guildRoles.resolve(_serverConfig.roleHunterId)],
+        ["cup", _guildRoles.resolve(_serverConfig.roleCupidId)],
+        ["gar", _guildRoles.resolve(_serverConfig.roleGuardId)],
+        ["jdf", _guildRoles.resolve(_serverConfig.roleFlutistId)],
+        ["lg", _guildRoles.resolve(_serverConfig.roleWerewolfId)],
+        ["lgb", _guildRoles.resolve(_serverConfig.roleWhiteWerewolfId)],
+        ["plg", _guildRoles.resolve(_serverConfig.roleInfectedWerewolfId)],
+        ["pyr", _guildRoles.resolve(_serverConfig.rolePyromaniacId)],
+        ["sor", _guildRoles.resolve(_serverConfig.roleWitchId)],
+        ["vil", _guildRoles.resolve(_serverConfig.roleVillagerId)],
+        ["voy", _guildRoles.resolve(_serverConfig.roleSeerId)]
+    ]);
 }
 
 function getHelpRoleCodes() {
