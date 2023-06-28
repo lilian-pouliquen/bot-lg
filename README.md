@@ -147,31 +147,29 @@ Here is the list of the required role:
 
 | Role ids             | Name            | Types                | Descriptions                                                                                                                                   |
 | -------------------- | --------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| idRoleAdmin          | Admin           | Moderator            | Administrator of the Discord server                                                                                                            |
-| idRoleGameMaster     | Game Master     | Moderator            | Game Master.                                                                                                                                   |
-| idRoleVillager       | Villager        | Villager             | Has no ability.                                                                                                                                |
-| idRoleCupid          | Cupid           | Villager             | During the first night, chooses 2 lovers.                                                                                                      |
-| idRoleLovers         | Lovers          | Additional           | Chosen by Cupid. If the 2 lovers are villagers, they win with the village. Else, they win in solo. If one of the lovers fall, so is the other. |
-| idRoleGuard          | Guard           | Villager             | Once per night, protects someone from the werewolf attack, but cannot protect the same person twice in a row.                                  |
-| idRoleWerewolf       | Werewolf        | Werewolf             | Once per night, votes to kill a villager.                                                                                                      |
-| idRoleWhiteWerewolf  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
-| idRoleInfectWerewolf | Infect Werewolf | Werewolf             | Once per game, after the werewolves vote, chooses to infect the villager chosen by his mates, making him become a werewolf.                    |
-| idRoleInfected       | Infected        | Additional, Werewolf | Chosen by Infect Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.          |
-| idRoleWitch          | Witch           | Villager             | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.      |
-| idRoleSeer           | Seer            | Villager             | Once per night, can see someone's role.                                                                                                        |
-| idRoleAssassin       | Assassin        | Solo                 | Once per night, can kill someone.                                                                                                              |
-| idRolePyromaniac     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or to ignite those who were previously oiled                                                            |
-| idRoleOiled          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac chooses to burn his victims.                                                                        |
-| idRoleFlutist        | Flutist         | Solo                 | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                          |
-| idRoleEnchanted      | Enchanted       | Additional           | Chosen by Flutist. Cannot attempt to kill Flutist, and have to defend him.                                                                     |
-| idRoleReaper         | Reaper          | Villager             | Alive, acts as a villager. Dead, can talk to the other dead players and vote during the two daily vote following the player's death.           |
-| idRoleAncient        | Ancient         | Villager             | Can survive to 1 werewolf attack. If the player dies during the daily vote, all villager-type players lose their abilities.                    |
-| idRoleAngel          | Angel           | Solo, then Villager  | Has to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                     |
-| idRoleShaman         | Shaman          | Villager             | At night, can listen the dead players.                                                                                                         |
-| idRoleHunter         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
-| idRoleDead           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
-| idRoleMuted          | Muted           | Additional           | Role given by the !nuit command to mute players.                                                                                               |
-| idRoleEveryone       | @everyone       | Default              | Default Discord role allowing to mention all the server members.                                                                               |
+| roleGameMasterId     | Game Master     | Moderator            | Game Master.                                                                                                                                   |
+| roleVillagerId       | Villager        | Villager             | Has no ability.                                                                                                                                |
+| roleCupidId          | Cupid           | Villager             | During the first night, chooses 2 lovers.                                                                                                      |
+| roleLoversId         | Lovers          | Additional           | Chosen by Cupid. If the 2 lovers are villagers, they win with the village. Else, they win in solo. If one of the lovers fall, so is the other. |
+| roleGuardId          | Guard           | Villager             | Once per night, protects someone from the werewolf attack, but cannot protect the same person twice in a row.                                  |
+| roleWerewolfId       | Werewolf        | Werewolf             | Once per night, votes to kill a villager.                                                                                                      |
+| roleWhiteWerewolfId  | White Werewolf  | Solo Werewolf        | Acts with the werewolf, but can kill one of his mates every other night.                                                                       |
+| roleInfectedWerewolfId | Infected Werewolf | Werewolf             | Once per game, after the werewolves vote, chooses to infect the villager chosen by his mates, making him become a werewolf.                    |
+| roleInfectedId       | Infected        | Additional, Werewolf | Chosen by Infected Werewolf. Becomes a werewolf, but keeps his original role. If inspected by Seer, the role shown is the original one.          |
+| roleWitchId          | Witch           | Villager             | Once per night, chooses to use a potion or not. Has 2 potions per game: one to resurrect the werewolves' victim, another to kill someone.      |
+| roleSeerId           | Seer            | Villager             | Once per night, can see someone's role.                                                                                                        |
+| roleAssassinId       | Assassin        | Solo                 | Once per night, can kill someone.                                                                                                              |
+| rolePyromaniacId     | Pyromaniac      | Solo                 | Once per night, chooses to oil someone or to ignite those who were previously oiled                                                            |
+| roleOiledId          | Oiled           | Additional           | Chosen by Pyromaniac. Dies when Pyromaniac chooses to burn his victims.                                                                        |
+| roleFlutistId        | Flutist         | Solo                 | Once per night, can enchant 2 players who cannot attempt to kill their master and have to defend him.                                          |
+| roleEnchantedId      | Enchanted       | Additional           | Chosen by Flutist. Cannot attempt to kill Flutist, and have to defend him.                                                                     |
+| roleReaperId         | Reaper          | Villager             | Alive, acts as a villager. Dead, can talk to the other dead players and vote during the two daily vote following the player's death.           |
+| roleElderId        | Elder         | Villager             | Can survive to 1 werewolf attack. If the player dies during the daily vote, all villager-type players lose their abilities.                    |
+| roleAngelId          | Angel           | Solo, then Villager  | Has to die in the first daily vote. If it is a success, the game is over and the player wins. Else, he becomes a villager.                     |
+| roleShamanId         | Shaman          | Villager             | At night, can listen the dead players.                                                                                                         |
+| roleHunterId         | Hunter          | Villager             | When eliminated, the player can kill someone else.                                                                                             |
+| roleDeadId           | Dead            | Dead Player          | When a player is eliminated, this role replaces the other one(s). Can talk to Shaman at night.                                                 |
+| roleMutedId          | Muted           | Additional           | Role given by the !nuit command to mute players.                                                                                               |
 
 Types explaination:
 
@@ -189,24 +187,24 @@ Here is the list of the required channels:
 
 | Channels ids            | Name        | Description                                                              |
 | ----------------------- | ----------- | ------------------------------------------------------------------------ |
-| idVocalChannelMain      | vocal       | Vocal channel use by the bot-lg to determine the Game Master and players |
-| idTextChannelGameMaster | game-master | Text channel used by the Game Master (idRoleGameMaster)                  |
-| idTextChannelWitch      | witch       | Text channel used by the !vote command in the "sor" case                 |
-| idTextChannelPyromaniac | pyromaniac  | Text channel used by the !vote command in the "pyr" case                 |
+| vocalChannelGameId      | vocal       | Vocal channel use by the bot-lg to determine the Game Master and players |
+| textChannelGameMasterId | game-master | Text channel used by the Game Master (roleGameMasterId)                  |
+| textChannelWitchId      | witch       | Text channel used by the !vote command in the "sor" case                 |
+| textChannelPyromaniacId | pyromaniac  | Text channel used by the !vote command in the "pyr" case                 |
 
 ## 8. Bot commands
 
 Here is the list of the bot-lg commands:
 
-| Commands  | Roles required to use commands | Descriptions                                                                                               |
-| --------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Commands    | Roles required to use commands | Descriptions                                                                                               |
+| ----------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | `roles`     | None                           | Display still alive game roles. If the user is the Game Master, the list contains the members of each role |
 | `assigner`  | Game Master                    | Assigns the given role to the given players                                                                |
 | `commencer` | Game Master                    | Assigns specified roles randomly to all the players                                                        |
-| `minuteur`  | Game Master                    | Runs a timer for the specified time (default 3m)                                                                      |
+| `minuteur`  | Game Master                    | Runs a timer for the specified time (default 3m)                                                           |
 | `soleil`    | Game Master                    | There are 2 subcommands: `se_couche` mutes all players and `se_leve` unmutes them                          |
 | `terminer`  | Game Master                    | Remove all game roles from the players                                                                     |
-| `vote`      | Game Master                    | Prints the specified vote form                                                                 |
+| `vote`      | Game Master                    | Prints the specified vote form                                                                             |
 | `nettoyer`  | Admin                          | Clears the current text channel                                                                            |
 
 ## 9. Permissions
