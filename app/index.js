@@ -5,7 +5,13 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
 // Initialise client
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates
+    ]
+});
 
 // Load commands
 client.commands = new Collection();
