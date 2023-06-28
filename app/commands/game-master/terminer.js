@@ -1,4 +1,4 @@
-const { createLog } = require('../../functions');
+const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, Collection, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {

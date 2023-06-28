@@ -1,5 +1,5 @@
 const ms = require('ms');
-const { createLog } = require('../../functions');
+const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
