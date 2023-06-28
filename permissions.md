@@ -1,6 +1,6 @@
-# Required permissions to use Bot-lg
+# Required permissions to use Bot-lg <!-- omit in toc -->
 
-## Bot-lg app permissions
+## 1. Bot-lg app permissions
 
 - Manage Roles
 - Manage Channels
@@ -12,127 +12,162 @@
 - Add Reactions
 - Use Slash Commands
 - Mute Members
-
-Permissions integer: `2420206672`
-
-## Role permissions
-
-### Game Master
-
-- Manage Roles
-- Create Instant invite
-- Change Nickname
-- Read Messages/View Channels
-- Send TTS Messages
-- Embed Links
-- Attach Files
-- Read Message History
-- Mention Everyone
-- Use External Emojis
-- Add Reactions
-- Use Slash Commands
-- Connect
-- Speak
-- Video
-- Mute Members
-- Use Voice Activity
 - Priority Speaker
 
-Permissions integer: `2524438337`
+Invite link with these permissions: <https://discord.com/oauth2/authorize?client_id=700048753612030025&permissions=2420206928&scope=bot%20applications.commands>
 
-### Muted
+## 2. Role permissions
 
-- Read Messages/View Channels
-- Send TTS Messages
-- Embed Links
-- Attach Files
-- Read Message History
-- Mention Everyone
-- Use External Emojis
-- Add Reactions
-- Use Slash Commands
-- Connect
+The listed permissions are the one that are not already granted to the default `@everyone`.
 
-Permissions integer: `2149047360`
+### 2.1. Game Master
 
-### Others
+- Manage Roles
+- Mute Members
+- Priority Speaker
 
-- Create Instant invite
-- Change Nickname
-- Read Messages/View Channels
-- Send TTS Messages
-- Embed Links
-- Attach Files
-- Read Message History
-- Mention Everyone
-- Use External Emojis
-- Add Reactions
-- Use Slash Commands
-- Connect
+### 2.2. Game roles
+
+Same as `@everyone`.
+
+## 3. Text channel permissions
+
+### 3.1. Game role channels
+
+#### 3.1.1. Linked game roles (ie.: role `Villager` for channel `Villager`, etc.), `Game master`
+
+Allow:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+#### 3.1.2. Role `@everyone`
+
+Deny:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+### 3.2. Channel `Village`
+
+#### 3.2.1. Game roles
+
+Allow:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+#### 3.2.2. Roles `Muted`, `Dead`
+
+Allow:
+
+- Read Messages/View Vhannels
+
+Deny:
+
+- Send Messages
+
+#### 3.2.3. Role `@everyone`
+
+Deny:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+### 3.3. Channel `Dead`
+
+#### 3.3.1. Roles `Dead`, `Game master`
+
+Allow:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+#### 3.3.2. Role `Shaman`
+
+Allow:
+
+- Read Messages/View Vhannels
+
+Deny:
+
+- Send Messages
+
+#### 3.3.3. Role `@everyone`
+
+Deny:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+### 3.4. Channel `Werewolf`
+
+#### 3.4.1. Roles `Werewolf`, `White werewolf`, `Infected werewolf`, `Infected`, `Game master`
+
+Allow:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+#### 3.4.2. Role `@everyone`
+
+Deny:
+
+- Read Messages/View Vhannels
+- Send Messages
+
+## 4. Voice channel permissions
+
+### 4.1. Role `Muted`
+
+Deny:
+
 - Speak
-- Video
-- Use Voice Activity
 
-Permissions integer: `2251808321`
+## 5. Command permissions
 
-## Command permissions
+### 5.1. nettoyer
 
-### nettoyer
+- Administrator
 
-- Read Messages/View Channels
-- Send Messages
-- Manage Messages
-- Read Message History
-- Use Slash Commands
-
-Permissions integer: `2147560448`
-
-### roles
+### 5.2. roles
 
 - Send Messages
 - Embed Links
 - Use Slash Commands
 
-Permissions integer: `2147502080`
-
-### minuteur
+### 5.3. minuteur
 
 - Send Messages
 - Use Slash Commands
 
-Permissions integer: `2147485696`
-
-### assigner, terminer
+### 5.4. assigner, terminer
 
 - Manage Roles
 - Send Messages
 - Use Slash Commands
 
-Permissions integer: `2415921152`
-
-### commencer
+### 5.5. commencer
 
 - Manage Roles
 - Send Messages
 - Embed Links
 - Use Slash Commands
 
-Permissions integer: `2415937536`
-
-### soleil
+### 5.6. soleil
 
 - Manage Roles
 - Send Messages
 - Use Slash Commands
 - Mute Members
 
-Permissions integer: `2420115456`
-
-### vote
+### 5.7. vote
 
 - Send Messages
 - Embed Links
 - Add Reactions
 - Use Slash Commands
 
-Permissions integer: `2147502144`
+### 5.8. initialiser
+
+- Administrator

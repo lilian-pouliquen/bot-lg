@@ -1,38 +1,39 @@
-const cmdConfig = require('../cmd_config.json');
 const { userHasRole, createLog } = require('../../functions');
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    requiredRoleId: cmdConfig.idRoleEveryone,
     data: new SlashCommandBuilder()
-        .setName('roles')
-        .setDescription('Affiche les rôles encore en vie')
-        .setDefaultMemberPermissions(2147502080),
+    .setName('roles')
+    .setDescription('Affiche les rôles encore en vie')
+    .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
 
+        // Import server config
+        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+
         // Retrieve players
-        const vocalChannel = await interaction.guild.channels.fetch(cmdConfig.idVocalChannelMain);
+        const vocalChannel = await interaction.guild.channels.fetch(serverConfig.vocalChannelGameId);
         const playersInVocalChannel = vocalChannel.members;
 
         // Other variables
-        const excludedRoleIds = cmdConfig.excludedRoleIds;
-        const channelGameMaster = await interaction.guild.channels.fetch(cmdConfig.idTextChannelGameMaster);
+        const excludedRoleIds = serverConfig.excludedRoleIds;
+        const channelGameMaster = await interaction.guild.channels.fetch(serverConfig.textChannelGameMasterId);
         const roleCollection = await interaction.guild.roles.fetch();
 
         // Check if the user is the Game Master
         // If true, sends the list of still alive roles with their members to the Game Master channel
         // If false, reply to the player with a truncated list of roles only
-        if (await userHasRole(interaction, cmdConfig.idRoleGameMaster)) {
+        if (await userHasRole(interaction, serverConfig.roleGameMasterId)) {
             var channelToSend = channelGameMaster;
             var displayPlayerNames = true;
         } else {
-            excludedRoleIds.push(cmdConfig.idRoleLovers);
-            excludedRoleIds.push(cmdConfig.idRoleInfected);
-            excludedRoleIds.push(cmdConfig.idRoleOiled);
-            excludedRoleIds.push(cmdConfig.idRoleEnchanted);
-            excludedRoleIds.push(cmdConfig.idRoleDead);
+            excludedRoleIds.push(serverConfig.roleLoversId);
+            excludedRoleIds.push(serverConfig.roleInfectedId);
+            excludedRoleIds.push(serverConfig.roleOiledId);
+            excludedRoleIds.push(serverConfig.roleEnchantedId);
+            excludedRoleIds.push(serverConfig.roleDeadId);
             var channelToSend = await interaction.guild.channels.fetch(interaction.channelId);
             var displayPlayerNames = false;
         }

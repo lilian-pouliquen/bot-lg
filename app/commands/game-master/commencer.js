@@ -1,13 +1,11 @@
-const cmdConfig = require('../cmd_config.json');
 const { createLog } = require('../../functions');
-const { SlashCommandBuilder, Collection, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, Collection, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('commencer')
         .setDescription('Commence la partie en distribuant les rôles spécifiés aléatoirement aux joueurs')
-        .setDefaultMemberPermissions(2415937536)
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands)
         .addStringOption(option =>
             option.setName('assignations')
                 .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy)')
@@ -15,6 +13,16 @@ module.exports = {
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
+
+        // Import server config
+        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+
+        //Check if user has the required role
+        const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
+        if (!userHasRole(interaction, requiredRole.id)) {
+            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : ${requiredRole.name}`);
+            return;
+        }
 
         // Retrieve arguments
         const _assignationsString = interaction.options.getString('assignations') ?? '';
@@ -39,8 +47,8 @@ module.exports = {
             const assignations = _assignationsString.split(' ');
 
             // Retrieve players
-            const vocalChannel = await interaction.guild.channels.resolve(cmdConfig.idVocalChannelMain);
-            const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(cmdConfig.idRoleGameMaster));
+            const vocalChannel = await interaction.guild.channels.resolve(serverConfig.vocalChannelGameId);
+            const playersInVocalChannel = vocalChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
 
             // Check if there is at least one player
             // If true, proceed
@@ -97,22 +105,22 @@ module.exports = {
 
 function getRoleCollection(guildRoles) {
     const roles = new Collection();
-    roles.set("anc", guildRoles.resolve(cmdConfig.idRoleAncient));
-    roles.set("ang", guildRoles.resolve(cmdConfig.idRoleAngel));
-    roles.set("ank", guildRoles.resolve(cmdConfig.idRoleReaper));
-    roles.set("ass", guildRoles.resolve(cmdConfig.idRoleAssassin));
-    roles.set("cham", guildRoles.resolve(cmdConfig.idRoleShaman));
-    roles.set("chas", guildRoles.resolve(cmdConfig.idRoleHunter));
-    roles.set("cup", guildRoles.resolve(cmdConfig.idRoleCupid));
-    roles.set("gar", guildRoles.resolve(cmdConfig.idRoleGuard));
-    roles.set("jdf", guildRoles.resolve(cmdConfig.idRoleFlutist));
-    roles.set("lg", guildRoles.resolve(cmdConfig.idRoleWerewolf));
-    roles.set("lgb", guildRoles.resolve(cmdConfig.idRoleWhiteWerewolf));
-    roles.set("plg", guildRoles.resolve(cmdConfig.idRoleInfectWerewolf));
-    roles.set("pyr", guildRoles.resolve(cmdConfig.idRolePyromaniac));
-    roles.set("sor", guildRoles.resolve(cmdConfig.idRoleWitch));
-    roles.set("vil", guildRoles.resolve(cmdConfig.idRoleVillager));
-    roles.set("voy", guildRoles.resolve(cmdConfig.idRoleSeer));
+    roles.set("anc", guildRoles.resolve(serverConfig.roleElderId));
+    roles.set("ang", guildRoles.resolve(serverConfig.roleAngelId));
+    roles.set("ank", guildRoles.resolve(serverConfig.roleReaperId));
+    roles.set("ass", guildRoles.resolve(serverConfig.roleAssassinId));
+    roles.set("cham", guildRoles.resolve(serverConfig.roleShamanId));
+    roles.set("chas", guildRoles.resolve(serverConfig.roleHunterId));
+    roles.set("cup", guildRoles.resolve(serverConfig.roleCupidId));
+    roles.set("gar", guildRoles.resolve(serverConfig.roleGuardId));
+    roles.set("jdf", guildRoles.resolve(serverConfig.roleFlutistId));
+    roles.set("lg", guildRoles.resolve(serverConfig.roleWerewolfId));
+    roles.set("lgb", guildRoles.resolve(serverConfig.roleWhiteWerewolfId));
+    roles.set("plg", guildRoles.resolve(serverConfig.roleInfectedWerewolfId));
+    roles.set("pyr", guildRoles.resolve(serverConfig.rolePyromaniacId));
+    roles.set("sor", guildRoles.resolve(serverConfig.roleWitchId));
+    roles.set("vil", guildRoles.resolve(serverConfig.roleVillagerId));
+    roles.set("voy", guildRoles.resolve(serverConfig.roleSeerId));
     return roles;
 }
 

@@ -1,14 +1,12 @@
 const ms = require('ms');
-const cmdConfig = require('../cmd_config.json');
 const { createLog } = require('../../functions');
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    requiredRoleId: cmdConfig.idRoleGameMaster,
     data: new SlashCommandBuilder()
         .setName('minuteur')
         .setDescription('Initialise un minuteur avec le temps spécifié (par défaut : 3 minutes)')
-        .setDefaultMemberPermissions(2147485696)
+        .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands)
         .addIntegerOption(option =>
             option.setName('temps')
                 .setDescription('(facultatif) Valeur numérique du temps qui va être décompté')
@@ -25,6 +23,16 @@ module.exports = {
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
+
+        // Import server config
+        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+
+        //Check if user has the required role
+        const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
+        if (!userHasRole(interaction, requiredRole.id)) {
+            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : ${requiredRole.name}`);
+            return;
+        }
 
         // Retrieve arguments
         const _time = interaction.options.getInteger('temps') ?? 3;
