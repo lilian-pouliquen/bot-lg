@@ -81,6 +81,7 @@ module.exports = {
                 PermissionsBitField.Flags.PrioritySpeaker
             ];
             const roleGameMaster = await createRole(interaction.guild.id, roleManager, 'Maître du jeu', permissions);
+            excludedRoleIds.push(roleGameMaster.id);
 
             channelVillage.permissionOverwrites.edit(roleGameMaster, { ViewChannel: true, SendMessages: true });
             createLog(interaction.guild.id, 'initialiser', 'info', `Added permissions to role '${roleGameMaster.name}' on channel '${channelVillage.name}'`);
@@ -137,7 +138,7 @@ module.exports = {
             ];
             channel = await createChannel(interaction.guild.id, channelManager, roleDead.name, permissionOverwrites, categoryChannel);
 
-            serverConfigsMap.set('roleDeadId', roleMuted.id);
+            serverConfigsMap.set('roleDeadId', roleDead.id);
             serverConfigsMap.set('textChannelDeadId', channel.id);
 
             // Create other game roles and their text channel and add them to server config map
