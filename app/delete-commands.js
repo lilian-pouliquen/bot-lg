@@ -23,20 +23,16 @@ for (const folder of commandFolders) {
 	}
 }
 
-// Deploy commands via REST API
+// Delete commands via REST API
 const rest = new REST().setToken(token);
 (async () => {
 	try {
-		const deployGlobal = process.argv[2] ?? false;
-		const route = deployGlobal ? Routes.applicationCommands(clientId) : Routes.applicationGuildCommands(clientId, guildId);
-		const where = deployGlobal ? 'in all servers' : `in server '${guildId}'`;
-		createLog('global', 'bot-lg', 'info', `Started refreshing ${commands.length} application commands ${where}`);
-
+		createLog('global', 'bot-lg', 'info', `Started deleting ${commands.length} application commands for server '${guildId}'`);
 		const data = await rest.put(
-			route,
-			{ body: commands },
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: [] }
 		);
-		createLog('global', 'bot-lg', 'info', `Successfully reloaded ${data.length} application commands ${where}`);
+		createLog('global', 'bot-lg', 'info', `Successfully deleted ${data.length} application commands for server '${guildId}'`);
 	} catch (error) {
 		console.error(error);
 		createLog('global', 'bot-lg', 'error', error);
