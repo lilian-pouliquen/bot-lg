@@ -121,6 +121,10 @@ bot-lg
 |   +-- functions/                  : custom modules
 |   |   +-- index.js                : main file which exports the custom modules
 |   |
+|   +-- localisation/               : contains Bot-lg localisation files
+|   |   +-- index.js                : main file for the module to be exported
+|   |   +-- *.json                  : translation files
+|   |
 |   +-- logs/                       : log files for all Discord servers the application is member of
 |   |   +-- .gitignore              : elements ignored by git in logs directory
 |   |
@@ -231,6 +235,7 @@ Here is the list of the bot-lg commands:
 | `soleil`      | Game Master                    | There are 2 subcommands: `se_couche` mutes all players and `se_leve` unmutes them                                    |
 | `terminer`    | Game Master                    | Remove all game roles from the players                                                                               |
 | `vote`        | Game Master                    | Prints the specified vote form                                                                                       |
+| `configurer`  | Administrator                  | Prints the current configuration or edits it depending on the chosen subcommand                                      |
 | `initialiser` | Administrator                  | Prepare the server to play Werewolf by creating roles and channel and adding them to the configuration of the server |
 | `nettoyer`    | Administrator                  | Clears the current text channel                                                                                      |
 
