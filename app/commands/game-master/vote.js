@@ -1,5 +1,6 @@
 const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,10 +29,13 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
@@ -57,39 +61,39 @@ module.exports = {
         var reactCount = 0;
 
         // Check which subcommand has been chosen to send the correct embed message to react to
-        // If village, the message contains all alive players to choose who to eliminate
-        // If sorciere, the message contains a choice of wether to use a life potion or a death one
-        // If pyromane, the message contains a choice of wether to oil someone or light all already oiled players
+        // If village, the message is sent to the current text channel ans contains all alive players to choose who to eliminate
+        // If sorciere, the message is sent to witch text channel and contains a choice of wether to use a life potion or a death one
+        // If pyromane, the message is sent to pyromaniac text channel and contains a choice of wether to oil someone or light all already oiled players
         switch (_subcommand) {
             case 'village':
                 channelToSend = currentChannel;
-                voteCase = 'Village';
-                voteDescription = 'Votez pour la personne à éliminer';
+                voteCase = getLocalisedString(locale, 'vote_case_village');
+                voteDescription = getLocalisedString(locale, 'vote_to_eliminate');
                 reactArray = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
                 reactCount = playersInVocalChannel.size;
                 let i = 0;
                 for await (const [idPlayer, player] of playersInVocalChannel) {
-                    voteFieldsArray.push({ name: 'Villageois', value: `${reactArray[i]} : ${player.nickname ?? player.user.username}`, inline: true });
+                    voteFieldsArray.push({ name: getLocalisedString(locale, 'role_villager_name'), value: `${reactArray[i]} : ${player.nickname ?? player.user.username}`, inline: true });
                     i++;
                 }
                 break;
             case 'sorciere':
                 channelToSend = witchChannel;
-                voteCase = 'Sorcière';
-                voteDescription = 'Choisissez la ou les potions que vous souhaitez utiliser';
-                voteFieldsArray.push({ name: 'Potion 1', value: '❤️ : Potion de vie', inline: true });
-                voteFieldsArray.push({ name: 'Potion 2', value: '💀 : Potion de mort', inline: true });
-                voteFieldsArray.push({ name: 'Rien', value: '✖️ : Ne rien faire', inline: true });
+                voteCase = getLocalisedString(locale, 'vote_case_witch');
+                voteDescription = getLocalisedString(locale, 'choose_potion_to_use');
+                voteFieldsArray.push({ name: `${getLocalisedString(locale, 'potion')} 1`, value: `❤️ : ${getLocalisedString(locale, 'life_potion')}`, inline: true });
+                voteFieldsArray.push({ name: `${getLocalisedString(locale, 'potion')} 2`, value: `💀 : ${getLocalisedString(locale, 'death_potion')}`, inline: true });
+                voteFieldsArray.push({ name: getLocalisedString(locale, 'nothing'), value: `✖️ : ${getLocalisedString(locale, 'do_nothing')}`, inline: true });
                 reactArray = ['❤️', '💀', '✖️'];
                 reactCount = reactArray.length;
                 break;
             case 'pyromane':
                 channelToSend = pyromaniacChannel;
-                voteCase = 'Pyromane';
-                voteDescription = 'Choisissez l\'action que vous voulez faire';
-                voteFieldsArray.push({ name: 'Action 1', value: '⛽ : Imbiber quelqu\'un d\'essence', inline: true });
-                voteFieldsArray.push({ name: 'Action 2', value: '🔥 : Mettre le feu aux personnes déjà imbibées', inline: true });
-                voteFieldsArray.push({ name: 'Rien', value: '✖️ : Ne rien faire', inline: true });
+                voteCase = getLocalisedString(locale, 'vote_case_pyromaniac');
+                voteDescription = getLocalisedString(locale, 'choose_action_to_do');
+                voteFieldsArray.push({ name: `${getLocalisedString(locale, 'action')} 1`, value: `⛽ : ${getLocalisedString(locale, 'oil_someone')}`, inline: true });
+                voteFieldsArray.push({ name: `${getLocalisedString(locale, 'action')} 2`, value: `🔥 : ${getLocalisedString(locale, 'ignite_oiled_ones')}`, inline: true });
+                voteFieldsArray.push({ name: getLocalisedString(locale, 'nothing'), value: `✖️ : ${getLocalisedString(locale, 'do_nothing')}`, inline: true });
                 reactArray = ['⛽', '🔥', '✖️'];
                 reactCount = reactArray.length;
                 break;
@@ -97,7 +101,7 @@ module.exports = {
 
         embedMessage = new EmbedBuilder()
             .setColor('#4A03C3')
-            .setTitle(`Vote ${voteCase}`)
+            .setTitle(voteCase)
             .setDescription(`${voteDescription}`)
             .addFields(voteFieldsArray);
 
@@ -105,7 +109,7 @@ module.exports = {
         for (let i = 0; i < reactCount; i++) {
             sentMessage.react(reactArray[i]);
         }
-        createLog(interaction.guild.id, interaction.commandName, 'info', `Sent a vote for '${voteCase}' in the channel '${channelToSend.name}'`);
-        await interaction.editReply('Vous pouvez voter !');
+        createLog(interaction.guild.id, interaction.commandName, 'info', `Sent a vote for case '${voteCase}' in the channel '${channelToSend.name}'`);
+        await interaction.editReply(getLocalisedString(locale, 'vote_available'));
     }
 }

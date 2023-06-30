@@ -1,5 +1,7 @@
-const { createLog } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { createLog } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,8 +9,14 @@ module.exports = {
     .setDescription('Efface tous les messages non épinglés du salon actuel')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
+        // Import server config
+        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+
+        //Get locale
+        const locale = serverConfig.locale;
+
         // Answer to the user
-        await interaction.reply('Suppression des messages en cours');
+        await interaction.reply(getLocalisedString(locale, 'deleting_messages'));
 
         // Delete all unpinned messages
         let messagesToDelete;

@@ -1,6 +1,8 @@
 const ms = require('ms');
-const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { createLog, userHasRole } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,10 +29,13 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
@@ -42,11 +47,11 @@ module.exports = {
         // Starting the timer
         const time = ms(`${_time}${_units}`);
         setTimeout(() => {
-            interaction.channel.send("Le temps est écoulé !");
+            interaction.channel.send(getLocalisedString(locale, 'time_is_up'));
             createLog(interaction.guild.id, interaction.commandName, 'info', 'The timer has finished');
         }, time);
 
         createLog(interaction.guild.id, interaction.commandName, 'info', `Started timer for ${_time}${_units}`);
-        await interaction.editReply(`Le minuteur est démarré pour ${_time} ${_units}`);
+        await interaction.editReply(getLocalisedString(locale, 'timer_started', _time, _units));
     }
 }

@@ -1,5 +1,7 @@
-const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { createLog, userHasRole } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,16 +19,22 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
 
         // Retrieve arguments
         const _assignationsString = interaction.options.getString('assignations') ?? '';
+
+        // Creating a collection of roles with roleCode => role
+        const rolesMap = getRolesMap(interaction.guild.roles, serverConfig);
 
         // Check if the list of assignations is empty
         // If true, display command help
@@ -35,11 +43,11 @@ module.exports = {
             embedMessage = new EmbedBuilder()
                 .setColor('#4A03C3')
                 .setTitle('commencer')
-                .setDescription('Aide de la commande `commencer`')
+                .setDescription(getLocalisedString(locale, 'commencer_command_help'))
                 .addFields([
-                    { name: 'Utilisation', value: '`/commencer <n><code_role> [...]`', inline: true },
-                    { name: 'Exemple', value: '`/commencer 1lg 1sor 1voy 2vil`', inline: true },
-                    { name: 'Codes des rôles disponibles', value: getHelpRoleCodes(), inline: false }
+                    { name: getLocalisedString(locale, 'usage'), value: '`/commencer <n><code_role> [...]`', inline: true },
+                    { name: getLocalisedString(locale, 'example'), value: '`/commencer 1lg 1sor 1voy 2vil`', inline: true },
+                    { name: getLocalisedString(locale, 'available_role_codes'), value: getHelpRoleCodes(rolesMap), inline: false }
                 ]);
             createLog(interaction.guild.id, interaction.commandName, 'info', 'Displayed help for \'commencer\'');
             interaction.editReply({ embeds: [embedMessage] });
@@ -55,11 +63,8 @@ module.exports = {
             // If true, proceed
             // If false, stop
             if (0 < playersInVocalChannel.size) {
-                // Creating a collection of roles with roleCode => role
-                const roleMap = getRoleMap(interaction.guild.roles, serverConfig);
-
                 // Detect wrong role codes by checking assignations and tell the Game Master about them
-                let messageReply = 'Les codes de rôle suivants n\'existent pas :';
+                let messageReply = getLocalisedString(locale, 'following_role_codes_do_not_exist');
                 let messageLog = `The following role codes do not exist:`;
                 let foundWrongRoleCode = false;
                 const assignationsArray = [];
@@ -67,7 +72,7 @@ module.exports = {
                 for await (const assignation of assignations) {
                     const quota = assignation.substr(0, 1);
                     const roleCode = assignation.substr(1);
-                    const roleToAssign = await roleMap.get(roleCode);
+                    const roleToAssign = await rolesMap.get(roleCode);
 
                     if (undefined !== roleToAssign) {
                         assignationsArray.push({ quota: quota, role: roleToAssign });
@@ -94,17 +99,17 @@ module.exports = {
                         }
                     }
                     createLog(interaction.guild.id, interaction.commandName, 'info', 'All roles have been assigned');
-                    await interaction.editReply('Tous les rôles ont été attribués');
+                    await interaction.editReply(getLocalisedString(locale, 'all_roles_have_been_assigned'));
                 }
             } else {
                 createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
-                interaction.editReply('Il n\'y a aucun joueur actuellement');
+                interaction.editReply(getLocalisedString(locale, 'no_player'));
             }
         }
     }
 }
 
-function getRoleMap(_guildRoles, _serverConfig) {
+function getRolesMap(_guildRoles, _serverConfig) {
     return new Map([
         ["anc", _guildRoles.resolve(_serverConfig.roleElderId)],
         ["ang", _guildRoles.resolve(_serverConfig.roleAngelId)],
@@ -125,21 +130,10 @@ function getRoleMap(_guildRoles, _serverConfig) {
     ]);
 }
 
-function getHelpRoleCodes() {
-    return '> – `anc` : Ancien\n\
-> – `ang` : Ange\n\
-> – `ank` : Ankou\n\
-> – `ass` : Assassin\n\
-> – `cham` : Chaman\n\
-> – `chas` : Chasseur\n\
-> – `cup` : Cupidon\n\
-> – `gar` : Gardien\n\
-> – `jdf` : Joueur de flûte\n\
-> – `lg` : Loup-garou\n\
-> – `lgb` : Loup-garou blanc\n\
-> – `plg` : Père des loups\n\
-> – `pyr` : Pyromane\n\
-> – `sor` : Sorcière\n\
-> – `vil` : Villageois\n\
-> – `voy` : Voyante';
+function getHelpRoleCodes(_rolesMap) {
+    let helpRoleCodesString = '';
+    for (const [roleCode, role] of _rolesMap) {
+        helpRoleCodesString += `> – \`${roleCode}\`: ${role.name}\n`;
+    }
+    return helpRoleCodesString;
 }

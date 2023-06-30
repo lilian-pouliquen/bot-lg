@@ -1,5 +1,7 @@
-const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { createLog, userHasRole } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,10 +25,13 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
@@ -46,7 +51,7 @@ module.exports = {
         if (0 < playersInVocalChannel.size) {
             switch (_subcommand) {
                 case 'se_leve':
-                    messageReply = 'Le soleil s\'est levé !';
+                    messageReply = getLocalisedString(locale, 'sun_rises');
                     messageLog = 'Unmuted all players';
                     for await (const [idPlayer, player] of playersInVocalChannel) {
                         player.roles.remove(serverConfig.roleMutedId);
@@ -55,7 +60,7 @@ module.exports = {
                     createLog(interaction.guild.id, interaction.commandName, 'info', 'Unmuted all players');
                     break;
                 case 'se_couche':
-                    messageReply = 'Le soleil s\'est couché !';
+                    messageReply = getLocalisedString(locale, 'sun_sets');
                     messageLog = 'Muted all players';
                     for await (const [idPlayer, player] of playersInVocalChannel) {
                         player.roles.add(serverConfig.roleMutedId);
@@ -67,7 +72,7 @@ module.exports = {
             await interaction.editReply(message);
         } else {
             createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
-            await interaction.editReply('Il n\'y a aucun joueur actuellement');
+            await interaction.editReply(getLocalisedString(locale, 'no_player'));
         }
     }
 }

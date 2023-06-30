@@ -1,5 +1,7 @@
-const { userHasRole, createLog } = require('../../functions');
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { userHasRole, createLog } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,6 +14,9 @@ module.exports = {
 
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+
+        //Get locale
+        const locale = serverConfig.locale;
 
         // Retrieve players
         const voiceChannel = await interaction.guild.channels.fetch(serverConfig.voiceChannelGameId);
@@ -44,7 +49,7 @@ module.exports = {
         // Check if there is at least one player
         if (0 === playersInVocalChannel.size) {
             createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
-            await interaction.editReply('Il n\'y a aucun joueur actuellement');
+            await interaction.editReply(getLocalisedString(locale, 'no_player'));
         } else {
             const roleFieldsArray = [];
             // For each game role, display who are its members
@@ -59,11 +64,11 @@ module.exports = {
                     roleFieldsArray.push({ name: role.name, value: message, inline: true });
                 }
             }
-            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: 'Aucun', value: 'Il n\'y personne en jeu', inline: true }];
+            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: 'Aucun', value: getLocalisedString(locale, 'no_player'), inline: true }];
             embedMessage = new EmbedBuilder()
                 .setColor('#4A03C3')
                 .setTitle('roles')
-                .setDescription('Liste des rôles en jeu')
+                .setDescription(getLocalisedString(locale, 'still_alive_role_list'))
                 .addFields(embedFields);
 
             await channelToSend.send({ embeds: [embedMessage]});
@@ -72,7 +77,7 @@ module.exports = {
             } else {
                 createLog(interaction.guild.id, interaction.commandName, 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
-            await interaction.editReply('Affichage terminé !');
+            await interaction.editReply(getLocalisedString(locale, 'done_displaying'));
         }
     }
 }

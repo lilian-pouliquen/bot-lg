@@ -1,5 +1,7 @@
-const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+
+const { createLog, userHasRole } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,10 +15,13 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
@@ -38,6 +43,6 @@ module.exports = {
             await userRoleManager.set(rolesToKeepMap);
             createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all game roles from user '${user.user.username}'`);
         }
-        await interaction.editReply('Les rôles des joueurs ont été retirés');
+        await interaction.editReply(getLocalisedString(locale, 'player_roles_withdrawn'));
     }
 }

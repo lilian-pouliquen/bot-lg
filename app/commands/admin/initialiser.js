@@ -2,32 +2,27 @@ const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits, PermissionsBitField, ChannelType } = require('discord.js');
 
 const { createLog } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('initialiser')
-        .setDescription('Inistialise le serveur pour pouvoir jouer aux Loups-garous')
+        .setDescription('Initialise le serveur pour pouvoir jouer aux Loups-garous')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
 
-        // Checking initialisation state
-        let isInitialised = false;
-        let serverConfig = null
+        // Check initialisation state and get locale
         const serverConfigPath = `/app/config/${interaction.guild.id}/server_config.json`;
-        if (fs.existsSync(serverConfigPath)) {
-            serverConfig = require(serverConfigPath);
-            isInitialised = serverConfig.isInitialised;
-        } else {
-            fs.writeFileSync(serverConfigPath, '{"isInitialised": false}');
-            createLog(interaction.guild.id, interaction.commandName, 'info', 'Created server config file and set \'IsInitialised\' key to \'false\'');
-        }
+        const serverConfig = require(serverConfigPath);
+        isInitialised = serverConfig.isInitialised;
+        locale = serverConfig.locale;
 
         // Install the server if it is not installed yet
         if (true === isInitialised) {
             createLog(interaction.guild.id, interaction.commandName, 'info', 'Server is already prepared to play Werewolf');
-            await interaction.editReply('Le serveur est déjà prêt !');
+            await interaction.editReply(getLocalisedString(locale, 'server_already_prepared'));
         } else {
             createLog(interaction.guild.id, interaction.commandName, 'info', 'Started to prepare the server to play Werewolf');
 
@@ -48,6 +43,7 @@ module.exports = {
 
             // Server configs map
             const serverConfigsMap = new Map();
+            serverConfigsMap.set('locale', locale);
 
             // Variables
             let permissions = [];
@@ -57,7 +53,7 @@ module.exports = {
 
             // Create
             const categoryChannel = await channelManager.create({
-                name: 'Loups-garous',
+                name: getLocalisedString(locale, 'category_channel_name'),
                 type: ChannelType.GuildCategory
             });
 
@@ -70,7 +66,7 @@ module.exports = {
                 { id: roleBotlg.id, allow: permissions },
                 { id: roleEveryone.id, deny: permissions }
             ];
-            const channelVillage = await createChannel(interaction.guild.id, channelManager, 'Village', permissionOverwrites, categoryChannel);
+            const channelVillage = await createChannel(interaction.guild.id, channelManager, getLocalisedString(locale, 'text_channel_village_name'), permissionOverwrites, categoryChannel);
 
             serverConfigsMap.set('textChannelVillageId', channelVillage.id);
 
@@ -80,7 +76,7 @@ module.exports = {
                 PermissionsBitField.Flags.MuteMembers,
                 PermissionsBitField.Flags.PrioritySpeaker
             ];
-            const roleGameMaster = await createRole(interaction.guild.id, roleManager, 'Maître du jeu', permissions);
+            const roleGameMaster = await createRole(interaction.guild.id, roleManager, getLocalisedString(locale, 'role_game_master_name'), permissions);
             excludedRoleIds.push(roleGameMaster.id);
 
             channelVillage.permissionOverwrites.edit(roleGameMaster, { ViewChannel: true, SendMessages: true });
@@ -101,7 +97,7 @@ module.exports = {
             serverConfigsMap.set('textChannelGameMasterId', channel.id);
 
             // Create role Muted and voice channel loups-garous and add them to server config map
-            const roleMuted = await createRole(interaction.guild.id, roleManager, 'Muet');
+            const roleMuted = await createRole(interaction.guild.id, roleManager, getLocalisedString(locale, 'role_muted_name'));
             roleMuted.setColor('Red');
 
             channelVillage.permissionOverwrites.edit(roleMuted, { ViewChannel: true, SendMessages: false });
@@ -110,7 +106,7 @@ module.exports = {
             permissions = [PermissionsBitField.Flags.Speak];
             permissionOverwrites = [{ id: roleMuted.id, deny: permissions }];
             channel = await channelManager.create({
-                name: 'Place du village',
+                name: getLocalisedString(locale, 'voice_channel_game_name'),
                 type: ChannelType.GuildVoice,
                 parent: categoryChannel,
                 permissionOverwrites: permissionOverwrites
@@ -143,26 +139,26 @@ module.exports = {
 
             // Create other game roles and their text channel and add them to server config map
             const otherRolesMap = new Map([
-                ['Villager', 'Villageois'],
-                ['Cupid', 'Cupidon'],
-                ['Lovers', 'Amoureux'],
-                ['Guardian', 'Gardien'],
-                ['Werewolf', 'Loup-garou'],
-                ['WhiteWerewolf', 'Loup blanc'],
-                ['InfectedWerewolf', 'Père des loups'],
-                ['Infected', 'Infecté'],
-                ['Witch', 'Sorcière'],
-                ['Seer', 'Voyante'],
-                ['Assassin', 'Assassin'],
-                ['Pyromaniac', 'Pyromane'],
-                ['Oiled', 'Imbibé d\'essence'],
-                ['Flutist', 'Joueur de flûte'],
-                ['Enchanted', 'Envouté'],
-                ['Reaper', 'Ankou'],
-                ['Elder', 'Ancien'],
-                ['Angel', 'Ange'],
-                ['Shaman', 'Chaman'],
-                ['Hunter', 'Chasseur']
+                ['Villager', getLocalisedString(locale, 'role_villager_name')],
+                ['Cupid', getLocalisedString(locale, 'role_cupid_name')],
+                ['Lovers', getLocalisedString(locale, 'role_lovers_name')],
+                ['Guard', getLocalisedString(locale, 'role_guard_name')],
+                ['Werewolf', getLocalisedString(locale, 'role_werewolf_name')],
+                ['WhiteWerewolf', getLocalisedString(locale, 'role_white_werewolf_name')],
+                ['InfectedWerewolf', getLocalisedString(locale, 'role_infected_werewolf_name')],
+                ['Infected', getLocalisedString(locale, 'role_infected_name')],
+                ['Witch', getLocalisedString(locale, 'role_witch_name')],
+                ['Seer', getLocalisedString(locale, 'role_seer_name')],
+                ['Assassin', getLocalisedString(locale, 'role_assassin_name')],
+                ['Pyromaniac', getLocalisedString(locale, 'role_pyromaniac_name')],
+                ['Oiled', getLocalisedString(locale, 'role_oiled_name')],
+                ['Flutist', getLocalisedString(locale, 'role_flutist_name')],
+                ['Enchanted', getLocalisedString(locale, 'role_enchanted_name')],
+                ['Reaper', getLocalisedString(locale, 'role_reaper_name')],
+                ['Elder', getLocalisedString(locale, 'role_elder_name')],
+                ['Angel', getLocalisedString(locale, 'role_angel_name')],
+                ['Shaman', getLocalisedString(locale, 'role_shaman_name')],
+                ['Hunter', getLocalisedString(locale, 'role_hunter_name')]
             ]);
 
             for await (const [roleKey, roleName] of otherRolesMap) {
@@ -205,16 +201,16 @@ module.exports = {
 
             // Writing role and channel ids to the server config
             const serverConfigJSON = JSON.stringify(Object.fromEntries(serverConfigsMap), null, 4);
-            fs.writeFileSync(`/app/config/${interaction.guild.id}/server_config.json`, serverConfigJSON);
+            fs.writeFileSync(serverConfigPath, serverConfigJSON);
 
             // Reply to user
-            await interaction.editReply('Les rôles et salons ont été créés');
+            await interaction.editReply(getLocalisedString(locale, 'roles_and_channels_created'));
             createLog(interaction.guild.id, interaction.commandName, 'info', `Successfuly prepared the server to play Werewolf`);
         }
     }
 }
 
-async function createRole(_guildId,_roleManager, _roleName, _permissions = []) {
+async function createRole(_guildId, _roleManager, _roleName, _permissions = []) {
     let role = null;
     if (0 === _permissions.length) {
         role = await _roleManager.create({

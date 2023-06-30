@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { createLog } = require('./functions');
+const { getLocalisedString } = require('./localisation')
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
@@ -33,13 +34,22 @@ for (const folder of commandFolders) {
 }
 
 // Log in when client is ready
+// If server config
 client.once(Events.ClientReady, clientBot => {
+
     createLog('global', 'bot-lg', 'info', `Logged in as '${clientBot.user.tag}'`);
     clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
 });
 
 // Execute commands
 client.on(Events.InteractionCreate, async interaction => {
+    // If server config does not exist
+    const serverConfigPath = `/app/config/${interaction.guild.id}/server_config.json`;
+    if (!fs.existsSync(serverConfigPath)) {
+        fs.writeFileSync(serverConfigPath, '{"isInitialised": false, "locale": "fr"}');
+        createLog(interaction.guild.id, interaction.commandName, 'info', 'Created server config file, set \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
+    }
+
     if (!interaction.isChatInputCommand()) return;
 
     const command = interaction.client.commands.get(interaction.commandName);
@@ -50,6 +60,10 @@ client.on(Events.InteractionCreate, async interaction => {
         return;
     }
 
+    // Get locale
+    const serverConfig = require(`./config/${interaction.guild.id}/server_config.json`);
+    const locale = serverConfig.locale;
+
     // Execute the command
     try {
         await command.execute(interaction);
@@ -57,13 +71,13 @@ client.on(Events.InteractionCreate, async interaction => {
         console.log(error)
         createLog(interaction.guild.id, interaction.commandName, 'error', error);
         if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'Une erreur est survenue lors de l\'exécution de la commande', ephemeral: true });
+            await interaction.followUp({ content: getLocalisedString(locale, 'command_error'), ephemeral: true });
         } else {
-            await interaction.reply({ content: 'Une erreur est survenue lors de l\'exécution de la commande', ephemeral: true });
+            await interaction.reply({ content: getLocalisedString(locale, 'command_error'), ephemeral: true });
         }
     }
 
-})
+});
 
 // Log in
 client.login(token);

@@ -1,5 +1,5 @@
 // Check if the user has the given role
-exports.userHasRole = async function hasRole(_interaction, _roleId) {
+exports.userHasRole = async function userHasRole(_interaction, _roleId) {
     return null !== await _interaction.member.roles.resolve(_roleId);
 }
 

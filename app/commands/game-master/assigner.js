@@ -1,5 +1,7 @@
-const { createLog, userHasRole } = require('../../functions');
 const { SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
+
+const { createLog, userHasRole } = require('../../functions');
+const { getLocalisedString } = require('../../localisation');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,10 +40,13 @@ module.exports = {
         // Import server config
         const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
 
+        // Get locale
+        const locale = serverConfig.locale;
+
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(`Vous n\'avez pas le rôle nécessaire pour exécuter cette commande : \`${requiredRole.name}\``);
+            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
@@ -99,6 +104,6 @@ module.exports = {
             await userRoleManager.add(role);
             createLog(interaction.guild.id, interaction.commandName, 'info', `Added role '${role.name}' to user '${user.user.username}'`);
         }
-        await interaction.editReply('Le rôle a bien été ajouté aux joueurs');
+        await interaction.editReply(getLocalisedString(locale, 'role_added_to_players'));
     }
 };
