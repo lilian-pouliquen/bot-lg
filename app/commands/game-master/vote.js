@@ -102,7 +102,7 @@ module.exports = {
         embedMessage = new EmbedBuilder()
             .setColor('#4A03C3')
             .setTitle(voteCase)
-            .setDescription(`${voteDescription}`)
+            .setDescription(voteDescription)
             .addFields(voteFieldsArray);
 
         sentMessage = await channelToSend.send({ embeds: [embedMessage] });
