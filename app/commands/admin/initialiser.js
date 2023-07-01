@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits, PermissionsBitField, ChannelType } = require('discord.js');
 
+const mongodb = require('../../models');
 const { createLog } = require('../../functions');
 const { getLocalisedString } = require('../../localisation');
 
@@ -14,8 +15,7 @@ module.exports = {
         await interaction.deferReply();
 
         // Check initialisation state and get locale
-        const serverConfigPath = `/app/config/${interaction.guild.id}/server_config.json`;
-        const serverConfig = require(serverConfigPath);
+        const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
         isInitialised = serverConfig.isInitialised;
         locale = serverConfig.locale;
 
@@ -43,6 +43,7 @@ module.exports = {
 
             // Server configs map
             const serverConfigsMap = new Map();
+            serverConfigsMap.set('_id', interaction.guild.id);
             serverConfigsMap.set('locale', locale);
 
             // Variables
@@ -199,9 +200,10 @@ module.exports = {
             serverConfigsMap.set('isInitialised', true);
             createLog(interaction.guild.id, interaction.commandName, 'info', 'Changed \'isInitialised\' key to \'true\'')
 
-            // Writing role and channel ids to the server config
-            const serverConfigJSON = JSON.stringify(Object.fromEntries(serverConfigsMap), null, 4);
-            fs.writeFileSync(serverConfigPath, serverConfigJSON);
+            // Write new server configuration to database
+            await mongodb.deleteOne({_id: interaction.guild.id});
+            const serverConfigJSON = JSON.stringify(Object.fromEntries(serverConfigsMap));
+            await mongodb.insertOne(serverConfigJSON);
 
             // Reply to user
             await interaction.editReply(getLocalisedString(locale, 'roles_and_channels_created'));

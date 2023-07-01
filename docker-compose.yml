@@ -9,3 +9,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - "./app/:/app/"
+
+  mongodb:
+    container_name: mongodb
+    image: ${IMAGE_MONGODB}
+    env_file:
+      - ./docker/mongodb.env
+    volumes:
+      - ${DATA_PATH}/mongodb/:/var/lib/mongodb/

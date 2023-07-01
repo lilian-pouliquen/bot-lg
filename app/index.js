@@ -1,9 +1,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const { Client, Events, GatewayIntentBits } = require('discord.js');
+
 const { createLog } = require('./functions');
 const { getLocalisedString } = require('./localisation')
-const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
+const mongodb = require('./models');
 
 // Initialise client
 const client = new Client({
@@ -36,7 +38,6 @@ for (const folder of commandFolders) {
 // Log in when client is ready
 // If server config
 client.once(Events.ClientReady, clientBot => {
-
     createLog('global', 'bot-lg', 'info', `Logged in as '${clientBot.user.tag}'`);
     clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
 });
@@ -44,10 +45,11 @@ client.once(Events.ClientReady, clientBot => {
 // Execute commands
 client.on(Events.InteractionCreate, async interaction => {
     // If server config does not exist
-    const serverConfigPath = `/app/config/${interaction.guild.id}/server_config.json`;
-    if (!fs.existsSync(serverConfigPath)) {
-        fs.writeFileSync(serverConfigPath, '{"isInitialised": false, "locale": "fr"}');
-        createLog(interaction.guild.id, interaction.commandName, 'info', 'Created server config file, set \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
+    let serverConfig = await mongodb.findOne({_id: interaction.guild.id});
+    if (null === serverConfig) {
+        serverConfig = {_id: interaction.guild.id ,isInitialised: false, locale: "fr"};
+        await mongodb.insertOne(serverConfig);
+        createLog(interaction.guild.id, interaction.commandName, 'info', 'Inserted server config in database with \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
     }
 
     if (!interaction.isChatInputCommand()) return;
@@ -61,7 +63,6 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 
     // Get locale
-    const serverConfig = require(`./config/${interaction.guild.id}/server_config.json`);
     const locale = serverConfig.locale;
 
     // Execute the command
