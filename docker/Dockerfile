@@ -8,11 +8,11 @@ RUN \
     wget -qO /bin/pnpm "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" \
     && chmod +x /bin/pnpm; \
     \
-    pnpm config --global set global-bin-dir /usr/local/bin/;
+    pnpm config --global set global-bin-dir /usr/local/bin/; \
+    \
+    pnpm add -g nodemon;
 
 # Making the 'app' folder the current working directory
-WORKDIR /app/
+WORKDIR /app
 
-COPY ./app ./
-
-CMD ["node", "index.js"]
+CMD ["nodemon", "index.js"]

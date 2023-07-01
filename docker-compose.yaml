@@ -5,7 +5,7 @@ services:
     container_name: botlg
     image: node:botlg
     build:
-      context: ./
+      context: ./docker/
       dockerfile: Dockerfile
     volumes:
       - "./app/:/app/"
