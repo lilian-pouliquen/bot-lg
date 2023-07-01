@@ -1,22 +1,22 @@
 ---
-Document: "bot-lg documentation"
+Document: "Bot-lg documentation"
 Author: "Lilian POULIQUEN"
 ---
 
-# bot-lg documentation <!-- omit in toc -->
+# Bot-lg documentation <!-- omit in toc -->
 
 ## Table of content <!-- omit in toc -->
 
-- [1. What is bot-lg](#1-what-is-bot-lg)
+- [1. What is Bot-lg](#1-what-is-bot-lg)
 - [2. Prerequisite](#2-prerequisite)
   - [2.1. For your Discord server](#21-for-your-discord-server)
   - [2.2. For Docker application run](#22-for-docker-application-run)
   - [2.3. Optionnal](#23-optionnal)
-- [3. Install bot-lg](#3-install-bot-lg)
+- [3. Install Bot-lg](#3-install-bot-lg)
 - [4. Finalise the install](#4-finalise-the-install)
   - [4.1. Classic initialisation](#41-classic-initialisation)
   - [4.2. Initialisation with the make command](#42-initialisation-with-the-make-command)
-- [5. Start and stop bot-lg](#5-start-and-stop-bot-lg)
+- [5. Start and stop Bot-lg](#5-start-and-stop-bot-lg)
   - [5.1. Classic commands](#51-classic-commands)
   - [5.2. Make commands](#52-make-commands)
 - [6. Project structure](#6-project-structure)
@@ -28,11 +28,11 @@ Author: "Lilian POULIQUEN"
 - [10. Authors](#10-authors)
 - [11. Contributors](#11-contributors)
 
-## 1. What is bot-lg
+## 1. What is Bot-lg
 
-bot-lg is a Discord bot giving access to helpful commands, making Game master's life easier during a Werewolf game on Discord.
+Bot-lg is a Discord bot giving access to helpful commands, making Game master's life easier during a Werewolf game on Discord.
 
-***DISCLAIMER:*** Commands and messages sent by bot-lg are in French. I will work later on a translation support.
+***DISCLAIMER:*** Commands, choice options and descriptions are in French. I will search for a way to translate them according to the locale set.
 
 ## 2. Prerequisite
 
@@ -56,22 +56,22 @@ Note: Please, make sure to keep your bot token to fill the app/config.json file 
 If you are a make user, a Makefile is available!
 Intall the `make` command.
 
-## 3. Install bot-lg
+## 3. Install Bot-lg
 
-1. Clone or download bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
+1. Clone or download Bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
 1. Create the required configuration files in the project using the following `*.dist.*` files:
 
-| Template file                        | Final file                                         |
-| ------------------------------------ | -------------------------------------------------- |
-| `.dist.env`                          | `.env`                                             |
-| `app/config.dist.json`               | `app/config.json`                                  |
-| `app/config/server_config.dist.json` | `app/config/<discord_guild_id>/server_config.json` |
+| Template file             | Final file           |
+| ------------------------- | -------------------- |
+| `.dist.env`               | `.env`               |
+| `app/config.dist.json`    | `app/config.json`    |
+| `docker/mongodb.dist.env` | `docker/mongodb.env` |
 
-At this point, bot-lg is ready to start.
+At this point, Bot-lg is ready to start.
 
 ## 4. Finalise the install
 
-In order to initialise and start bot-lg, you need to follow these steps:
+In order to initialise and start Bot-lg, you need to follow these steps:
 
 ### 4.1. Classic initialisation
 
@@ -88,35 +88,31 @@ In order to initialise and start bot-lg, you need to follow these steps:
 
 You can see all other make rules using `make` or `make help`.
 
-## 5. Start and stop bot-lg
+## 5. Start and stop Bot-lg
 
 ### 5.1. Classic commands
 
-To start and stop bot-lg you can issue the following commands:
+To start and stop Bot-lg you can issue the following commands:
 
-- Start bot-lg: `sudo docker-compose up --detach`
-- Stop bot-lg: `sudo docker-compose down`
+- Start Bot-lg: `sudo docker-compose up --detach`
+- Stop Bot-lg: `sudo docker-compose down`
 
 ### 5.2. Make commands
 
-To start and stop bot-lg you can use the available make rules:
+To start and stop Bot-lg you can use the available make rules:
 
-- Start bot-lg: `make start`
-- Stop bot-lg: `make stop`
+- Start Bot-lg: `make start`
+- Stop Bot-lg: `make stop`
 
 ## 6. Project structure
 
 ``` text
 bot-lg
-+-- app/                            : contains the bot-lg app
-|   +-- commands/                   : contains bot-lg commands
++-- app/                            : contains the Bot-lg app
+|   +-- commands/                   : contains Bot-lg commands
 |   |   +-- admin/                  : contains commands reserved to 'Admin' role
 |   |   +-- everyone/               : contains commands reserved to 'Everyone' role
 |   |   +-- game-master/            : contains commands reserved to 'Maître du jeu' role
-|   |
-|   +-- config/                     : configurations of all Discord servers the application is member of
-|   |   +-- .gitignore              : elements ignored by git in config directory
-|   |   +-- server_config.dist.json : configuration file template for the bot-lg commands. Contains the role and channel ids, excluded role ids and the initialisation state of the server
 |   |
 |   +-- functions/                  : custom modules
 |   |   +-- index.js                : main file which exports the custom modules
@@ -129,19 +125,25 @@ bot-lg
 |   |   +-- .gitignore              : elements ignored by git in logs directory
 |   |
 |   +-- .gitignore                  : elements ignored by git in the app directory
-|   +-- config.dist.json            : configuration file template for the bot-lg app
+|   +-- config.dist.json            : configuration file template for the Bot-lg app
 |   +-- delete-commands.js          : script to delete commands on the server configured in config.json
 |   +-- deploy-commands.js          : script to deploy commands only on the server configured in config.json or on all the servers
-|   +-- index.js                    : main file to run bot-lg
+|   +-- index.js                    : main file to run Bot-lg
 |   +-- package.json                : node dependencies to be installed
 |   +-- pnpm-lock.yaml              : node dependencies to be installed
+|
++-- docker/
+|   +-- .dockerignore               : elements to ignore by docker
+|   +-- .gitignore                  : elements to ignore by git
+|   +-- Dockerfile                  : Botlg development image build file
+|   +-- mongodb.dist.env            : environment variables template file for MongoDB container
 |
 +-- .dist.env                       : docker-compose environment variables file template
 +-- .dockerignore                   : elements to ignore by docker
 +-- .gitignore                      : elements to ignore by git
 +-- docker-compose.yml              : docker-compose file
-+-- Dockerfile                      : botlg container image
-+-- logo.zip                        : bot-lg logo by Kévin BOURBASQUET
++-- Dockerfile                      : Botlg production image build file
++-- logo.zip                        : Bot-lg logo by Kévin BOURBASQUET
 +-- Makefile                        : all make rules available to manage 'botlg' container
 +-- permissions.md                  : list of permissions needed by the application
 +-- README.md                       : project documentation
@@ -149,13 +151,13 @@ bot-lg
 
 ## 7. Discord server requirements
 
-In this section you can find the required elements for you Discord server. In order to use bot-lg, you need to copy-paste `/app/config/server_config.dist.json` as `/app/config/<your_discord_server_id>/server_config.json` and fill this file with the following required element ids.
+In this section you can find the required elements for you Discord server.
 
-***IMPORTANT:*** The command `initialiser` creates all the required channels and roles with the correct permissions for you. It also creates the `server_config.json` in the correct directory.
+Before initialising you server, choose a language with the `configuerer langue` command. Then, with the command `initialiser`, Bot-lg will create all the required channels and roles with the correct permissions for you and save them in its database.
 
 ### 7.1. Roles
 
-Here is the list of the roles used by bot-lg:
+Here is the list of the roles Bot-lg will create and manage:
 
 | Role ids               | Name              | Types                | Descriptions                                                                                                                                   |
 | ---------------------- | ----------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -194,7 +196,7 @@ Types explaination:
 
 ### 7.2. Channels
 
-Here is the list of the channels used by bot-lg:
+Here is the list of the channels Bot-lg will create and manage:
 
 | Channels ids                  | Name              | Description                                                                          |
 | ----------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
@@ -220,11 +222,11 @@ Here is the list of the channels used by bot-lg:
 | textChannelWerewolfId         | werevolf          | Text channel used by roles Werewolf, White werewolf, Infected werewolf and Infected. |
 | textChannelWhiteWerewolfId    | white-werewolf    | Text channel used by role Whitewerewolf.                                             |
 | textChannelWitchId            | witch             | Text channel used by role Witch.                                                     |
-| voiceChannelGameId            | Village square    | Vocal channel use by the bot-lg to fetch the players.                                |
+| voiceChannelGameId            | Village square    | Vocal channel use by the Bot-lg to fetch the players.                                |
 
 ## 8. Bot commands
 
-Here is the list of the bot-lg commands:
+Here is the list of Bot-lg's commands:
 
 | Commands      | Roles required to use commands | Descriptions                                                                                                         |
 | ------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
@@ -250,4 +252,4 @@ See [permissions.md](./permissions.md) for more information about required permi
 ## 11. Contributors
 
 - Léandre KERUZEC: Command ideas, Documentation review
-- Kévin BOURBASQUET: bot-lg logo designer and creator
+- Kévin BOURBASQUET: Bot-lg logo designer and creator
