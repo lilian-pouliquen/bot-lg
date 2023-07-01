@@ -18,7 +18,7 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
-			createLog('global', 'bot-lg', 'warn', `The command at ${filePath} is missing a required "data" or "execute" property`);
+			createLog('global', 'load-commands', 'warn', `The command at ${filePath} is missing a required "data" or "execute" property`);
 		}
 	}
 }
@@ -27,14 +27,14 @@ for (const folder of commandFolders) {
 const rest = new REST().setToken(token);
 (async () => {
 	try {
-		createLog('global', 'bot-lg', 'info', `Started deleting ${commands.length} application commands for server '${guildId}'`);
+		createLog('global', 'delete-commands', 'info', `Started deleting ${commands.length} application commands for server '${guildId}'`);
 		const data = await rest.put(
 			Routes.applicationGuildCommands(clientId, guildId),
 			{ body: [] }
 		);
-		createLog('global', 'bot-lg', 'info', `Successfully deleted ${data.length} application commands for server '${guildId}'`);
+		createLog('global', 'delete-commands', 'info', `Successfully deleted ${data.length} application commands for server '${guildId}'`);
 	} catch (error) {
 		console.error(error);
-		createLog('global', 'bot-lg', 'error', error);
+		createLog('global', 'delete-commands', 'error', error);
 	}
 })();

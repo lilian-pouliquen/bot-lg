@@ -18,7 +18,7 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
-			createLog('global', 'bot-lg', 'warn', `The command at ${filePath} is missing a required "data" or "execute" property`);
+			createLog('global', 'load-commands', 'warn', `The command at ${filePath} is missing a required "data" or "execute" property`);
 		}
 	}
 }
@@ -30,15 +30,15 @@ const rest = new REST().setToken(token);
 		const deployGlobal = process.argv[2] ?? false;
 		const route = deployGlobal ? Routes.applicationCommands(clientId) : Routes.applicationGuildCommands(clientId, guildId);
 		const where = deployGlobal ? 'in all servers' : `in server '${guildId}'`;
-		createLog('global', 'bot-lg', 'info', `Started refreshing ${commands.length} application commands ${where}`);
+		createLog('global', 'deploy-commands', 'info', `Started refreshing ${commands.length} application commands ${where}`);
 
 		const data = await rest.put(
 			route,
 			{ body: commands },
 		);
-		createLog('global', 'bot-lg', 'info', `Successfully reloaded ${data.length} application commands ${where}`);
+		createLog('global', 'deploy-commands', 'info', `Successfully reloaded ${data.length} application commands ${where}`);
 	} catch (error) {
 		console.error(error);
-		createLog('global', 'bot-lg', 'error', error);
+		createLog('global', 'deploy-commands', 'error', error);
 	}
 })();
