@@ -29,10 +29,10 @@ module.exports = {
             const roleManager = interaction.guild.roles;
             const channelManager = interaction.guild.channels;
 
-            // Retrieve everyone and bot-lg roles
+            // Retrieve everyone and Bot-lg roles
             const roleEveryone = await roleManager.fetch(interaction.guild.id);
             const existingRoles = await roleManager.fetch();
-            const roleBotlg = existingRoles.find(role => role.name === 'bot-lg');
+            const roleBotlg = existingRoles.find(role => role.name.toLowerCase() === 'bot-lg');
 
             // Excluded roles are existing ones
             const excludedRoleIds = [];
