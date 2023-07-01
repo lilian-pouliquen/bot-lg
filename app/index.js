@@ -38,16 +38,57 @@ for (const folder of commandFolders) {
 // Log in when client is ready
 // If server config
 client.once(Events.ClientReady, clientBot => {
-    createLog('global', 'bot-lg', 'info', `Logged in as '${clientBot.user.tag}'`);
+    createLog('global', 'connect', 'info', `Logged in as '${clientBot.user.tag}'`);
     clientBot.user.setPresence({ activities: [{ name: 'Loups-garous' }], status: 'online' })
 });
 
+// Add a role to excluded roles when added to the server
+client.on(Events.GuildRoleCreate, async role => {
+    // If server config does not exist, insert it into database
+    let serverConfig = await mongodb.findOne({ _id: role.guild.id });
+    if (null === serverConfig) {
+        serverConfig = { _id: role.guild.id, isInitialised: false, locale: "fr" };
+        await mongodb.insertOne(serverConfig);
+        createLog('global', 'create-role', 'info', 'Inserted server config in database with \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
+    }
+
+    // Check if server is inititialised, add the new role id to the excluded role ids list
+    if (serverConfig.isInitialised) {
+        serverConfig.excludedRoleIds.push(role.id);
+        mongodb.updateOne({ _id: role.guild.id }, { $set: serverConfig });
+        createLog('global', 'create-role', 'info', `Added '${role.id}' in the list of excluded roles`);
+    } else {
+        createLog('global', 'create-role', 'warn', `The server is not initialised, cannot add '${role.id}' in the list of excluded roles`);
+    }
+});
+
+// Delete role from excluded roles when deleted from the server
+client.on(Events.GuildRoleDelete, async role => {
+    // If server config does not exist, insert it into database
+    let serverConfig = await mongodb.findOne({ _id: role.guild.id });
+    if (null === serverConfig) {
+        serverConfig = { _id: role.guild.id, isInitialised: false, locale: "fr" };
+        await mongodb.insertOne(serverConfig);
+        createLog('global', 'delete-role', 'info', 'Inserted server config in database with \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
+    }
+
+    // Check if server is inititialised, delete the role id from the excluded role ids list
+    if (serverConfig.isInitialised) {
+        serverConfig.excludedRoleIds = serverConfig.excludedRoleIds.filter(id => id !== role.id);
+        mongodb.updateOne({ _id: role.guild.id }, { $set: serverConfig });
+        createLog('global', 'delete-role', 'info', `Deleted '${role.id}' from the list of excluded roles`);
+    } else {
+        createLog('global', 'delete-role', 'warn', `The server is not initialised, cannot delete '${role.id}' from the list of excluded roles`);
+    }
+});
+
+
 // Execute commands
 client.on(Events.InteractionCreate, async interaction => {
-    // If server config does not exist
-    let serverConfig = await mongodb.findOne({_id: interaction.guild.id});
+    // If server config does not exist, insert it into database
+    let serverConfig = await mongodb.findOne({ _id: interaction.guild.id });
     if (null === serverConfig) {
-        serverConfig = {_id: interaction.guild.id ,isInitialised: false, locale: "fr"};
+        serverConfig = { _id: interaction.guild.id, isInitialised: false, locale: "fr" };
         await mongodb.insertOne(serverConfig);
         createLog(interaction.guild.id, interaction.commandName, 'info', 'Inserted server config in database with \'IsInitialised\' key to \'false\' and \'locale\' key to \'fr\'');
     }
@@ -58,7 +99,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
     // check if the command exists
     if (!command) {
-        createLog('global', 'bot-lg', 'error', `No command matching '${interaction.commandName}' was found in server '${interaction.guild.name}'`);
+        createLog('global', 'execute-command', 'error', `No command matching '${interaction.commandName}' was found in server '${interaction.guild.name}'`);
         return;
     }
 
