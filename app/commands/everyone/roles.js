@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
+const mongodb = require('../../models');
 const { userHasRole, createLog } = require('../../functions');
 const { getLocalisedString } = require('../../localisation');
 
@@ -12,10 +13,8 @@ module.exports = {
         // App is thinking
         await interaction.deferReply();
 
-        // Import server config
-        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
-
-        //Get locale
+        // Get server config from database and get locale
+        const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
         const locale = serverConfig.locale;
 
         // Retrieve players

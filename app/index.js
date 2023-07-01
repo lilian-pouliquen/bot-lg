@@ -2,10 +2,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 
+const mongodb = require('./models');
 const { createLog } = require('./functions');
 const { getLocalisedString } = require('./localisation')
 const { token } = require('./config.json');
-const mongodb = require('./models');
 
 // Initialise client
 const client = new Client({

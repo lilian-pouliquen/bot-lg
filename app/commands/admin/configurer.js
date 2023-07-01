@@ -1,6 +1,6 @@
-const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
+const mongodb = require('../../models');
 const { createLog } = require('../../functions');
 const { getLocalisedString } = require('../../localisation');
 
@@ -27,8 +27,8 @@ module.exports = {
                 )
         ),
     async execute(interaction) {
-        // Import server config and get locale
-        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
+        // Get server config from database and get locale
+        const serverConfig = await mongodb.findOne({ _id: interaction.guild.id });
         const locale = serverConfig.locale;
 
         // Retrieve subcommand
@@ -53,15 +53,15 @@ module.exports = {
                 message = getLocalisedString(locale, 'configuration_display_roles');
                 message += getMessageConfig(roleConfigs);
                 await interaction.followUp({ content: message, ephemeral: true });
+
                 createLog(interaction.guild.id, interaction.commandName, 'info', `Displayed configuration for server ${interaction.guild.id}`);
                 break;
             case 'langue':
-                const serverConfigPath = `/app/config/${interaction.guild.id}/server_config.json`;
                 const language = interaction.options.getString('langue');
                 serverConfig.locale = language;
 
-                fs.writeFileSync(serverConfigPath, JSON.stringify(serverConfig, null, 4));
-                await interaction.reply({content: getLocalisedString(serverConfig.locale, 'configuration_change_language', serverConfig.locale), ephemeral: true});
+                await mongodb.updateOne({ _id: interaction.guild.id }, { $set: serverConfig });
+                await interaction.reply({ content: getLocalisedString(serverConfig.locale, 'configuration_change_language', serverConfig.locale), ephemeral: true });
                 createLog(interaction.guild.id, interaction.commandName, 'info', `Set 'locale' key to '${serverConfig.locale}' on server ${interaction.guild.id}`);
                 break;
         }

@@ -14,15 +14,20 @@ const mongodbClient = new MongoClient(mongodbUri, {
 const db = mongodbClient.db(mongodbDatabase);
 const collection = db.collection(mongodbCollection);
 
+exports.insertOne = async function insertOne(_object) {
+    const result = await collection.insertOne(_object);
+    createLog('database', 'insertOne', 'info', `Inserted object with _id: ${result.insertedId} – ${result.acknowledged ? 'Success' : 'Failure'}`);
+}
+
 exports.findOne = async function findOne(_object) {
     const result = await collection.findOne(_object);
     createLog('database', 'findOne', 'info', `Searched for object: ${JSON.stringify(_object)} – ${null !== result ? 'Success' : 'Failure'}`);
     return result;
 }
 
-exports.insertOne = async function insertOne(_object) {
-    const result = await collection.insertOne(_object);
-    createLog('database', 'insertOne', 'info', `Inserted object with _id: ${result.insertedId} – ${result.acknowledged ? 'Success' : 'Failure'}`);
+exports.updateOne = async function updateOne(_query, _update) {
+    const result = await collection.updateOne(_query, _update);
+    createLog('database', 'updateOne', 'info', `Updated object with _id: ${JSON.stringify(_query)} – ${result.acknowledged ? 'Success' : 'Failure'}`);
 }
 
 exports.deleteOne = async function deleteOne(_object) {

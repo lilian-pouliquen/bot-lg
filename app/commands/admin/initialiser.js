@@ -1,4 +1,3 @@
-const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits, PermissionsBitField, ChannelType } = require('discord.js');
 
 const mongodb = require('../../models');
@@ -14,7 +13,7 @@ module.exports = {
         // App is thinking
         await interaction.deferReply();
 
-        // Check initialisation state and get locale
+        // Get server config from database, get locale and initialisation state
         const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
         isInitialised = serverConfig.isInitialised;
         locale = serverConfig.locale;

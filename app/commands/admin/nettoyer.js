@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
+const mongodb = require('../../models');
 const { createLog } = require('../../functions');
 const { getLocalisedString } = require('../../localisation');
 
@@ -9,10 +10,8 @@ module.exports = {
     .setDescription('Efface tous les messages non épinglés du salon actuel')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
-        // Import server config
-        const serverConfig = require(`../../config/${interaction.guild.id}/server_config.json`);
-
-        //Get locale
+        // Get server config from databaseang get locale
+        const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
         const locale = serverConfig.locale;
 
         // Answer to the user
