@@ -10,12 +10,15 @@ module.exports = {
     .setDescription('Efface tous les messages non épinglés du salon actuel')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
+        // App is thinking
+        await interaction.deferReply();
+
         // Get server config from databaseang get locale
         const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
         const locale = serverConfig.locale;
 
         // Answer to the user
-        await interaction.reply(getLocalisedString(locale, 'deleting_messages'));
+        await interaction.editReply(getLocalisedString(locale, 'deleting_messages'));
 
         // Delete all unpinned messages
         let messagesToDelete;
