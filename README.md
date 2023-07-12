@@ -201,6 +201,7 @@ Here is the list of the channels Bot-lg will create and manage:
 | Channels ids                  | Name              | Description                                                                          |
 | ----------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
 | textChannelAngelId            | angel             | Text channel used by role Angel.                                                     |
+| textChannelAssassinId         | assassin          | Text channel used by role Assassin.                                                  |
 | textChannelCupidId            | cupid             | Text channel used by role Cupid.                                                     |
 | textChannelDeadId             | dead              | Text channel used by role Dead. Shaman can read it but not send messages.            |
 | textChannelElderId            | elder             | Text channel used by role Elder.                                                     |

@@ -1,0 +1,35 @@
+site_name: Documentation Bot-lg
+docs_dir: ../../docs/fr/
+site_dir: ../../build/fr/
+theme:
+  name: material
+  custom_dir: ../../common/
+  logo: assets/images/logo.png
+  favicon: assets/images/favicon.svg
+  language: fr
+  features:
+    - navigation.instant
+    - navigation.path
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+extra:
+  alternate:
+    - name: English
+      link: /en/
+      lang: en
+    - name: Français
+      link: /fr/
+      lang: fr
+
+markdown_extensions:
+  - toc:
+      permalink: "#"
+
+nav:
+  - Accueil: index.md
+  - Rôles: roles.md
+  - Salons: salons.md
+  - Commandes: commandes.md

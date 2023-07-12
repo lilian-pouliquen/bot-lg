@@ -1,6 +1,5 @@
 # VARIABLES
-POSTGRES_USER = $(shell cat .env | grep POSTGRES_USER | cut -f2 -d'=')
-POSTGRES_DB   = $(shell cat .env | grep POSTGRES_DB | cut -f2 -d'=')
+IMAGE_MKDOCS = $(shell cat .env | grep IMAGE_MKDOCS | cut -f2 -d'=')
 
 # RULES
 all : help
@@ -58,3 +57,6 @@ deploy-commands-global:
 
 delete-commands:
 	docker-compose run --rm botlg node delete-commands.js
+
+build-docs:
+	docker run --rm --interactive --tty --volume ${PWD}/mkdocs/:/docs/ ${IMAGE_MKDOCS} mkdocs build -f config/fr/mkdocs.yaml
