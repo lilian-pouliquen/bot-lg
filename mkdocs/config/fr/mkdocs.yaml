@@ -8,10 +8,11 @@ theme:
   favicon: assets/images/favicon.svg
   language: fr
   features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.indexes
     - navigation.instant
-    - navigation.path
     - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - toc.follow
@@ -25,11 +26,59 @@ extra:
       lang: fr
 
 markdown_extensions:
+  - admonition
+  - pymdownx.snippets
+  - pymdownx.superfences
   - toc:
       permalink: "#"
+      toc_depth: 3
 
 nav:
   - Accueil: index.md
-  - Rôles: roles.md
+  - Rôles:
+    - roles/index.md
+    - Additionnel:
+      - Amoureux: roles/additionnel/amoureux.md
+      - Envoûté: roles/additionnel/envoute.md
+      - Imbibé d'essence: roles/additionnel/imbibe-dessence.md
+      - Infecté: roles/additionnel/infecte.md
+      - Muet: roles/additionnel/muet.md
+    - Loup-garou:
+      - Loup-garou: roles/loup-garou/loup-garou.md
+      - Père des loups: roles/loup-garou/pere-des-loups.md
+    - Modérateur:
+      - Maître du jeu: roles/moderateur/maitre-du-jeu.md
+    - Mort:
+      - Mort: roles/mort/mort.md
+    - Solo:
+      - Assassin: roles/solo/assassin.md
+      - Joueur de flûte: roles/solo/joueur-de-flute.md
+      - Loup blanc: roles/solo/loup-blanc.md
+      - Pyromane: roles/solo/pyromane.md
+    - Villageois:
+      - Ancien: roles/villageois/ancien.md
+      - Ange: roles/villageois/ange.md
+      - Ankou: roles/villageois/ankou.md
+      - Chaman: roles/villageois/chaman.md
+      - Chasseur: roles/villageois/chasseur.md
+      - Cupidon: roles/villageois/cupidon.md
+      - Gardien: roles/villageois/gardien.md
+      - Sorcière: roles/villageois/sorciere.md
+      - Villageois: roles/villageois/villageois.md
+      - Voyante: roles/villageois/voyante.md
   - Salons: salons.md
-  - Commandes: commandes.md
+  - Commandes:
+      - commandes/index.md
+      - Administrateur:
+        - configurer: commandes/administrateur/configurer.md
+        - initialiser: commandes/administrateur/initialiser.md
+        - nettoyer: commandes/administrateur/nettoyer.md
+      - Everyone:
+        - roles: commandes/everyone/roles.md
+      - Maître du jeu:
+        - assigner: commandes/maitre-du-jeu/assigner.md
+        - commencer: commandes/maitre-du-jeu/commencer.md
+        - minuteur: commandes/maitre-du-jeu/minuteur.md
+        - soleil: commandes/maitre-du-jeu/soleil.md
+        - terminer: commandes/maitre-du-jeu/terminer.md
+        - vote: commandes/maitre-du-jeu/vote.md

@@ -1,8 +1,3 @@
----
-hide:
-  - navigation
----
-
 # Rôles de Bot-lg
 
 ## Introduction
@@ -32,9 +27,7 @@ Certaines commandes nécessitent de connaître les codes des rôles, voici le ta
 | `vil`  | Villageois      |
 | `voy`  | Voyante         |
 
-## Informations détaillées des rôles
-
-### Types de rôles
+## Types de rôles
 
 | Type        | Description                                                                                                                                                   |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -44,6 +37,8 @@ Certaines commandes nécessitent de connaître les codes des rôles, voici le ta
 | Mort        | Le joueur est éliminé. Les morts peuvent toujours discuter dans le salon dédié, où le chaman peut notamment les écouter.                                      |
 | Solo        | Les joueurs ayant un rôle de ce type doivent éliminer tous les autres joueurs pour gagner.                                                                    |
 | Villageois  | Les joueurs ayant un rôle de ce type gagnent lorsque toutes les menaces sont écartées. C'est-à-dire qu'il n'y a plus de rôles de type `Loup-garou` et `Solo`. |
+
+## Informations détaillées des rôles
 
 ### Amoureux
 
