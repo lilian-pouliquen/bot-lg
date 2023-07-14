@@ -7,7 +7,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('roles')
-    .setDescription('Affiche les rôles encore en vie')
+    .setDescription('Affiche les rôles en jeu')
     .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands),
     async execute(interaction) {
         // App is thinking

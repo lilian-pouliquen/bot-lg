@@ -7,34 +7,34 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('vote')
-        .setDescription('Affiche un formulaire de vote selon le cas précisé')
+        .setDescription('Affiche un formulaire de vote spécifié')
         .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.AddReactions | PermissionFlagsBits.UseApplicationCommands)
         .addSubcommand(subcommand =>
             subcommand
-                .setName('village')
-                .setDescription('Affiche le formulaire de vote du village')
+                .setName('pyromane')
+                .setDescription('Affiche le formulaire des choix du pyromane dans le salon pyromane')
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('sorciere')
-                .setDescription('Affiche le formulaire des choix de la sorcière')
+                .setDescription('affiche le formulaire des choix de la sorcière dans le salon sorcière')
         )
         .addSubcommand(subcommand =>
             subcommand
-                .setName('pyromane')
-                .setDescription('Affiche le formulaire des choix du pyromane')
+                .setName('village')
+                .setDescription('Affiche le formulaire de vote du village dans le salon courant')
         ),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
 
         // Get server config from database and get locale
-        const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
+        const serverConfig = await mongodb.findOne({ _id: interaction.guild.id });
         const locale = serverConfig.locale;
 
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
-        if (! await userHasRole(interaction, requiredRole.id)) {
+        if (!await userHasRole(interaction, requiredRole.id)) {
             await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
             createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;

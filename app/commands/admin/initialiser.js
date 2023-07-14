@@ -7,7 +7,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('initialiser')
-        .setDescription('Initialise le serveur pour pouvoir jouer aux Loups-garous')
+        .setDescription('Prépare le serveur Discord en ajoutant les rôles et salons nécessaire')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         // App is thinking

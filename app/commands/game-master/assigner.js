@@ -7,7 +7,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('assigner')
-        .setDescription('Assigne le rôle spécifié à la ou les personnes spécifiées')
+        .setDescription('Assigne le rôle donné aux joueurs spécifiés')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands)
         .addStringOption(option =>
             option.setName('role')

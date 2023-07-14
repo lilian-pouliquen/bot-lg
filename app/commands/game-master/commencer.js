@@ -7,11 +7,11 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('commencer')
-        .setDescription('Commence la partie en distribuant les rôles spécifiés aléatoirement aux joueurs')
+        .setDescription('Assigne aléatoirement les rôles donnés selon le quota attribué')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands)
         .addStringOption(option =>
             option.setName('assignations')
-                .setDescription('Liste des assignations (ex : 2lg 3vil 1sor 1voy)')
+                .setDescription('(facultatif) La liste des assignations')
         ),
     async execute(interaction) {
         // App is thinking
@@ -45,7 +45,7 @@ module.exports = {
                 .setDescription(getLocalisedString(locale, 'commencer_command_help'))
                 .addFields([
                     { name: getLocalisedString(locale, 'usage'), value: '`/commencer <n><code_role> [...]`', inline: true },
-                    { name: getLocalisedString(locale, 'example'), value: '`/commencer 1lg 1sor 1voy 2vil`', inline: true },
+                    { name: getLocalisedString(locale, 'example'), value: '`/commencer 2lg 1voy 1sor 1chas`', inline: true },
                     { name: getLocalisedString(locale, 'available_role_codes'), value: getHelpRoleCodes(rolesMap), inline: false }
                 ]);
             createLog(interaction.guild.id, interaction.commandName, 'info', 'Displayed help for \'commencer\'');

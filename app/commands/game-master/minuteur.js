@@ -8,7 +8,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('minuteur')
-        .setDescription('Initialise un minuteur avec le temps spécifié (par défaut : 3 minutes)')
+        .setDescription('Démarre un minuteur pour le temps donné (défaut : 3 minutes)')
         .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands)
         .addIntegerOption(option =>
             option.setName('temps')

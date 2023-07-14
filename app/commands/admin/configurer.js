@@ -11,14 +11,14 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addSubcommand(subcommand =>
             subcommand.setName('afficher')
-                .setDescription('Afficher la configuration actuelle de Bot-lg')
+                .setDescription('Affiche la configuration de Bot-lg')
         )
         .addSubcommand(subcommand =>
             subcommand.setName('langue')
-                .setDescription('Configurer la langue de Bot-lg')
+                .setDescription('Configure la langue de Bot-lg (défaut  : Français)')
                 .addStringOption(option =>
                     option.setName('langue')
-                        .setDescription('Configurer la langue de Bot-lg')
+                        .setDescription('La langue que Bot-lg doit adopter')
                         .setRequired(true)
                         .setChoices(
                             { name: 'Français (défaut)', value: 'fr' },

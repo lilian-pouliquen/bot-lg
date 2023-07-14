@@ -7,7 +7,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('terminer')
-        .setDescription('Termine la partie en retirant tous les rôles de jeu des joueurs')
+        .setDescription('Enlève tous les rôles des joueurs pour terminer la partie')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands),
     async execute(interaction) {
         // App is thinking

@@ -7,7 +7,7 @@ const { getLocalisedString } = require('../../localisation');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('soleil')
-        .setDescription('Rend les joueurs muets ou non, pour le jour ou la nuit')
+        .setDescription('Rend les joueurs muets ou leur rend la parole')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands | PermissionFlagsBits.MuteMembers)
         .addSubcommand(subcommand =>
             subcommand
