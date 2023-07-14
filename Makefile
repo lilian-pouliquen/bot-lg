@@ -1,5 +1,6 @@
 # VARIABLES
 IMAGE_MKDOCS = $(shell cat .env | grep IMAGE_MKDOCS | cut -f2 -d'=')
+BOTLG_VERSION = 2.0.0
 
 # RULES
 all : help
@@ -9,10 +10,6 @@ help:
 	@echo "    help                      : Shows available commands for this Makefile"
 	@echo ""
 	@echo "[CONTAINER MANAGEMENT]"
-	@echo "    prepare                   : Builds docker images and install Node.js dependencies"
-	@echo ""
-	@echo "    build                     : Builds docker images for the botlg and its PHP API"
-	@echo ""
 	@echo "    install                   : Installs the Node.js dependencies required by the project within the 'botlg' container"
 	@echo ""
 	@echo "    update                    : Updates the Node.js dependencies required by the project within the 'botlg' container"
@@ -23,23 +20,26 @@ help:
 	@echo ""
 	@echo "    restart                   : Restarts the containers with docker-compose"
 	@echo ""
+	@echo "[BOT COMMAND MANAGEMENT]"
 	@echo "    deploy-commands           : Deploys application commands to the server in config.json"
 	@echo ""
 	@echo "    deploy-commands-global    : Deploys application commands to all servers"
 	@echo ""
 	@echo "    delete-commands           : Deletes application commands on the server in config.json"
 	@echo ""
+	@echo "[BUILD]"
+	@echo "    build-docs                : Builds documentation site with MkDocs"
+	@echo ""
+	@echo "    build                     : Builds documentation and app Docker images"
+	@echo ""
 
-prepare: build install
-
-build: Dockerfile php-api.Dockerfile
-	docker image build --file Dockerfile --tag node:botlg ./
+# CONTAINER MANAGEMENT
 
 install:
-	docker-compose run --rm botlg pnpm install
+	docker-compose run --rm botlg_app pnpm install
 
 update:
-	docker-compose run --rm botlg pnpm update
+	docker-compose run --rm botlg_app pnpm update
 
 start:
 	docker-compose up --detach
@@ -49,14 +49,23 @@ stop:
 
 restart: stop start
 
+# BOT COMMAND MANAGEMENT
+
 deploy-commands:
-	docker-compose run --rm botlg node deploy-commands.js
+	docker-compose run --rm botlg_app node deploy-commands.js
 
 deploy-commands-global:
-	docker-compose run --rm botlg node deploy-commands.js true
+	docker-compose run --rm botlg_app node deploy-commands.js true
 
 delete-commands:
-	docker-compose run --rm botlg node delete-commands.js
+	docker-compose run --rm botlg_app node delete-commands.js
+
+# BUILD
 
 build-docs:
 	docker run --rm --interactive --tty --volume ${PWD}/mkdocs/:/docs/ ${IMAGE_MKDOCS} mkdocs build -f config/fr/mkdocs.yaml
+	cp mkdocs/build/robots.txt mkdocs/build/fr/robots.txt
+
+build: build-docs
+	docker image build --file botlg.Dockerfile --tag docker.home-pouliquen.local/botlg-app:${BOTLG_VERSION} ./
+	docker image build --file botlg-web.Dockerfile --tag docker.home-pouliquen.local/botlg-web:${BOTLG_VERSION} ./

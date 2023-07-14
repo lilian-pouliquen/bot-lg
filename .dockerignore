@@ -3,6 +3,7 @@
 
 app/.pnpm-store/
 app/node_modules/
+app/config.json
 
 docker/
 
