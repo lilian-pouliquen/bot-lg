@@ -2,12 +2,15 @@
 
 ## Détails
 
+<!-- --8<-- [start:details] -->
 Description : Affiche la configuration de Bot-lg ou permet de changer sa langue.
+
 Permissions requises : `Administrateur`
+
 Sous-commandes :
 
-- `afficher` : affiche la configuration de Bot-lg ;
-- `langue` : configurer la langue de Bot-lg.
+- `afficher` : affiche la configuration de Bot-lg
+- `langue` : configure la langue de Bot-lg (défaut : Français)
 
 Paramètres de la sous-commande `langue` :
 
@@ -20,9 +23,11 @@ Paramètres de la sous-commande `langue` :
     - Français (fr)
     - Anglais (en)
     ```
+<!-- --8<-- [end:details] -->
 
 ## Utilisation
 
+<!-- --8<-- [start:utilisation] -->
 Affichage de la configuration :
 
 ```text
@@ -40,3 +45,4 @@ Configurer la langue en Anglais :
 ```text
 /configurer langue langue:English
 ```
+<!-- --8<-- [end:utilisation] -->

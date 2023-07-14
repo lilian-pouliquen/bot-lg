@@ -32,7 +32,7 @@ Certaines commandes nécessitent de connaître les codes des rôles, voici le ta
 | Type        | Description                                                                                                                                                   |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Additionnel | Ce rôle est ajouté aux rôles déjà possédés par le joueur. Ce dernier peut utiliser les compétences de tous ses rôles.                                         |
-| Loup-garou  | Ils gangent une fois que tous les rôles de type `Villageois` et `Solo`.                                                                                       |
+| Loup-garou  | Ils gagnent une fois que tous les rôles de type `Villageois` et `Solo` sont éliminés.                                                                         |
 | Modérateur  | Il gère les parties. Un joueur ne peut pas être modérateur (`Maître du jeu`).                                                                                 |
 | Mort        | Le joueur est éliminé. Les morts peuvent toujours discuter dans le salon dédié, où le chaman peut notamment les écouter.                                      |
 | Solo        | Les joueurs ayant un rôle de ce type doivent éliminer tous les autres joueurs pour gagner.                                                                    |
@@ -40,202 +40,94 @@ Certaines commandes nécessitent de connaître les codes des rôles, voici le ta
 
 ## Informations détaillées des rôles
 
-### Amoureux
-
-|                              |                                                                                                                                                                                                                                                    |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleLoversId`                                                                                                                                                                                                                                     |
-| Type                         | Additionnel                                                                                                                                                                                                                                        |
-| Description                  | En début de partie, deux joueurs sont choisis par Cupidon, si l'un des deux amoureux est éliminé, l'autre le rejoint, mort de chagrin. Dans le cas où l'un des amoureux n'a pas un rôle de type `Villageois`, les amoureux doivent gagner en solo. |
-
 ### Ancien
 
-|                              |                                                                                                                                      |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Identifiant de configuration | `roleElderId`                                                                                                                        |
-| Code                         | `anc`                                                                                                                                |
-| Type                         | Villageois                                                                                                                           |
-| Description                  | Il peut survivre à une attaque des loups-garous. S'il est éliminé par les villageois, ces derniers perdent toutes leurs compétences. |
+--8<-- "docs/fr/roles/villageois/ancien.md:2"
 
 ### Ange
 
-|                              |                                                                                                                                               |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleAngelId`                                                                                                                                 |
-| Code                         | `ang`                                                                                                                                         |
-| Type                         | Villageois                                                                                                                                    |
-| Description                  | L'ange doit mourir des mains des villageois lors du premier vote de la partie. S'il réussi, il gagne. Sinon, il devient un simple villageois. |
+--8<-- "docs/fr/roles/villageois/ange.md:2"
 
 ### Ankou
 
-|                              |                                                                                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleReaperId`                                                                                                                                 |
-| Code                         | `ank`                                                                                                                                          |
-| Type                         | Villageois                                                                                                                                     |
-| Description                  | L'Ankou est un villageois normal jusqu'à sa mort. Lorsqu'il est éliminé, il a la capacité de voter encore deux fois lors des votes du village. |
+--8<-- "docs/fr/roles/villageois/ankou.md:2"
 
 ### Assassin
 
-|                              |                                                               |
-| ---------------------------- | ------------------------------------------------------------- |
-| Identifiant de configuration | `roleAssassinId`                                              |
-| Code                         | `ass`                                                         |
-| Type                         | Solo                                                          |
-| Description                  | Une fois par nuit, l'assassion peut éliminer un autre joueur. |
+--8<-- "docs/fr/roles/solo/assassin.md:2"
 
 ### Chaman
 
-|                              |                                                                                                             |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleShamanId`                                                                                              |
-| Code                         | `cham`                                                                                                      |
-| Type                         | Villageois                                                                                                  |
-| Description                  | Le chaman à la capacité d'entendre les morts. Il peut donc lire dans le salon réservé aux joueurs éliminés. |
+--8<-- "docs/fr/roles/villageois/chaman.md:2"
 
 ### Chasseur
 
-|                              |                                                                                         |
-| ---------------------------- | --------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleHunterId`                                                                          |
-| Code                         | `chas`                                                                                  |
-| Type                         | Villageois                                                                              |
-| Description                  | Lorsque le chasseur est éliminé, il peut emmener un autre joueur avec lui dans la mort. |
+--8<-- "docs/fr/roles/villageois/chasseur.md:2"
 
 ### Cupidon
 
-|                              |                                                                         |
-| ---------------------------- | ----------------------------------------------------------------------- |
-| Identifiant de configuration | `roleCupidId`                                                           |
-| Code                         | ``                                                                      |
-| Type                         | Villageois                                                              |
-| Description                  | Durant la première nuit, il choisit deux joueur qui tomberont amoureux. |
+--8<-- "docs/fr/roles/villageois/cupidon.md:2"
 
-### Envoûté
+### Amoureux
 
-|                              |                                                                                                                            |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleEnchantedId`                                                                                                          |
-| Type                         | Additionnel                                                                                                                |
-| Description                  | Les envoûtés sont choisis par le joueur de flûte. Ils ne peuvent essayer de l'éliminer et doivent le défendre à tout prix. |
+--8<-- "docs/fr/roles/additionnel/amoureux.md:2"
 
 ### Gardien
 
-|                              |                                                                                                                                   |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleGuardId`                                                                                                                     |
-| Code                         | `gar`                                                                                                                             |
-| Type                         | Villageois                                                                                                                        |
-| Description                  | Chaque nuit, le gardien choisi une personne à protéger des loups-garous. Il ne peut protéger deux fois la même personne d'affilé. |
-
-### Imbibé d'essence
-
-|                              |                                                                                                  |
-| ---------------------------- | ------------------------------------------------------------------------------------------------ |
-| Identifiant de configuration | `roleOiledId`                                                                                    |
-| Type                         | Additionnel                                                                                      |
-| Description                  | Désigné par le pyromane. Si ce dernier décide de brûler ses victimes, les imbibés sont éliminés. |
-
-### Infecté
-
-|                              |                                                                                                  |
-| ---------------------------- | ------------------------------------------------------------------------------------------------ |
-| Identifiant de configuration | `roleInfectedId`                                                                                 |
-| Type                         | Additionnel, Loup-garou                                                                          |
-| Description                  | Choisi par le père des loups, il devient l'un des leurs, tout en gardant ses autres compétences. |
+--8<-- "docs/fr/roles/villageois/gardien.md:2"
 
 ### Joueur de flûte
 
-|                              |                                                                                   |
-| ---------------------------- | --------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleFlutistId`                                                                   |
-| Code                         | `jdf`                                                                             |
-| Type                         | Solo                                                                              |
-| Description                  | Son but est d'envoûter tout le village. Il peut envouter deux personnes par nuit. |
+--8<-- "docs/fr/roles/solo/joueur-de-flute.md:2"
+
+### Envoûté
+
+--8<-- "docs/fr/roles/additionnel/envoute.md:2"
 
 ### Loup blanc
 
-|                              |                                                                                                                                        |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleWhiteWerewolfId`                                                                                                                  |
-| Code                         | `lgb`                                                                                                                                  |
-| Type                         | Solo, Loup-garou                                                                                                                       |
-| Description                  | Le loup blanc est un loup-garou solitaire. Il agit comme un loup-garou normal, mais peut éliminer l'un des sien toutes les deux nuits. |
+--8<-- "docs/fr/roles/solo/loup-blanc.md:2"
 
 ### Loup-garou
 
-|                              |                                                                 |
-| ---------------------------- | --------------------------------------------------------------- |
-| Identifiant de configuration | `roleWerewolfId`                                                |
-| Code                         | `lg`                                                            |
-| Type                         | Loup-garou                                                      |
-| Description                  | Les loups-garous choisissent chaque soir une victime à dévorer. |
+--8<-- "docs/fr/roles/loup-garou/loup-garou.md:2"
 
 ### Maître du jeu
 
-|                              |                                                                                                                         |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleGameMasterId`                                                                                                      |
-| Type                         | Modérateur                                                                                                              |
-| Description                  | Le maître du jeu est aux commandes de la partie, c'est lui qui peut utiliser la majeure partie des commandes de Bot-lg. |
+--8<-- "docs/fr/roles/moderateur/maitre-du-jeu.md:2"
 
 ### Mort
 
-|                              |                                                                             |
-| ---------------------------- | --------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleDeadId`                                                                |
-| Type                         | Mort                                                                        |
-| Description                  | Les joueurs éliminés se voient attribuer ce rôle et perdre tous les autres. |
+--8<-- "docs/fr/roles/mort/mort.md:2"
 
 ### Muet
 
-|                              |                                                            |
-| ---------------------------- | ---------------------------------------------------------- |
-| Identifiant de configuration | `roleMutedId`                                              |
-| Type                         | Additionnel                                                |
-| Description                  | Ce rôle empêche les joueurs de parler dans le salon vocal. |
+--8<-- "docs/fr/roles/additionnel/muet.md:2"
 
 ### Père des loups
 
-|                              |                                                                                           |
-| ---------------------------- | ----------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleInfectedWerewolfId`                                                                  |
-| Code                         | `pdl`                                                                                     |
-| Type                         | Loup-garou                                                                                |
-| Description                  | Une fois par partie, le père des loups peut choisir d'infecter la cible des loups-garous. |
+--8<-- "docs/fr/roles/loup-garou/pere-des-loups.md:2"
+
+### Infecté
+
+--8<-- "docs/fr/roles/additionnel/infecte.md:2"
 
 ### Pyromane
 
-|                              |                                                                                                               |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `rolePyromaniacId`                                                                                            |
-| Code                         | `pyr`                                                                                                         |
-| Type                         | Solo                                                                                                          |
-| Description                  | Une fois par nuit, le pyromane peut choisir d'imbiber un joueur d'essence ou de brûler ceux qui le sont déjà. |
+--8<-- "docs/fr/roles/solo/pyromane.md:2"
+
+### Imbibé d'essence
+
+--8<-- "docs/fr/roles/additionnel/imbibe-dessence.md:2"
 
 ### Sorcière
 
-|                              |                                                                                                                                                                                                            |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleWitchId`                                                                                                                                                                                              |
-| Code                         | `sor`                                                                                                                                                                                                      |
-| Type                         | Villageois                                                                                                                                                                                                 |
-| Description                  | La sorcière possède deux potions par partie : une potion de vie et une potion de mort. La première permet de sauver la cible des loups-garous. La deuxième permet d'éliminer un autre joueur de son choix. |
+--8<-- "docs/fr/roles/villageois/sorciere.md:2"
 
 ### Villageois
 
-|                              |                                                   |
-| ---------------------------- | ------------------------------------------------- |
-| Identifiant de configuration | `roleVillagerId`                                  |
-| Code                         | `vil`                                             |
-| Type                         | Villageois                                        |
-| Description                  | Le villageois n'a aucune compétence particulière. |
+--8<-- "docs/fr/roles/villageois/villageois.md:2"
 
 ### Voyante
 
-|                              |                                                                                                                                                                |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleSeerId`                                                                                                                                                   |
-| Code                         | `voy`                                                                                                                                                          |
-| Type                         | Villageois                                                                                                                                                     |
-| Description                  | Chaque nuit, la voyante peut observer le rôle d'un autre joueur. Les rôles `Amoureux`, `Envoûté`, `Imbibé d'essence` et `Infecté` ne lui sont pas communiqués. |
+--8<-- "docs/fr/roles/villageois/voyante.md:2"

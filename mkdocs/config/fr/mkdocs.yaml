@@ -1,6 +1,7 @@
 site_name: Documentation Bot-lg
 docs_dir: ../../docs/fr/
 site_dir: ../../build/fr/
+copyright: Copyright &copy; 2023 – Lilian POULIQUEN
 theme:
   name: material
   custom_dir: ../../common/
@@ -16,6 +17,7 @@ theme:
     - navigation.top
     - navigation.tracking
     - toc.follow
+
 extra:
   alternate:
     - name: English
@@ -24,10 +26,16 @@ extra:
     - name: Français
       link: /fr/
       lang: fr
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/lilian-pouliquen/
+      name: Lilian POULIQUEN sur GitHub
 
 markdown_extensions:
   - admonition
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      check_paths: true
   - pymdownx.superfences
   - toc:
       permalink: "#"
