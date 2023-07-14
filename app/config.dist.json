@@ -1,5 +1,8 @@
 {
     "token": "",
     "clientID": "",
-    "guildID": ""
+    "guildID": "",
+    "mongodbUri": "",
+    "mongodbDatabase": "",
+    "mongodbCollection": ""
 }
