@@ -9,8 +9,8 @@ Rôle requis : `Maître du jeu`
 
 Paramètres :
 
-- `temps` (facultatif) : valeur numérique du temps qui va être décompté
-- `unite` (facultatif) : unité du temps qui va être décompté
+* `temps` (facultatif) : valeur numérique du temps qui va être décompté
+* `unite` (facultatif) : unité du temps qui va être décompté
 <!-- --8<-- [end:details] -->
 
 ## Utilisation

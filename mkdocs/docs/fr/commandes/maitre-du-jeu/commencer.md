@@ -9,7 +9,7 @@ Rôle requis : `Maître du jeu`
 
 Paramètres :
 
-- `assignations` (facultatif) : la liste des assignations
+* `assignations` (facultatif) : la liste des assignations
 
 !!! Info
     Le paramètre `assignations` requiert l'utilisation des codes des rôles. Vous les trouverez dans la page [Rôles][lien-codes-des-roles].

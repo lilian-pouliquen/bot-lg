@@ -9,10 +9,10 @@ Rôle requis : `Maître du jeu`
 
 Paramètres :
 
-- `role` (requis) : Le rôle à assigner ;
-- `utilisateur1` (requis) : le joueur à qui assigner le rôle
-- `utilisateur2` (facultatif) : au autre joueur à qui assigner le rôle
-- `utilisateur3` (facultatif) : un autre joueur à qui assigner le rôle
+* `role` (requis) : Le rôle à assigner ;
+* `utilisateur1` (requis) : le joueur à qui assigner le rôle
+* `utilisateur2` (facultatif) : au autre joueur à qui assigner le rôle
+* `utilisateur3` (facultatif) : un autre joueur à qui assigner le rôle
 
 !!! Info
     Discord vous aide à compléter la commande, il vous suffit simplement de sélectionner les éléments dans la liste qui s'affiche au fur et à mesure que vous évrivez.
@@ -30,16 +30,16 @@ Utilisation générique :
 /assigner role:<role> utilisateur1:<@utilisateur>
 ```
 
-Pour assigner le rôle `Amoureux` à l'utilisateur `utilisateurTest` :
+Pour assigner le rôle `Mort` à l'utilisateur `utilisateurTest` :
 
 ```text
-/assigner role:Amoureux utilisateur1:@utilisateurTest
+/assigner role:Mort utilisateur1:@utilisateurTest
 ```
 
-Pour assigner le rôle `Mort` aux utilisateurs `utilisateurTest` et `utilisatriceTest` :
+Pour assigner le rôle `Amoureux` aux utilisateurs `utilisateurTest` et `utilisatriceTest` :
 
 ```text
-/assigner role:Mort utilisateur1:@utilisateurTest utilisateur2:@utilisatriceTest
+/assigner role:Amoureux utilisateur1:@utilisateurTest utilisateur2:@utilisatriceTest
 ```
 <!-- --8<-- [end:utilisation] -->
 

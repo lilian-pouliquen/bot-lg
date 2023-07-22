@@ -9,8 +9,8 @@ Permissions requises : `Administrateur`
 
 Sous-commandes :
 
-- `afficher` : affiche la configuration de Bot-lg
-- `langue` : configure la langue de Bot-lg (défaut : Français)
+* `afficher` : affiche la configuration de Bot-lg
+* `langue` : configure la langue de Bot-lg (défaut : Français)
 
 Paramètres de la sous-commande `langue` :
 

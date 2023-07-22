@@ -9,8 +9,8 @@ Rôle requis : `Maître du jeu`
 
 Sous-commandes :
 
-- `se_leve` : le soleil se lève : les joueurs peuvent débattre
-- `se_couche` : le soleil se couche : les joueurs sont rendus muets
+* `se_leve` : le soleil se lève : les joueurs peuvent débattre
+* `se_couche` : le soleil se couche : les joueurs sont rendus muets
 <!-- --8<-- [end:details] -->
 
 ## Utilisation

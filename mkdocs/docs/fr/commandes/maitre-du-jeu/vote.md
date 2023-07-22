@@ -9,9 +9,9 @@ Rôle requis : `Maître du jeu`
 
 Sous-commandes :
 
-- `pyromane` : affiche le formulaire des choix du pyromane dans le salon `pyromane`
-- `sorciere` : affiche le formulaire des choix de la sorcière dans le salon `sorcière`
-- `village` : affiche le formulaire de vote du village dans le salon courant
+* `pyromane` : affiche le formulaire des choix du pyromane dans le salon `pyromane`
+* `sorciere` : affiche le formulaire des choix de la sorcière dans le salon `sorcière`
+* `village` : affiche le formulaire de vote du village dans le salon courant
 <!-- --8<-- [end:details] -->
 
 ## Utilisation
