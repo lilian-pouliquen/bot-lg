@@ -1,0 +1,92 @@
+site_name: Bot-lg documentation
+docs_dir: ../../docs/en/
+site_dir: ../../build/en/
+copyright: Copyright &copy; 2023 – Lilian POULIQUEN
+theme:
+  name: material
+  custom_dir: ../../common/
+  logo: assets/images/logo.png
+  favicon: assets/images/favicon.svg
+  language: en
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+
+extra:
+  alternate:
+    - name: English
+      link: /en/
+      lang: en
+    - name: Français
+      link: /fr/
+      lang: fr
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/lilian-pouliquen/
+      name: Lilian POULIQUEN on GitHub
+
+markdown_extensions:
+  - admonition
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - toc:
+      permalink: "#"
+      toc_depth: 3
+
+nav:
+  - Home: index.md
+  - Roles:
+    - roles/index.md
+    - Additional:
+      - Lovers: roles/additional/lovers.md
+      - Enchanted: roles/additional/enchanted.md
+      - Oiled: roles/additional/oiled.md
+      - Infected: roles/additional/infected.md
+      - Muted: roles/additional/muted.md
+    - Werewolf:
+      - Werewolf: roles/werewolf/werewolf.md
+      - Infected werewolf: roles/werewolf/infected-werewolf.md
+    - Moderator:
+      - Game master: roles/moderator/game-master.md
+    - Dead:
+      - Dead: roles/dead/dead.md
+    - Solo:
+      - Assassin: roles/solo/assassin.md
+      - Flutist: roles/solo/flutist.md
+      - White werewolf: roles/solo/white-werewolf.md
+      - Pyromaniac: roles/solo/pyromaniac.md
+    - Villager:
+      - Elder: roles/villager/elder.md
+      - Angel: roles/villager/angel.md
+      - Reaper: roles/villager/reaper.md
+      - Shaman: roles/villager/shaman.md
+      - Hunter: roles/villager/hunter.md
+      - Cupid: roles/villager/cupid.md
+      - Guard: roles/villager/guard.md
+      - Witch: roles/villager/witch.md
+      - Villager: roles/villager/villager.md
+      - Seer: roles/villager/seer.md
+  - Channels: channels.md
+  - Commands:
+      - commands/index.md
+      - Administrator:
+        - configurer: commands/administrator/configurer.md
+        - initialiser: commands/administrator/initialiser.md
+        - nettoyer: commands/administrator/nettoyer.md
+      - Everyone:
+        - roles: commands/everyone/roles.md
+      - Game master:
+        - assigner: commands/game-master/assigner.md
+        - commencer: commands/game-master/commencer.md
+        - minuteur: commands/game-master/minuteur.md
+        - soleil: commands/game-master/soleil.md
+        - terminer: commands/game-master/terminer.md
+        - vote: commands/game-master/vote.md

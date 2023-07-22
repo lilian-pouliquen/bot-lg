@@ -1,0 +1,7 @@
+# Role Lovers
+
+|                          |                                                                                                                                                                                                                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Configuration identifier | `roleLoversId`                                                                                                                                                                                                                                                                        |
+| Type                     | Additional                                                                                                                                                                                                                                                                            |
+| Description              | In the beginning of the game, Cupid chooses two players who will fall in love. If one of them dies, the other one follows his lover in the death. If one of the lovers have got a `Solo` or `Werewolf` type role, the lovers win in solo and have to eliminate all the other players. |
