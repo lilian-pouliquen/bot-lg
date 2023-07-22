@@ -22,6 +22,7 @@ services:
     container_name: botlg_web
     image: ${IMAGE_HTTPD}
     volumes:
+      - ./docker/vhost_botlg.conf/:/usr/local/apache2/conf/vhosts/botlg.conf
       - ./mkdocs/build/en/:/usr/local/apache2/htdocs/en/
       - ./mkdocs/build/fr/:/usr/local/apache2/htdocs/fr/
     ports:

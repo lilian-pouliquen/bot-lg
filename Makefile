@@ -63,9 +63,9 @@ delete-commands:
 # BUILD
 
 build-docs:
+	docker run --rm --interactive --tty --volume ${PWD}/mkdocs/:/docs/ ${IMAGE_MKDOCS} mkdocs build -f config/en/mkdocs.yaml
 	docker run --rm --interactive --tty --volume ${PWD}/mkdocs/:/docs/ ${IMAGE_MKDOCS} mkdocs build -f config/fr/mkdocs.yaml
-	cp mkdocs/build/robots.txt mkdocs/build/fr/robots.txt
 
 build: build-docs
-	docker image build --file botlg.Dockerfile --tag docker.home-pouliquen.local/botlg-app:${BOTLG_VERSION} ./
+	docker image build --file botlg-app.Dockerfile --tag docker.home-pouliquen.local/botlg-app:${BOTLG_VERSION} ./
 	docker image build --file botlg-web.Dockerfile --tag docker.home-pouliquen.local/botlg-web:${BOTLG_VERSION} ./
