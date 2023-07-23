@@ -46,13 +46,17 @@ module.exports = {
                 message += getMessageConfig(globalConfigs);
                 await interaction.reply({ content: message, ephemeral: true });
 
-                message = getLocalisedString(locale, 'configuration_display_channels');
-                message += getMessageConfig(channelConfigs);
-                await interaction.followUp({ content: message, ephemeral: true });
+                if (0 < channelConfigs.size) {
+                    message = getLocalisedString(locale, 'configuration_display_channels');
+                    message += getMessageConfig(channelConfigs);
+                    await interaction.followUp({ content: message, ephemeral: true });
+                }
 
-                message = getLocalisedString(locale, 'configuration_display_roles');
-                message += getMessageConfig(roleConfigs);
-                await interaction.followUp({ content: message, ephemeral: true });
+                if (0 < roleConfigs.size) {
+                    message = getLocalisedString(locale, 'configuration_display_roles');
+                    message += getMessageConfig(roleConfigs);
+                    await interaction.followUp({ content: message, ephemeral: true });
+                }
 
                 createLog(interaction.guild.id, interaction.commandName, 'info', `Displayed configuration for server ${interaction.guild.id}`);
                 break;
