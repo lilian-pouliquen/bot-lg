@@ -138,11 +138,22 @@ bot-lg
 |   +-- Dockerfile                  : Botlg development image build file
 |   +-- mongodb.dist.env            : environment variables template file for MongoDB container
 |
++-- mkdocs/                         : Bot-lg MkDocs directory
+|   +-- build/                      : MkDocs build directory
+|   |   +-- en/                     : MkDocs build files for the English part of the website
+|   |   +-- fr/                     : MkDocs build files for the French part of the website
+|   |   +-- robots.txt              : File to avoid being shown on search engines
+|   |
+|   +-- common/                     : Files shared between all parts of the website
+|   +-- config/                     : MkDocs configurations
+|   +-- docs/                       : Bot-lg documentation to be built for the website
+|
 +-- .dist.env                       : docker-compose environment variables file template
 +-- .dockerignore                   : elements to ignore by docker
 +-- .gitignore                      : elements to ignore by git
++-- botlg-app.Dockerfile            : Botlg App production image build file
++-- botlg-web.Dockerfile            : Botlg Web production image build file
 +-- docker-compose.yml              : docker-compose file
-+-- Dockerfile                      : Botlg production image build file
 +-- logo.zip                        : Bot-lg logo by Kévin BOURBASQUET
 +-- Makefile                        : all make rules available to manage 'botlg' container
 +-- permissions.md                  : list of permissions needed by the application
