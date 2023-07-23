@@ -1,7 +1,0 @@
-# Rôle Amoureux
-
-|                              |                                                                                                                                                                                                                                                    |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Identifiant de configuration | `roleLoversId`                                                                                                                                                                                                                                     |
-| Type                         | Additionnel                                                                                                                                                                                                                                        |
-| Description                  | En début de partie, deux joueurs sont choisis par Cupidon, si l'un des deux amoureux est éliminé, l'autre le rejoint, mort de chagrin. Dans le cas où l'un des amoureux n'a pas un rôle de type `Villageois`, les amoureux doivent gagner en solo. |
