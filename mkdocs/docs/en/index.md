@@ -15,7 +15,7 @@ Bot-lg is a Discord bot you can invite on your servers. Its purpose is to help d
 
 ## Roles
 
-Here is the list of roles available. You can find more details about it in the [Role](roles/index.md) page:
+Here is the list of roles available. You can find more details about it in the [Roles](roles/index.md) page:
 
 * Angel
 * Assassin

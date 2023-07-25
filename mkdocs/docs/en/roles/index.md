@@ -29,14 +29,14 @@ A few commands need you to know the role codes. Here they are:
 
 ## Role types
 
-| Type       | Description                                                                                                      |
-| ---------- | ---------------------------------------------------------------------------------------------------------------- |
-| Additional | This role is added to the ones already owned by the player. They can use the abilities of all of their roles.    |
-| Werewolf   | They win when all `Villager` and `Solo` type players are eliminated.                                             |
-| Moderator  | They manage the games. A player cannot be moderator (`Game master`).                                             |
-| Dead       | The player is eliminated. Dead players can talk in their channel, where the shaman can see what they are saying. |
-| Solo       | To win, they have to be the last one standing.                                                                   |
-| Villager   | They win when all threats are gone. It means that all `Solo` and `Werewolf` type players are out.                |
+| Type       | Description                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------------- |
+| Additional | This role is added to the ones already owned by the player. They can use the abilities of all of their roles. |
+| Werewolf   | They win when all `Villager` and `Solo` type players are eliminated.                                          |
+| Moderator  | They manage the games. A player cannot be moderator (`Game master`).                                          |
+| Dead       | The player is eliminated. Dead players can talk in their channel. The shaman can also read their messages.    |
+| Solo       | To win, they have to be the last one standing.                                                                |
+| Villager   | They win when all threats are gone. It means that all `Solo` and `Werewolf` type players are out.             |
 
 ## Detailed information about roles
 
