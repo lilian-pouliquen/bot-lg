@@ -11,7 +11,7 @@ Sub-commands:
 
 * `pyromane`: print the form for pyromaniac choice in `pyromaniac` text channel
 * `sorciere`: print the form for witch choice in `witch` text channel
-* `village`: print the form to vote for a player in the current channel
+* `village`: print the form to vote for a player in the current channel (it can be used in any case requiring to choose a player)
 <!-- --8<-- [end:details] -->
 
 ## Usage

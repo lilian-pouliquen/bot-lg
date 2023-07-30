@@ -3,7 +3,7 @@
 ## Details
 
 <!-- --8<-- [start:details] -->
-Description: Pepare the current Discord server by adding required roles and channels.
+Description: Prepare the current Discord server by adding required roles and channels.
 
 Required permissions: `Administrator`
 

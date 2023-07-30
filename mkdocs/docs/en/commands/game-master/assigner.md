@@ -29,10 +29,10 @@ Arguments:
 * `utilisateur3` (optional): another target player
 
 !!! Info
-    Discord helps you to complete commands when you typing it, you just need to select the wanted elements in the showed list while you are writing it.
+    Discord helps you to complete commands when you are typing it, you just need to select the wanted elements in the showed list while you are writing it.
 
 !!! Warning "Warning !"
-    Assignable roles are only `Additional` or `Dead` type roles. You will find more details about roles in the [Role][link-roles-types] page.
+    Assignable roles are only `Additional` or `Dead` type roles. You will find more details about roles in the [Roles][link-roles-types] page.
 <!-- --8<-- [end:details] -->
 
 ## Usage

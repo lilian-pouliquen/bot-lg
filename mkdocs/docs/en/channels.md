@@ -11,32 +11,32 @@ You will find here all the information you need about the channels used by Bot-l
 
 ## Table of available channels
 
-| Name              | Description                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| angel             | Channel reserved to the role `Angel`.                                                       |
-| assassin          | Channel reserved to the role `Assassin`.                                                    |
-| cupid             | Channel reserved to the role `Cupid`.                                                       |
-| dead              | Channel reserved to the role `Dead`. Role `Shaman` can read messages sent to this channel.  |
-| elder             | Channel reserved to the role `Elder`.                                                       |
-| enchanted         | Channel reserved to the role `Enchanted`.                                                   |
-| flutist           | Channel reserved to the role `Flutist`.                                                     |
-| game-master       | Channel reserved to the role `Game master`.                                                 |
-| guard             | Channel reserved to the role `Guard`.                                                       |
-| hunter            | Channel reserved to the role `Hunter`.                                                      |
-| infected          | Channel reserved to the role `Infected`.                                                    |
-| infected-werewolf | Channel reserved to the role `Infected werewolf`.                                           |
-| lovers            | Channel reserved to the role `Lovers`.                                                      |
-| oiled             | Channel reserved to the role `Oiled`.                                                       |
-| pyromaniac        | Channel reserved to the role `Pyromaniac`.                                                  |
-| reaper            | Channel reserved to the role `Reaper`.                                                      |
-| seer              | Channel reserved to the role `Seer`.                                                        |
-| shaman            | Channel reserved to the role `Shaman`.                                                      |
-| village           | Text channel used by the players to debate during the day phase to decide who to eliminate. |
-| Village square    | Voice channel where players can connect to play.                                            |
-| villager          | Channel reserved to the role `Villager`.                                                    |
-| werewolf          | Channel reserved to roles `Werewolf`, `White werewolf`, `Infected werewolf` and `Infected`. |
-| white-werewolf    | Channel reserved to the role `White werewolf`.                                              |
-| witch             | Channel reserved to the role `Witch`.                                                       |
+| Name              | Description                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| angel             | Channel reserved to the role `Angel`.                                                           |
+| assassin          | Channel reserved to the role `Assassin`.                                                        |
+| cupid             | Channel reserved to the role `Cupid`.                                                           |
+| dead              | Channel reserved to the role `Dead`. Role `Shaman` can read messages sent to this channel.      |
+| elder             | Channel reserved to the role `Elder`.                                                           |
+| enchanted         | Channel reserved to the role `Enchanted`.                                                       |
+| flutist           | Channel reserved to the role `Flutist`.                                                         |
+| game-master       | Channel reserved to the role `Game master`.                                                     |
+| guard             | Channel reserved to the role `Guard`.                                                           |
+| hunter            | Channel reserved to the role `Hunter`.                                                          |
+| infected          | Channel reserved to the role `Infected`.                                                        |
+| infected-werewolf | Channel reserved to the role `Infected werewolf`.                                               |
+| lovers            | Channel reserved to the role `Lovers`.                                                          |
+| oiled             | Channel reserved to the role `Oiled`.                                                           |
+| pyromaniac        | Channel reserved to the role `Pyromaniac`.                                                      |
+| reaper            | Channel reserved to the role `Reaper`.                                                          |
+| seer              | Channel reserved to the role `Seer`.                                                            |
+| shaman            | Channel reserved to the role `Shaman`.                                                          |
+| village           | Text channel used by the players to debate during the day to decide who they want to eliminate. |
+| Village square    | Voice channel where players can connect to play.                                                |
+| villager          | Channel reserved to the role `Villager`.                                                        |
+| werewolf          | Channel reserved to roles `Werewolf`, `White werewolf`, `Infected werewolf` and `Infected`.     |
+| white-werewolf    | Channel reserved to the role `White werewolf`.                                                  |
+| witch             | Channel reserved to the role `Witch`.                                                           |
 
 ## Detailed information about channels
 
@@ -186,11 +186,11 @@ You will find here all the information you need about the channels used by Bot-l
 
 ### village
 
-|                          |                                                                                             |
-| ------------------------ | ------------------------------------------------------------------------------------------- |
-| Configuration identifier | `textChannelVillageId`                                                                      |
-| Type                     | Text channel                                                                                |
-| Description              | Text channel used by the players to debate during the day phase to decide who to eliminate. |
+|                          |                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| Configuration identifier | `textChannelVillageId`                                                                          |
+| Type                     | Text channel                                                                                    |
+| Description              | Text channel used by the players to debate during the day to decide who they want to eliminate. |
 
 ### Village square
 

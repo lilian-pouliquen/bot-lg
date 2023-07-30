@@ -8,16 +8,16 @@ You will find here everything you need to use the commands provided by Bot-lg.
 
 | Name                          | Effect                                                                      |
 | ----------------------------- | --------------------------------------------------------------------------- |
-| [`assigner`](#assigner)       | Assign the given role to the given players.                                 |
+| [`assigner`](#assigner)       | Assign the given role to the given player(s).                                 |
 | [`commencer`](#commencer)     | Randomly assign specified roles to all players.                             |
 | [`configurer`](#configurer)   | Configure Bot-lg.                                                           |
-| [`initialiser`](#initialiser) | Prepare the server to play Werewolf by creating required roles and channel. |
+| [`initialiser`](#initialiser) | Prepare the server to play Werewolf by creating required roles and channels. |
 | [`minuteur`](#minuteur)       | Run a timer for the specified time (default: 3m).                           |
 | [`nettoyer`](#nettoyer)       | Remove unpinned messages from the current text channel.                     |
 | [`roles`](#roles)             | Display still alive game roles.                                             |
 | [`soleil`](#soleil)           | Mute players or unmute them.                                                |
 | [`terminer`](#terminer)       | Remove all game roles from the players to end the game.                     |
-| [`vote`](#vote)               | Prints the specified vote form.                                              |
+| [`vote`](#vote)               | Print the specified vote form.                                              |
 
 ## Commands details
 

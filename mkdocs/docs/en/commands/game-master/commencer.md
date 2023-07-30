@@ -35,7 +35,7 @@ Global usage:
 To start a game with 2 `werewolves`, 1 `seer`, 1 `witch` et 1 `hunter`:
 
 ```text
-/commencer assignations:1lg 1voy 1sor 1chas
+/commencer assignations:2lg 1voy 1sor 1chas
 ```
 <!-- --8<-- [end:usage] -->
 
