@@ -1,38 +1,38 @@
-const { SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits} = require("discord.js");
 
-const mongodb = require('../../models');
-const { createLog, userHasRole } = require('../../functions');
-const { getLocalisedString } = require('../../localisation');
+const mongodb = require("../../models");
+const { createLog, userHasRole } = require("../../functions");
+const { getLocalisedString } = require("../../localisation");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('assigner')
-        .setDescription('Assigne le rôle donné aux joueurs spécifiés')
+        .setName("assigner")
+        .setDescription("Assigne le rôle donné aux joueurs spécifiés")
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.SendMessages | PermissionFlagsBits.UseApplicationCommands)
         .addStringOption(option =>
-            option.setName('role')
-                .setDescription('Le rôle à assigner')
+            option.setName("role")
+                .setDescription("Le rôle à assigner")
                 .setRequired(true)
                 .setChoices(
-                    { name: 'Amoureux', value: 'lovers' },
-                    { name: 'Envouté', value: 'enchanted' },
-                    { name: 'Imbibé', value: 'oiled' },
-                    { name: 'Infecté', value: 'infected' },
-                    { name: 'Mort', value: 'dead' }
+                    { name: "Amoureux", value: "lovers" },
+                    { name: "Envouté", value: "enchanted" },
+                    { name: "Imbibé", value: "oiled" },
+                    { name: "Infecté", value: "infected" },
+                    { name: "Mort", value: "dead" }
                 )
         )
         .addUserOption(option =>
-            option.setName('utilisateur1')
-                .setDescription('Le joueur à qui assigner le rôle')
+            option.setName("utilisateur1")
+                .setDescription("Le joueur à qui assigner le rôle")
                 .setRequired(true)
         )
         .addUserOption(option =>
-            option.setName('utilisateur2')
-                .setDescription('(facultatif) Un autre joueur à qui assigner le rôle')
+            option.setName("utilisateur2")
+                .setDescription("(facultatif) Un autre joueur à qui assigner le rôle")
         )
         .addUserOption(option =>
-            option.setName('utilisateur3')
-                .setDescription('(facultatif) Un autre joueur à qui assigner le rôle')
+            option.setName("utilisateur3")
+                .setDescription("(facultatif) Un autre joueur à qui assigner le rôle")
         ),
     async execute(interaction) {
         // App is thinking
@@ -45,27 +45,27 @@ module.exports = {
         //Check if user has the required role
         const requiredRole = await interaction.guild.roles.fetch(serverConfig.roleGameMasterId);
         if (! await userHasRole(interaction, requiredRole.id)) {
-            await interaction.editReply(getLocalisedString(locale, 'user_does_not_have_required_role', requiredRole.name));
-            createLog(interaction.guild.id, interaction.commandName, 'error', `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
+            await interaction.editReply(getLocalisedString(locale, "user_does_not_have_required_role", requiredRole.name));
+            createLog(interaction.guild.id, interaction.commandName, "error", `User '${interaction.member.user.username}' does not have the required role to execute '${interaction.commandName}': '${requiredRole.name}'`);
             return;
         }
 
         // Retrieve role
-        const _roleLabel = interaction.options.getString('role');
-        let roleId = '';
+        const _roleLabel = interaction.options.getString("role");
+        let roleId = "";
         switch (_roleLabel) {
-            case 'lovers':
-                roleId = serverConfig.roleLoversId;
-                break;
-            case 'enchanted':
-                roleId = serverConfig.roleEnchantedId;
-                break;
-            case 'infected':
-                roleId = serverConfig.roleInfectedId;
-                break;
-            case 'dead':
-                roleId = serverConfig.roleDeadId;
-                break;
+        case "lovers":
+            roleId = serverConfig.roleLoversId;
+            break;
+        case "enchanted":
+            roleId = serverConfig.roleEnchantedId;
+            break;
+        case "infected":
+            roleId = serverConfig.roleInfectedId;
+            break;
+        case "dead":
+            roleId = serverConfig.roleDeadId;
+            break;
         }
         const role = await interaction.guild.roles.fetch(roleId);
 
@@ -98,11 +98,11 @@ module.exports = {
                     }
                 }
                 await userRoleManager.set(rolesToKeepMap);
-                createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all roles from user '${user.user.username}' but the ones to keep`);
+                createLog(interaction.guild.id, interaction.commandName, "info", `Removed all roles from user '${user.user.username}' but the ones to keep`);
             }
             await userRoleManager.add(role);
-            createLog(interaction.guild.id, interaction.commandName, 'info', `Added role '${role.name}' to user '${user.user.username}'`);
+            createLog(interaction.guild.id, interaction.commandName, "info", `Added role '${role.name}' to user '${user.user.username}'`);
         }
-        await interaction.editReply(getLocalisedString(locale, 'role_added_to_players'));
+        await interaction.editReply(getLocalisedString(locale, "role_added_to_players"));
     }
 };

@@ -3,7 +3,7 @@ exports.getLocalisedString = function getLocalisedString(_locale, _string, ..._v
     let string = translations[_string];
 
     let count = 0;
-    string = string.replace(/%VAR%/g, () => null !== _vars[count] ? _vars[count] : '%VAR%');
+    string = string.replace(/%VAR%/g, () => null !== _vars[count] ? _vars[count] : "%VAR%");
 
     return string;
-}
+};

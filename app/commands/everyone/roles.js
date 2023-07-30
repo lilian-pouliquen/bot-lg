@@ -1,14 +1,14 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 
-const mongodb = require('../../models');
-const { userHasRole, createLog } = require('../../functions');
-const { getLocalisedString } = require('../../localisation');
+const mongodb = require("../../models");
+const { userHasRole, createLog } = require("../../functions");
+const { getLocalisedString } = require("../../localisation");
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('roles')
-    .setDescription('Affiche les rôles en jeu')
-    .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands),
+        .setName("roles")
+        .setDescription("Affiche les rôles en jeu")
+        .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages | PermissionFlagsBits.EmbedLinks | PermissionFlagsBits.UseApplicationCommands),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
@@ -47,14 +47,14 @@ module.exports = {
 
         // Check if there is at least one player
         if (0 === playersInVocalChannel.size) {
-            createLog(interaction.guild.id, interaction.commandName, 'info', 'No player in the main vocal channel');
-            await interaction.editReply(getLocalisedString(locale, 'no_player'));
+            createLog(interaction.guild.id, interaction.commandName, "info", "No player in the main vocal channel");
+            await interaction.editReply(getLocalisedString(locale, "no_player"));
         } else {
             const roleFieldsArray = [];
             // For each game role, display who are its members
             for await (const [roleId, role] of roleCollectionFiltered) {
                 if (0 !== role.members.size) {
-                    let message = '.\n';
+                    let message = ".\n";
                     for await (const [memberId, member] of role.members) {
                         if (displayPlayerNames && (playersInVocalChannel.has(memberId))) {
                             message += `> – ${member.nickname ?? member.user.username}\n`;
@@ -63,20 +63,20 @@ module.exports = {
                     roleFieldsArray.push({ name: role.name, value: message, inline: true });
                 }
             }
-            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: 'Aucun', value: getLocalisedString(locale, 'no_player'), inline: true }];
+            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: "Aucun", value: getLocalisedString(locale, "no_player"), inline: true }];
             embedMessage = new EmbedBuilder()
-                .setColor('#4A03C3')
-                .setTitle('roles')
-                .setDescription(getLocalisedString(locale, 'still_alive_role_list'))
+                .setColor("#4A03C3")
+                .setTitle("roles")
+                .setDescription(getLocalisedString(locale, "still_alive_role_list"))
                 .addFields(embedFields);
 
             await channelToSend.send({ embeds: [embedMessage]});
             if (displayPlayerNames) {
-                createLog(interaction.guild.id, interaction.commandName, 'info', `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, interaction.commandName, "info", `Listed all alive roles and their players in the channel '${channelToSend.name}'`);
             } else {
-                createLog(interaction.guild.id, interaction.commandName, 'info', `Listed truncated alive roles in the channel '${channelToSend.name}'`);
+                createLog(interaction.guild.id, interaction.commandName, "info", `Listed truncated alive roles in the channel '${channelToSend.name}'`);
             }
-            await interaction.editReply(getLocalisedString(locale, 'done_displaying'));
+            await interaction.editReply(getLocalisedString(locale, "done_displaying"));
         }
     }
-}
+};

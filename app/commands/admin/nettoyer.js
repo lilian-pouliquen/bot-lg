@@ -1,14 +1,14 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
-const mongodb = require('../../models');
-const { createLog } = require('../../functions');
-const { getLocalisedString } = require('../../localisation');
+const mongodb = require("../../models");
+const { createLog } = require("../../functions");
+const { getLocalisedString } = require("../../localisation");
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('nettoyer')
-    .setDescription('Efface tous les messages non épinglés du salon actuel')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setName("nettoyer")
+        .setDescription("Efface tous les messages non épinglés du salon actuel")
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         // App is thinking
         await interaction.deferReply();
@@ -18,7 +18,7 @@ module.exports = {
         const locale = serverConfig.locale;
 
         // Answer to the user
-        await interaction.editReply(getLocalisedString(locale, 'deleting_messages'));
+        await interaction.editReply(getLocalisedString(locale, "deleting_messages"));
 
         // Delete all unpinned messages
         let messagesToDelete;
@@ -26,9 +26,9 @@ module.exports = {
             const fetched = await interaction.channel.messages.fetch({ limit: 100 });
             messagesToDelete = fetched.filter(message => !message.pinned);
             await interaction.channel.bulkDelete(messagesToDelete, true);
-            createLog(interaction.guild.id, interaction.commandName, 'info', `Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
+            createLog(interaction.guild.id, interaction.commandName, "info", `Messages being deleted ${messagesToDelete.size} in the channel '${interaction.channel.name}'`);
         }
         while (messagesToDelete.size >= 2);
-        createLog(interaction.guild.id, interaction.commandName, 'info', `Removed all unpinned messages from the channel '${interaction.channel.name}'`);
+        createLog(interaction.guild.id, interaction.commandName, "info", `Removed all unpinned messages from the channel '${interaction.channel.name}'`);
     }
-}
+};
