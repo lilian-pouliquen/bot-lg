@@ -2,7 +2,9 @@
 **/*.dist.*
 
 app/.pnpm-store/
+app/logs/
 app/node_modules/
+app/.eslintrc.json
 app/config.json
 
 docker/
