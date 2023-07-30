@@ -3,7 +3,7 @@
 ## Details
 
 <!-- --8<-- [start:details] -->
-Description: Prints Bot-lg's configuration or change its language.
+Description: Print Bot-lg's configuration or change its language.
 
 Required permissions: `Administrator`
 
