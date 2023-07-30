@@ -15,8 +15,8 @@ module.exports = {
 
         // Get server config from database, get locale and initialisation state
         const serverConfig = await mongodb.findOne({_id: interaction.guild.id});
-        isInitialised = serverConfig.isInitialised;
-        locale = serverConfig.locale;
+        const isInitialised = serverConfig.isInitialised;
+        const locale = serverConfig.locale;
 
         // Install the server if it is not installed yet
         if (true === isInitialised) {

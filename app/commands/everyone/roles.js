@@ -25,21 +25,23 @@ module.exports = {
         const excludedRoleIds = serverConfig.excludedRoleIds;
         const channelGameMaster = await interaction.guild.channels.fetch(serverConfig.textChannelGameMasterId);
         const roleCollection = await interaction.guild.roles.fetch();
+        let channelToSend;
+        let displayPlayerNames = false;
 
         // Check if the user is the Game Master
         // If true, sends the list of still alive roles with their members to the Game Master channel
         // If false, reply to the player with a truncated list of roles only
         if (await userHasRole(interaction, serverConfig.roleGameMasterId)) {
-            var channelToSend = channelGameMaster;
-            var displayPlayerNames = true;
+            channelToSend = channelGameMaster;
+            displayPlayerNames = true;
         } else {
             excludedRoleIds.push(serverConfig.roleLoversId);
             excludedRoleIds.push(serverConfig.roleInfectedId);
             excludedRoleIds.push(serverConfig.roleOiledId);
             excludedRoleIds.push(serverConfig.roleEnchantedId);
             excludedRoleIds.push(serverConfig.roleDeadId);
-            var channelToSend = await interaction.guild.channels.fetch(interaction.channelId);
-            var displayPlayerNames = false;
+            channelToSend = await interaction.guild.channels.fetch(interaction.channelId);
+            displayPlayerNames = false;
         }
 
         // Filter the role list to keep only the roles that have to be shown
@@ -51,10 +53,12 @@ module.exports = {
             await interaction.editReply(getLocalisedString(locale, "no_player"));
         } else {
             const roleFieldsArray = [];
+            let message = "";
+
             // For each game role, display who are its members
             for await (const [roleId, role] of roleCollectionFiltered) {
                 if (0 !== role.members.size) {
-                    let message = ".\n";
+                    message = ".\n";
                     for await (const [memberId, member] of role.members) {
                         if (displayPlayerNames && (playersInVocalChannel.has(memberId))) {
                             message += `> – ${member.nickname ?? member.user.username}\n`;
@@ -63,8 +67,8 @@ module.exports = {
                     roleFieldsArray.push({ name: role.name, value: message, inline: true });
                 }
             }
-            const embedFields = 0 < roleFieldsArray.size ? roleFieldsArray : [{ name: "Aucun", value: getLocalisedString(locale, "no_player"), inline: true }];
-            embedMessage = new EmbedBuilder()
+            const embedFields = 0 < roleFieldsArray.length ? roleFieldsArray : [{ name: "Aucun", value: getLocalisedString(locale, "no_player"), inline: true }];
+            const embedMessage = new EmbedBuilder()
                 .setColor("#4A03C3")
                 .setTitle("roles")
                 .setDescription(getLocalisedString(locale, "still_alive_role_list"))

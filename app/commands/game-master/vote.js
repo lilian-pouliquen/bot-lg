@@ -99,13 +99,13 @@ module.exports = {
             break;
         }
 
-        embedMessage = new EmbedBuilder()
+        const embedMessage = new EmbedBuilder()
             .setColor("#4A03C3")
             .setTitle(voteCase)
             .setDescription(voteDescription)
             .addFields(voteFieldsArray);
 
-        sentMessage = await channelToSend.send({ embeds: [embedMessage] });
+        const sentMessage = await channelToSend.send({ embeds: [embedMessage] });
         for (let i = 0; i < reactCount; i++) {
             sentMessage.react(reactArray[i]);
         }

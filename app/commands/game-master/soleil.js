@@ -68,7 +68,7 @@ module.exports = {
                 break;
             }
             createLog(interaction.guild.id, interaction.commandName, "info", messageLog);
-            await interaction.editReply(message);
+            await interaction.editReply(messageReply);
         } else {
             createLog(interaction.guild.id, interaction.commandName, "info", "No player in the main vocal channel");
             await interaction.editReply(getLocalisedString(locale, "no_player"));

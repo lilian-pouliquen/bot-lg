@@ -72,7 +72,7 @@ module.exports = {
         // Retrieve users
         const iterable = [1, 2, 3];
         const userRoleManagerByUser = new Map();
-        for await (i of iterable) {
+        for await (let i of iterable) {
             const _user = interaction.options.getUser(`utilisateur${i}`);
             if (_user) {
                 const user = await interaction.guild.members.fetch(_user.id);

@@ -39,7 +39,7 @@ module.exports = {
         // If true, display command help
         // If false, process the assignations
         if (0 === _assignationsString.length) {
-            embedMessage = new EmbedBuilder()
+            const embedMessage = new EmbedBuilder()
                 .setColor("#4A03C3")
                 .setTitle("commencer")
                 .setDescription(getLocalisedString(locale, "commencer_command_help"))
