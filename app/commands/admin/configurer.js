@@ -61,8 +61,8 @@ module.exports = {
                 createLog(interaction.guild.id, interaction.commandName, 'info', `Displayed configuration for server ${interaction.guild.id}`);
                 break;
             case 'langue':
-                const language = interaction.options.getString('langue');
-                serverConfig.locale = language;
+                const _language = interaction.options.getString('langue');
+                serverConfig.locale = _language;
 
                 await mongodb.updateOne({ _id: interaction.guild.id }, { $set: serverConfig });
                 await interaction.reply({ content: getLocalisedString(serverConfig.locale, 'configuration_change_language', serverConfig.locale), ephemeral: true });
