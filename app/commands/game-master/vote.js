@@ -65,7 +65,7 @@ module.exports = {
         // If sorciere, the message is sent to witch text channel and contains a choice of wether to use a life potion or a death one
         // If pyromane, the message is sent to pyromaniac text channel and contains a choice of wether to oil someone or light all already oiled players
         switch (_subcommand) {
-        case "village":
+        case "village": {
             channelToSend = currentChannel;
             voteCase = getLocalisedString(locale, "vote_case_village");
             voteDescription = getLocalisedString(locale, "vote_to_eliminate");
@@ -77,7 +77,8 @@ module.exports = {
                 i++;
             }
             break;
-        case "sorciere":
+        }
+        case "sorciere": {
             channelToSend = witchChannel;
             voteCase = getLocalisedString(locale, "vote_case_witch");
             voteDescription = getLocalisedString(locale, "choose_potion_to_use");
@@ -87,7 +88,8 @@ module.exports = {
             reactArray = ["❤️", "💀", "✖️"];
             reactCount = reactArray.length;
             break;
-        case "pyromane":
+        }
+        case "pyromane": {
             channelToSend = pyromaniacChannel;
             voteCase = getLocalisedString(locale, "vote_case_pyromaniac");
             voteDescription = getLocalisedString(locale, "choose_action_to_do");
@@ -97,6 +99,7 @@ module.exports = {
             reactArray = ["⛽", "🔥", "✖️"];
             reactCount = reactArray.length;
             break;
+        }
         }
 
         const embedMessage = new EmbedBuilder()

@@ -35,7 +35,7 @@ module.exports = {
         const _subcommand = interaction.options.getSubcommand();
 
         switch (_subcommand) {
-        case "afficher":
+        case "afficher": {
             let message = "";
             const serverConfigMap = new Map(Object.entries(serverConfig));
             const globalConfigs = new Map([...serverConfigMap].filter(([key, value]) => (!key.toLowerCase().includes("channel")) && (!key.toLowerCase().includes("role"))));
@@ -60,7 +60,8 @@ module.exports = {
 
             createLog(interaction.guild.id, interaction.commandName, "info", `Displayed configuration for server ${interaction.guild.id}`);
             break;
-        case "langue":
+        }
+        case "langue": {
             const _language = interaction.options.getString("langue");
             serverConfig.locale = _language;
 
@@ -68,6 +69,7 @@ module.exports = {
             await interaction.reply({ content: getLocalisedString(serverConfig.locale, "configuration_change_language", serverConfig.locale), ephemeral: true });
             createLog(interaction.guild.id, interaction.commandName, "info", `Set 'locale' key to '${serverConfig.locale}' on server ${interaction.guild.id}`);
             break;
+        }
         }
     }
 };
