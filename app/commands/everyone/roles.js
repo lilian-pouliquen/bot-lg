@@ -56,7 +56,7 @@ module.exports = {
             let message = "";
 
             // For each game role, display who are its members
-            for await (const [roleId, role] of roleCollectionFiltered) {
+            for await (const role of roleCollectionFiltered.values()) {
                 if (0 !== role.members.size) {
                     message = ".\n";
                     for await (const [memberId, member] of role.members) {

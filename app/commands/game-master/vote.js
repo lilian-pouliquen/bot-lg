@@ -72,7 +72,7 @@ module.exports = {
             reactArray = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"];
             reactCount = playersInVocalChannel.size;
             let i = 0;
-            for await (const [idPlayer, player] of playersInVocalChannel) {
+            for await (const player of playersInVocalChannel.values()) {
                 voteFieldsArray.push({ name: getLocalisedString(locale, "role_villager_name"), value: `${reactArray[i]} : ${player.nickname ?? player.user.username}`, inline: true });
                 i++;
             }

@@ -38,9 +38,9 @@ module.exports = {
         case "afficher": {
             let message = "";
             const serverConfigMap = new Map(Object.entries(serverConfig));
-            const globalConfigs = new Map([...serverConfigMap].filter(([key, value]) => (!key.toLowerCase().includes("channel")) && (!key.toLowerCase().includes("role"))));
-            const channelConfigs = new Map([...serverConfigMap].filter(([key, value]) => key.toLowerCase().includes("channel")));
-            const roleConfigs = new Map([...serverConfigMap].filter(([key, value]) => key.toLowerCase().includes("role")));
+            const globalConfigs = new Map([...serverConfigMap].filter(settings => (!settings[0].toLowerCase().includes("channel")) && (!settings[0].toLowerCase().includes("role"))));
+            const channelConfigs = new Map([...serverConfigMap].filter(settings => settings[0].toLowerCase().includes("channel")));
+            const roleConfigs = new Map([...serverConfigMap].filter(settings => settings[0].toLowerCase().includes("role")));
 
             message = getLocalisedString(locale, "configuration_display_global");
             message += getMessageConfig(globalConfigs);

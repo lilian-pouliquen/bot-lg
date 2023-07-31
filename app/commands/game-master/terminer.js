@@ -30,7 +30,7 @@ module.exports = {
         const playersInVocalChannel = voiceChannel.members.filter(user => !user.roles.resolve(serverConfig.roleGameMasterId));
 
         // Remove all game roles
-        for await (const [idUser, user] of playersInVocalChannel) {
+        for await (const user of playersInVocalChannel.values()) {
             const userRoleManager = user.roles;
             const rolesToKeepMap = new Map();
             for (const roleId of serverConfig.excludedRoleIds) {

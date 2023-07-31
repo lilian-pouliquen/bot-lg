@@ -36,7 +36,7 @@ module.exports = {
 
             // Excluded roles are existing ones
             const excludedRoleIds = [];
-            for await (const [roleId, role] of existingRoles) {
+            for await (const roleId of existingRoles.keys()) {
                 excludedRoleIds.push(roleId);
             }
 

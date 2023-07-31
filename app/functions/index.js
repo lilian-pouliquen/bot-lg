@@ -28,7 +28,7 @@ exports.createLog = function createLog(_guildId, _label, _severity, _message) {
 };
 
 // Build a date string for logging with the format 'YYYY-MM-DD HH:mm:ss'
-getLogDate = function getLogDate() {
+function getLogDate() {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -37,4 +37,4 @@ getLogDate = function getLogDate() {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     return `${year}-${(month < 10) ? "0" : ""}${month}-${(day < 10) ? "0" : ""}${day} ${(hours < 10) ? "0" : ""}${hours}:${(minutes < 10) ? "0" : ""}${minutes}:${(seconds < 10) ? "0" : ""}${seconds}`;
-};
+}

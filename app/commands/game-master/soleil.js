@@ -52,7 +52,7 @@ module.exports = {
             case "se_leve":
                 messageReply = getLocalisedString(locale, "sun_rises");
                 messageLog = "Unmuted all players";
-                for await (const [idPlayer, player] of playersInVocalChannel) {
+                for await (const player of playersInVocalChannel.values()) {
                     player.roles.remove(serverConfig.roleMutedId);
                     player.voice.setMute(false);
                 }
@@ -61,7 +61,7 @@ module.exports = {
             case "se_couche":
                 messageReply = getLocalisedString(locale, "sun_sets");
                 messageLog = "Muted all players";
-                for await (const [idPlayer, player] of playersInVocalChannel) {
+                for await (const player of playersInVocalChannel.values()) {
                     player.roles.add(serverConfig.roleMutedId);
                     player.voice.setMute(true);
                 }

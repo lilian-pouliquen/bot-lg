@@ -41,6 +41,9 @@ install:
 update:
 	docker-compose run --rm botlg_app pnpm update
 
+eslint:
+	docker-compose run --rm botlg_app pnpm eslint .
+
 start:
 	docker-compose up --detach
 
