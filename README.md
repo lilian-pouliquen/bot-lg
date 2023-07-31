@@ -1,32 +1,27 @@
----
-Document: "Bot-lg documentation"
-Author: "Lilian POULIQUEN"
----
-
 # Bot-lg documentation <!-- omit in toc -->
 
 ## Table of content <!-- omit in toc -->
 
-- [1. What is Bot-lg](#1-what-is-bot-lg)
-- [2. Prerequisite](#2-prerequisite)
-  - [2.1. For your Discord server](#21-for-your-discord-server)
-  - [2.2. For Docker application run](#22-for-docker-application-run)
-  - [2.3. Optionnal](#23-optionnal)
-- [3. Install Bot-lg](#3-install-bot-lg)
-- [4. Finalise the install](#4-finalise-the-install)
-  - [4.1. Classic initialisation](#41-classic-initialisation)
-  - [4.2. Initialisation with the make command](#42-initialisation-with-the-make-command)
-- [5. Start and stop Bot-lg](#5-start-and-stop-bot-lg)
-  - [5.1. Classic commands](#51-classic-commands)
-  - [5.2. Make commands](#52-make-commands)
-- [6. Project structure](#6-project-structure)
-- [7. Discord server requirements](#7-discord-server-requirements)
-  - [7.1. Roles](#71-roles)
-  - [7.2. Channels](#72-channels)
-- [8. Bot commands](#8-bot-commands)
-- [9. Permissions](#9-permissions)
-- [10. Authors](#10-authors)
-- [11. Contributors](#11-contributors)
+* [1. What is Bot-lg](#1-what-is-bot-lg)
+* [2. Prerequisite](#2-prerequisite)
+  * [2.1. For your Discord server](#21-for-your-discord-server)
+  * [2.2. For Docker application run](#22-for-docker-application-run)
+  * [2.3. Optionnal](#23-optionnal)
+* [3. Install Bot-lg](#3-install-bot-lg)
+* [4. Finalise the install](#4-finalise-the-install)
+  * [4.1. Classic initialisation](#41-classic-initialisation)
+  * [4.2. Initialisation with the make command](#42-initialisation-with-the-make-command)
+* [5. Start and stop Bot-lg](#5-start-and-stop-bot-lg)
+  * [5.1. Classic commands](#51-classic-commands)
+  * [5.2. Make commands](#52-make-commands)
+* [6. Project structure](#6-project-structure)
+* [7. Discord server requirements](#7-discord-server-requirements)
+  * [7.1. Roles](#71-roles)
+  * [7.2. Channels](#72-channels)
+* [8. Bot commands](#8-bot-commands)
+* [9. Permissions](#9-permissions)
+* [10. Authors](#10-authors)
+* [11. Contributors](#11-contributors)
 
 ## 1. What is Bot-lg
 
@@ -39,17 +34,17 @@ Bot-lg is a Discord bot giving access to helpful commands, making Game master's 
 ### 2.1. For your Discord server
 
 1. [Create a Discord application](https://discord.com/developers/applications)
-1. In the OAuth2 tab:
+2. In the OAuth2 tab:
    1. Select the "bot" scope
-   1. Select the permissions listed in [permissions.md](./permissions.md)
-1. Add your new bot to your Discord server using the generated link
+   2. Select the permissions listed in [permissions.md](./permissions.md)
+3. Add your new bot to your Discord server using the generated link
 
 Note: Please, make sure to keep your bot token to fill the app/config.json file later.
 
 ### 2.2. For Docker application run
 
-- [Install Docker](https://docs.docker.com/engine/install/)
-- [Install docker-compose](https://docs.docker.com/compose/install/)
+* [Install Docker](https://docs.docker.com/engine/install/)
+* [Install docker-compose](https://docs.docker.com/compose/install/)
 
 ### 2.3. Optionnal
 
@@ -59,7 +54,7 @@ Intall the `make` command.
 ## 3. Install Bot-lg
 
 1. Clone or download Bot-lg project from [github](https://github.com/lilian-pouliquen/bot-lg)
-1. Create the required configuration files in the project using the following `*.dist.*` files:
+2. Create the required configuration files in the project using the following `*.dist.*` files:
 
 | Template file             | Final file           |
 | ------------------------- | -------------------- |
@@ -76,15 +71,15 @@ In order to initialise and start Bot-lg, you need to follow these steps:
 ### 4.1. Classic initialisation
 
 1. Open a ***bash*** command line at the project root
-1. Issue the following commands:
-    1. `sudo docker image build --no-cache --tag node:botlg --file Dockerfile`
-    2. `sudo docker-compose run botlg pnpm install`
-    3. `sudo docker-compose up --detach`
+2. Issue the following commands:
+   1. `sudo docker image build --no-cache --tag node:botlg --file Dockerfile`
+   2. `sudo docker-compose run botlg pnpm install`
+   3. `sudo docker-compose up --detach`
 
 ### 4.2. Initialisation with the make command
 
 1. Open a ***bash*** command line at the project root
-1. `make prepare start`
+2. `make prepare start`
 
 You can see all other make rules using `make` or `make help`.
 
@@ -94,15 +89,15 @@ You can see all other make rules using `make` or `make help`.
 
 To start and stop Bot-lg you can issue the following commands:
 
-- Start Bot-lg: `sudo docker-compose up --detach`
-- Stop Bot-lg: `sudo docker-compose down`
+* Start Bot-lg: `sudo docker-compose up --detach`
+* Stop Bot-lg: `sudo docker-compose down`
 
 ### 5.2. Make commands
 
 To start and stop Bot-lg you can use the available make rules:
 
-- Start Bot-lg: `make start`
-- Stop Bot-lg: `make stop`
+* Start Bot-lg: `make start`
+* Stop Bot-lg: `make stop`
 
 ## 6. Project structure
 
@@ -198,12 +193,12 @@ Here is the list of the roles Bot-lg will create and manage:
 
 Types explaination:
 
-- Additional: This role is added to the player roles. The player can use the abilities provided by their first role and all their additional roles.
-- Dead Player: Players who have been eliminated.
-- Moderator: Game manager. A player cannot be Game Master
-- Solo: Wins when all other players are eliminated.
-- Villager: Wins when all threats (werewolves and solos) are eliminated.
-- Werewolf: Wins when all villagers and solos are eliminated.
+* Additional: This role is added to the player roles. The player can use the abilities provided by their first role and all their additional roles.
+* Dead Player: Players who have been eliminated.
+* Moderator: Game manager. A player cannot be Game Master
+* Solo: Wins when all other players are eliminated.
+* Villager: Wins when all threats (werewolves and solos) are eliminated.
+* Werewolf: Wins when all villagers and solos are eliminated.
 
 ### 7.2. Channels
 
@@ -259,9 +254,9 @@ See [permissions.md](./permissions.md) for more information about required permi
 
 ## 10. Authors
 
-- Lilian POULIQUEN: Bot creation and development, documentation
+* Lilian POULIQUEN: Bot creation and development, documentation
 
 ## 11. Contributors
 
-- Léandre KERUZEC: Command ideas, Documentation review
-- Kévin BOURBASQUET: Bot-lg logo designer and creator
+* Léandre KERUZEC: Command ideas, Documentation review
+* Kévin BOURBASQUET: Bot-lg logo designer and creator
