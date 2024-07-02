@@ -36,16 +36,16 @@ help:
 # CONTAINER MANAGEMENT
 
 install:
-	docker-compose run --rm botlg_app pnpm install
+	docker-compose run --build --rm botlg_app pnpm install
 
 update:
-	docker-compose run --rm botlg_app pnpm update
+	docker-compose run --build --rm botlg_app pnpm update
 
 eslint:
-	docker-compose run --rm botlg_app pnpm eslint .
+	docker-compose run --build --rm botlg_app pnpm eslint .
 
 start:
-	docker-compose up --detach
+	docker-compose up --build --detach
 
 stop:
 	docker-compose down
