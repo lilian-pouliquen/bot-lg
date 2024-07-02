@@ -1,4 +1,4 @@
-FROM docker.home-pouliquen.local/httpd:2.4.59-alpine-3.19
+FROM docker.home-pouliquen.local/httpd:2.4.60-alpine-3.20
 
 COPY mkdocs/build/ /usr/local/apache2/htdocs/
 EXPOSE 80
