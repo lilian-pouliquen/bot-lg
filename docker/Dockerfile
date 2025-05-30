@@ -1,4 +1,4 @@
-FROM docker.home-pouliquen.local/node:23.0.0-alpine-3.20
+FROM docker.home-pouliquen.local/node:24.1.0-alpine-3.21
 
 RUN pnpm add -g nodemon;
 

@@ -1,4 +1,4 @@
-FROM docker.home-pouliquen.local/node:23.7.0-alpine-3.21
+FROM docker.home-pouliquen.local/node:24.1.0-alpine-3.21
 
 COPY app/ /app/
 

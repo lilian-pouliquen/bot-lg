@@ -32,6 +32,9 @@ help:
 	@echo ""
 	@echo "    build                     : Builds documentation and app Docker images"
 	@echo ""
+	@echo "[PUSH]"
+	@echo "    push                      : Pushes Docker images to the registry"
+	@echo ""
 
 # CONTAINER MANAGEMENT
 
@@ -72,3 +75,10 @@ build-docs:
 build: build-docs
 	docker image build --file botlg-app.Dockerfile --tag docker.home-pouliquen.local/botlg-app:${BOTLG_VERSION} ./
 	docker image build --file botlg-web.Dockerfile --tag docker.home-pouliquen.local/botlg-web:${BOTLG_VERSION} ./
+
+# PUSH
+
+push:
+	docker image push docker.home-pouliquen.local/botlg-app:${BOTLG_VERSION}
+	docker image push docker.home-pouliquen.local/botlg-web:${BOTLG_VERSION}
+
