@@ -1,5 +1,11 @@
 # Bot-lg documentation <!-- omit in toc -->
 
+# /!\ BROKEN, DEPRECATED, VULNERABLE /!\
+
+The app require a rework in order to work again and to fix CVE from Node packages.
+
+I cannot extend any longer the maintenance of this app, so I'm archiving the project.
+
 ## Table of content <!-- omit in toc -->
 
 * [1. What is Bot-lg](#1-what-is-bot-lg)
